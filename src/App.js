@@ -19,6 +19,9 @@ import { useDispatch } from 'react-redux';
 import Header from './componet/header/Header';
 import ToggleSideBar from './componet/sidebar/ToggleSideBar';
 import UploadVideo from './componet/UploadVideo/UploadVideo';
+import ComponetnError from './componet/componenError/ComponetnError';
+import HomeApp from './componet/App/HomeApp/HomeApp';
+import VideoApp from './componet/App/HomeApp/videoApp/VideoApp';
 
 function App() {
   const [sidebar, toggleSidebar] = useState(false);
@@ -84,6 +87,9 @@ function App() {
 
 
         <Route path='/upload' element={<UploadVideo />}></Route>
+        <Route path='/modal' element={<ComponetnError />}></Route>
+        <Route path='/homeapp' element={<HomeApp />}></Route>
+        <Route path='/videoapp/:id' element={<VideoApp />}></Route>
 
       </Routes>
       <ToastContainer

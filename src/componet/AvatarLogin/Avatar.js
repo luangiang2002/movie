@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import './avatar.scss';
 import { IoMdExit } from 'react-icons/io';
 import { BsMoon } from 'react-icons/bs';
