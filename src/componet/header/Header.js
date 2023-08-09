@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { IoIosNotificationsOutline } from 'react-icons/io';
 import './Header.scss';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../AvatarLogin/Avatar';
@@ -24,7 +23,11 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
   const handleHome = () => {
     navigate('/');
   };
-
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      navigate(`/search/${input}`);
+    }
+};
   const handleSearch = (e) => {
     e.preventDefault();
     navigate(`/search/${input}`);
@@ -57,7 +60,7 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
         />
       </div>
       <div className="header_search">
-        <input type="text" placeholder='Tìm kiếm' onChange={e => setInput(e.target.value)} className='input' />
+        <input type="text" placeholder='Tìm kiếm' onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown} className='input' />
         <button onClick={handleSearch} ><AiOutlineSearch /></button>
       </div>
       <div className='header_icon' >

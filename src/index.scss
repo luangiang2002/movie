@@ -26,10 +26,14 @@ $breakpoints-small:576px;
 $breakpoints-lg:768px;
 $breakpoint-medium:1224px;
 $breakpoint-xl:1440px;
-
+.dark-mode body{
+  background-color: #333 !important;
+  color:white !important;
+}
 .dark-mode {
     background-color: #333 !important;
     color:white !important;
+    min-height: 100vh;
   }
   .dark-mode .pagevideo_video--detail div p {
     color: white;
