@@ -1,0 +1,35 @@
+@import '../../index.scss';
+
+.sidebar {
+    margin-top: 70px;
+    div {
+        margin: 10px 0;
+        text-align: center;
+        width: 100%;
+
+        &:hover {
+            background-color: $backgroundColorHover;
+            border-radius: 5px;
+        }
+
+        svg {
+            margin-right: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        p {
+            font-size: 10px;
+        }
+
+    }
+}
+
+@media (max-width:$breakpoints-small) {
+    .sidebar {
+        margin-top: 0;
+        div {
+            display: none;
+        }
+    }
+}

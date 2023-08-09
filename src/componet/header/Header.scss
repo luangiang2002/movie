@@ -1,0 +1,93 @@
+@import '../../index.scss';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    padding: 10px 40px ;
+    background-color: white;
+    top: 0;
+   
+
+    &_logo {
+        img {
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+        }
+    }
+
+    &_search {
+        border: 1px solid #bde0fe;
+        border-radius: 25px;
+        position: relative;
+        width: 60%;
+
+        input {
+            border: none;
+            outline: none;
+            background: unset;
+            padding-left: 10px;
+            height: 40px;
+            width: 100%;
+        }
+        button{
+            position: absolute;
+            right: 5%;
+            top: 15%;
+            border: none;
+            outline: none;
+            background-color: unset;
+
+            svg {
+                font-size: 25px;
+               
+            }
+        }
+
+       
+    }
+
+    &_icon {
+
+        svg {
+            font-size: 25px;
+            margin-right: 20px;
+        }
+
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+    }
+}
+
+@media (max-width:$breakpoints-small) {
+    .header {
+        padding:15px;
+
+        &_logo {
+            img {
+                display: none;
+            }
+        }
+        &_search {
+            input {
+              width: 150px;
+            }
+        }
+        &_icon {
+            img {
+                width: 40px;
+                height: 40px;
+            }
+    
+        }
+    }
+
+}

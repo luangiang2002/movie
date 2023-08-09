@@ -1,0 +1,81 @@
+@import '../../../index.scss';
+
+.nextvideo {
+    width: 100%;
+    height: 100%;
+    margin-top: 70px;
+
+    &_video {
+        margin-bottom: 30px;
+      
+
+        &--duration {
+            position: relative;
+            img {
+                width: 100%;
+                object-fit: contain;
+            }
+            p{
+                position: absolute;
+                bottom: 0;
+                right: 5%;
+                z-index: 22;
+                color: white;
+                background-color: black;
+                font-size: 20px;
+            }
+
+        }
+
+
+        &--detail {
+            margin-top: 10px;
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            div {
+
+                width: 100%;
+
+                h4 {
+                    font-size: 15px;
+                    font-weight: 500;
+                    margin-bottom: 0;
+                    color: $color-titleparent;
+                }
+
+                p {
+                    margin-bottom: 0;
+                    color: $color-titlechild;
+
+                }
+            }
+
+        }
+    }
+}
+
+@media (max-width:$breakpoints-lg) {
+    .nextvideo {
+        &_video {
+            &--detail {
+                div {
+                    h4 {
+                        font-size: 13px;
+                    }
+
+                    p {
+                        font-size: 10px;
+
+                    }
+                }
+
+            }
+        }
+    }
+}
