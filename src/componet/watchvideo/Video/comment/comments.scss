@@ -1,0 +1,116 @@
+@import '../../../../index.scss';
+
+.comments {
+
+    &_input {
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        input {
+            outline: none;
+            border: none;
+            background: none;
+            width: 100%;
+            padding: 0 20px;
+            border-bottom: 1px solid black;
+            border-radius: 0;
+        }
+        button{
+            border: none;
+            outline: none;
+            padding:0 10px;
+            border-radius: 5px;
+    
+        }
+    }
+
+    &_comment {
+        margin: 20px 0;
+
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+
+        &--author {
+            div {
+                &:nth-child(1) {
+                    p {
+                        font-size: 20px;
+                        span{
+                            color: $color-titlechild;
+                            font-size: 18px;
+                        }
+
+                        &:nth-child(2){
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+
+            div {
+                &:nth-child(2) {
+                    p {
+                        &:nth-child(1){
+                            margin-right: 10px;
+                        }
+                        svg{
+                            font-size: 25px;
+                        }
+                        span {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+}
+
+@media (max-width:$breakpoints-lg) {
+    .comments {
+        display: none;
+
+        &_comment {
+            W img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 10px;
+
+            }
+
+            p {
+                margin-bottom: 0;
+            }
+
+            div {
+                span {
+                    font-size: 15px;
+                }
+
+                p {
+                    &:nth-child(1) {
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+
+
+}

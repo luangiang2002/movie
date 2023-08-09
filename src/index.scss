@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    // background-color: white;
+}
+body{
+    background-attachment: fixed;
+    font-family: "Roboto", sans-serif;
+    letter-spacing: 0.1px;
+}
+
+$color-titleparent:#0f0f0f;
+$color-titlechild:#606060;
+$color-taglink:#065fd4;
+
+
+$backgroundColorHover:rgb(242 242 242);
+$backgroundColorActive:#030303;
+
+
+
+$breakpoints-small:576px;
+$breakpoints-lg:768px;
+$breakpoint-medium:1224px;
+$breakpoint-xl:1440px;
+
+.dark-mode {
+    background-color: #333 !important;
+    color:white !important;
+  }
+  .dark-mode .pagevideo_video--detail div p {
+    color: white;
+  }
+  .dark-mode .pagevideo_video--detail div h4 {
+    color: white;
+  }
+  .dark-mode .nextvideo_video--detail div p {
+    color: white;
+  }
+  .dark-mode .nextvideo_video--detail div h4 {
+    color: white;
+  }
+  .dark-mode .video p {
+    color: white;
+  }
+  .dark-mode .header {
+    color: white;
+    background-color: black;
+  }
+  .dark-mode .toggle_toggleSidebar   {
+    color: white;
+    background-color: black;
+  }
+  .dark-mode .avatar   {
+    color: white;
+    background-color: black;
+  }
+  .dark-mode .input   {
+    color: white;
+  }
+  .dark-mode .header_search button svg   {
+    color: white;
+  }
+  .dark-mode .header_search  {
+   border: 2px solid white;
+  }
+  .dark-mode .toggle_toggleSidebar div:hover  {
+   color: black;
+  }
+  .dark-mode .toggle_toggleSidebar div svg:hover  {
+   color: white;
+  }
+  .dark-mode .search_video--detail div h4  {
+   color: white;
+  }
+  .dark-mode .search_video--detail div p  {
+   color: white;
+  }

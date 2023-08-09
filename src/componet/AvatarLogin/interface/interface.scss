@@ -1,0 +1,19 @@
+.interface {
+    div {
+        display: flex;
+
+        svg {
+            font-size: 25px;
+            margin-right: 20px;
+        }
+        
+
+    }
+    p{
+        cursor: pointer;
+    }
+    h6 {
+        font-size: 12px;
+        opacity: 0.6;
+    }
+}

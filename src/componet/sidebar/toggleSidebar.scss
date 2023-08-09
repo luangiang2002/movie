@@ -1,0 +1,89 @@
+@import '../../index.scss';
+
+.toggle {
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    height: 150vh;
+    width: 100vw;
+    display: block;
+    z-index: 999;
+    &_toggleSidebar {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: white;
+        width: 20vw;
+        height: 150vh;
+
+        div {
+            margin: 10px 0;
+            text-align: center;
+            width: 100%;
+            
+            &:nth-child(1){
+                &:hover {
+                    background-color: unset;
+                }
+            }
+
+            img {
+                width: 50px;
+                height: 50px;
+            }
+
+            &:hover {
+                background-color: $backgroundColorHover;
+                border-radius: 5px;
+            }
+
+            svg {
+                margin-right: 10px;
+                text-align: center;
+            }
+
+            p {
+                font-size: 20px;
+            }
+
+        }
+
+        &--logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            svg {
+                margin: unset;
+            }
+        }
+    }
+}
+
+.close {
+    display: none;
+}
+.toggle {
+    overflow: hidden;
+    &_open{
+        display: block;
+    }
+}
+@media (max-width:$breakpoints-small){
+    .toggle{
+    &_toggleSidebar {
+        width: 40vw;
+        height: 150vh;
+
+        div{
+            p {
+                font-size: 10px;
+            }
+            svg {
+                font-size: 20px;
+            }
+        }
+    }
+}
+}

@@ -1,0 +1,58 @@
+@import '../../index.scss';
+
+.pagevideo {
+    display: block;
+    &_video {
+       
+
+        img {
+            width: 100%;
+            object-fit: contain;
+        }
+
+        &--duration {
+            position: relative;
+            p {
+                position: absolute;
+                right: 3%;
+                bottom: 0;
+                background-color: black;
+                color: white;
+                padding: 5px;
+            }
+        }
+
+        &--detail {
+            margin-top: 10px;
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            div {
+
+                width: 100%;
+
+                h4 {
+                    font-size: 18px;
+                    font-weight: 500;
+                    margin-bottom: 0;
+                    color: $color-titleparent;
+                }
+
+                p {
+                    margin-bottom: 0;
+                    color: $color-titlechild;
+
+                }
+            }
+
+        }
+    }
+}
+.lazy-load-image-background{
+    display: block !important;
+}
