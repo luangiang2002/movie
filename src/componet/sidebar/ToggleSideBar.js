@@ -1,10 +1,9 @@
 import React from 'react'
 import './toggleSidebar.scss'
-import { AiFillHome } from 'react-icons/ai'
+import { AiFillHome,AiOutlineCloudUpload } from 'react-icons/ai'
 import { HiOutlineViewBoards, HiOutlineFolderAdd, HiOutlineCollection } from 'react-icons/hi'
 import { FaBars } from 'react-icons/fa'
 import { TbHomePlus } from 'react-icons/tb'
-import { FiUsers,FiUser } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 const ToggleSideBar = ({ sidebar, handleToggleSidebar }) => {
     const navigate=useNavigate()
@@ -16,6 +15,15 @@ const ToggleSideBar = ({ sidebar, handleToggleSidebar }) => {
     }
     const handleVideoApp=()=>{
         navigate('/homeapp')
+    }
+    const handleLibrary=()=>{
+        navigate('/library')
+    }
+    const handleSubcript=()=>{
+        navigate('/subscript')
+    }
+    const handleUser=()=>{
+        navigate('/uploadusers')
     }
     return (
         <div className={sidebar?"toggle":'toggle close'} onClick={handleToggleSidebar}>
@@ -33,11 +41,11 @@ const ToggleSideBar = ({ sidebar, handleToggleSidebar }) => {
                     <HiOutlineViewBoards  onClick={() => handleToggleSidebar(sidebar)}  />
                     <p  onClick={() => handleToggleSidebar(sidebar)}  >Short</p>
                 </div>
-                <div className="toggle_toggleSidebar--register">
+                <div className="toggle_toggleSidebar--register" onClick={handleSubcript}>
                     <HiOutlineFolderAdd  onClick={() => handleToggleSidebar(sidebar)}  />
                     <p  onClick={() => handleToggleSidebar(sidebar)}  >Kênh đăng kí</p>
                 </div>
-                <div className="toggle_toggleSidebar--library">
+                <div className="toggle_toggleSidebar--library" onClick={handleLibrary}>
                     <HiOutlineCollection  onClick={() => handleToggleSidebar(sidebar)}  />
                     <p  onClick={() => handleToggleSidebar(sidebar)}  >Thư viện</p>
                 </div>
@@ -45,13 +53,9 @@ const ToggleSideBar = ({ sidebar, handleToggleSidebar }) => {
                     <TbHomePlus  onClick={() => handleToggleSidebar(sidebar)}  />
                     <p  onClick={() => handleToggleSidebar(sidebar)}>Video App</p>
                 </div>
-                <div className="toggle_toggleSidebar--library">
-                    <FiUsers  onClick={() => handleToggleSidebar(sidebar)}  />
-                    <p  onClick={() => handleToggleSidebar(sidebar)}>Thành viên</p>
-                </div>
-                <div className="toggle_toggleSidebar--library">
-                    <FiUser  onClick={() => handleToggleSidebar(sidebar)}  />
-                    <p  onClick={() => handleToggleSidebar(sidebar)}>Hồ sơ</p>
+                <div className="toggle_toggleSidebar--library" onClick={handleUser} >
+                    <AiOutlineCloudUpload  onClick={() => handleToggleSidebar(sidebar)}  />
+                    <p  onClick={() => handleToggleSidebar(sidebar)}>Video upload</p>
                 </div>
             </div>
         </div>

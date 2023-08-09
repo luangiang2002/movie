@@ -1,6 +1,6 @@
 
 import { request, } from "../../rapidApi/api"
-import { CHANNEL_VIDEO_FAIL, CHANNEL_VIDEO_REQUEST, CHANNEL_VIDEO_SUCCESS, COMMENT_LIST_FAIL, COMMENT_LIST_REQUEST, COMMENT_LIST_SUCCESS, RELATED_VIDEO_FAIL, RELATED_VIDEO_REQUEST, RELATED_VIDEO_SUCCESS, SEARCH_VIDEO_FAIL, SEARCH_VIDEO_REQUEST, SEARCH_VIDEO_SUCCESS, VIDEO_DETAILS_FAIL, VIDEO_DETAILS_REQUEST, VIDEO_DETAILS_SUCCESS } from "../actionType"
+import { CHANNEL_VIDEO_FAIL, CHANNEL_VIDEO_REQUEST, CHANNEL_VIDEO_SUCCESS, RELATED_VIDEO_FAIL, RELATED_VIDEO_REQUEST, RELATED_VIDEO_SUCCESS, SEARCH_VIDEO_FAIL, SEARCH_VIDEO_REQUEST, SEARCH_VIDEO_SUCCESS, VIDEO_DETAILS_FAIL, VIDEO_DETAILS_REQUEST, VIDEO_DETAILS_SUCCESS, VIDEO_VIDEOID_FAILURE, VIDEO_VIDEOID_REQUEST, VIDEO_VIDEOID_SUCCESS } from "../actionType"
 
 
 export const getVideoByCategory = (keyword) => async (dispatch) => {
@@ -13,7 +13,7 @@ export const getVideoByCategory = (keyword) => async (dispatch) => {
                 q: keyword,
                 part: 'snippet,id',
                 regionCode: 'US',
-                maxResults: '50',
+                maxResults: '40',
             },
         }
         )
@@ -44,7 +44,7 @@ export const getVideoWatch = (id) => async (dispatch) => {
             params: {
                 channelId: id,
                 part: 'snippet,id',
-                maxResults: '50'
+                maxResults: '40'
             },
         }
         )
@@ -103,7 +103,7 @@ export const getPlaylist = (id) => async (dispatch) => {
             params: {
                 playlistId: id,
                 part: 'snippet',
-                maxResults: '50'
+                maxResults: '30'
             },
         }
         )
@@ -164,8 +164,9 @@ export const getChannel = (id) => async (dispatch) => {
         })
         const res = await request.get(`/channels`, {
             params: {
-                part: 'snippet,statistics',
-                id: id
+                part: 'snippet',
+                id: id,
+                maxResults: '40'
             }
         }
         )
@@ -185,3 +186,32 @@ export const getChannel = (id) => async (dispatch) => {
         })
     }
 }
+export const getVideoId = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: VIDEO_VIDEOID_REQUEST,
+        })
+        const res = await request.get(`/videos`, {
+            params: {
+                part: 'snippet',
+                id: id,
+                maxResults: '40'
+            }
+        }
+        )
+        dispatch({
+            type: VIDEO_VIDEOID_SUCCESS,
+            payload: {
+                videoid: res.data.items,
+
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        dispatch({
+            type: VIDEO_VIDEOID_FAILURE,
+            payload: error.message
+        })
+    }
+}
+

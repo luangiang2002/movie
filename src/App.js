@@ -22,6 +22,14 @@ import UploadVideo from './componet/UploadVideo/UploadVideo';
 import ComponetnError from './componet/componenError/ComponetnError';
 import HomeApp from './componet/App/HomeApp/HomeApp';
 import VideoApp from './componet/App/HomeApp/videoApp/VideoApp';
+import Library from './componet/Lirbary/Library';
+import { UPDATE_AVATAR, UPDATE_FIREBASE_ID } from './redux/actionType';
+import VideoAll from './componet/Lirbary/libraryVideoAll/VideoAll';
+import LikeAll from './componet/Lirbary/libraryVideoAll/LikeAll';
+import DisLikeAll from './componet/Lirbary/libraryVideoAll/DislikeAll';
+import Subscript from './componet/videosubscriptions/Subscript';
+import VideoUploadUsers from './componet/VideoUploadUsers/VideoUploadUsers';
+import ChannelApp from './componet/App/channelapp/ChannelApp';
 
 function App() {
   const [sidebar, toggleSidebar] = useState(false);
@@ -43,12 +51,14 @@ function App() {
               const newAvatarImage = data.image;
               if (newAvatarImage !== avatarImage) {
                 dispatch({ type: 'UPDATE_AVATAR', payload: newAvatarImage });
+                dispatch({ type: UPDATE_FIREBASE_ID, payload: id });
                 setAvatarImage(newAvatarImage);
               }
             } else {
               const defaultAvatarImage = 'https://img.freepik.com/free-icon/user_318-159711.jpg?size=626&ext=jpg&ga=GA1.1.614860776.1689582553&semt=sph';
               if (defaultAvatarImage !== avatarImage) {
-                dispatch({ type: 'UPDATE_AVATAR', payload: defaultAvatarImage });
+                dispatch({ type: UPDATE_AVATAR, payload: defaultAvatarImage });
+
                 setAvatarImage(defaultAvatarImage);
               }
             }
@@ -59,18 +69,21 @@ function App() {
           console.error('Đã xảy ra lỗi:', error);
         });
     }
-  }, [ avatarImage, dispatch]);
- 
+  }, [avatarImage, dispatch]);
+
+
 
   useEffect(() => {
-    const hideHeaderOnLoginAndSignup = ['/login', '/signup','signout','/reset'].includes(location.pathname);
+    const hideHeaderOnLoginAndSignup = ['/login', '/signup', 'signout', '/reset'].includes(location.pathname);
     setHideHeader(hideHeaderOnLoginAndSignup);
   }, [location]);
   const [isDarkMode, setDarkMode] = useState(false);
+ 
+  
   return (
     <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
       {!hideHeader && (
-        <Header handleToggleSidebar={handleToggleSidebar} setDarkMode={setDarkMode}  />
+        <Header handleToggleSidebar={handleToggleSidebar} setDarkMode={setDarkMode} />
       )}
       <ToggleSideBar sidebar={sidebar} handleToggleSidebar={handleToggleSidebar} />
       <Routes>
@@ -90,6 +103,17 @@ function App() {
         <Route path='/modal' element={<ComponetnError />}></Route>
         <Route path='/homeapp' element={<HomeApp />}></Route>
         <Route path='/videoapp/:id' element={<VideoApp />}></Route>
+
+        <Route path='/library/' element={<Library />}></Route>
+        <Route path='/videoall/' element={<VideoAll />}></Route>
+        <Route path='/likeall/' element={<LikeAll />}></Route>
+        <Route path='/dislikeall/' element={<DisLikeAll />}></Route>
+        <Route path='/subcirtall/' element={<VideoAll />}></Route>
+
+        <Route path='/subscript/' element={<Subscript />}></Route>
+        <Route path='/channelapp/:id' element={<ChannelApp />}></Route>
+        <Route path='/uploadusers/' element={<VideoUploadUsers />}></Route>
+
 
       </Routes>
       <ToastContainer
