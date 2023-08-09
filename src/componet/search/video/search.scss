@@ -1,0 +1,113 @@
+@import '../../../index.scss';
+
+.search {
+    display: grid;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    overflow: hidden;
+    &_video {
+       padding: 0 15px 0 30px;
+        &--duration {
+            img {
+                width: 100%;
+                object-fit: cover;
+                max-height: 500px;
+            }
+            position: relative;
+            p {
+                position: absolute;
+                right: 3%;
+                bottom: 0;
+                background-color: black;
+                color: white;
+                padding: 5px;
+            }
+            &_img{
+                max-height: 450px;
+            }
+        }
+
+        &--detail {
+            margin-top: 10px;
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            div {
+
+                width: 100%;
+
+                h4 {
+                    font-size: 18px;
+                    font-weight: 500;
+                    margin-bottom: 0;
+                    color: $color-titleparent;
+                }
+
+                p {
+                    margin-bottom: 0;
+                    color: $color-titlechild;
+
+                }
+            }
+
+        }
+    }
+}
+.lazy-load-image-background{
+    display: block !important;
+}
+
+@media (max-width:$breakpoints-small ){
+    .search{
+        &_video{
+            &--detail{
+                div{
+                    h4{
+                        font-size: 12px;
+                    }
+                    p{
+                        font-size: 11px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width:$breakpoint-xl ){
+    .search{
+        &_video{
+            &--detail{
+                div{
+                    h4{
+                        font-size: 30px;
+                    }
+                    p{
+                        font-size: 28px;
+                    }
+                }
+            }
+            &--duration {
+                &_img{
+                    height: 118px;
+                }
+            }
+        }
+    }
+}
+@media (max-width:480px ){
+    .search{
+        &_video{
+            &--duration {
+                &_img{
+                    height: 118px;
+                }
+            }
+        }
+    }
+}
