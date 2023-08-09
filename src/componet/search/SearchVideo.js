@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './search.scss'
 
@@ -6,10 +6,31 @@ import { Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Search from './video/Search';
 import { getVideoByCategory } from '../../redux/action/videoAction';
-const SearchVideo = ({ handleToggleSidebar, sidebar }) => {
+import SearchApp from './video/SearchApp';
+import { GetVideoData } from '../App/HomeApp/videoApp/GetData';
+import { videoUpload } from '../../redux/action/VideoActionApp';
+const SearchVideo = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const { video, loading } = useSelector(state => state.search.video)
+  const [firestoreResults, setFirestoreResults] = useState([]);
+  const { videos } = useSelector(state => state.videosapp)
+
+
+  useEffect(() => {
+    const filteredResults = videos.filter(video =>
+      video.title.toLowerCase().includes(id.toLowerCase())
+    );
+    setFirestoreResults(filteredResults);
+  }, [videos, id]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const videos = await GetVideoData();
+      dispatch(videoUpload(videos)); 
+    };
+    fetchComments();
+  }, [dispatch]);
   useEffect(() => {
     dispatch(getVideoByCategory(id))
   }, [dispatch, id])
@@ -18,9 +39,13 @@ const SearchVideo = ({ handleToggleSidebar, sidebar }) => {
       <Row>
         <Col>
           <div className="search_video">
-            {!loading ?
-              video?.map((video, i) => <Search video={video} key={i} />) : <p>Load...</p>
+            {!loading &&
+              <SearchApp firestoreResults={firestoreResults} />
             }
+            {!loading ?
+              video?.map((video, i) => <Search video={video} key={i} firestoreResults={firestoreResults} id={id} />) : <p>Load...</p>
+            }
+
           </div>
         </Col>
       </Row>
