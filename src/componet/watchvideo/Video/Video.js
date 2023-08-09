@@ -45,9 +45,9 @@ const Video = ({ id,video }) => {
                     <div className="video_author--subcript">
                     </div>
                     <div className='video_author--like d-flex'>
-                        <p><AiOutlineLike /> <span>{numeral(video[0]?.statistics?.likeCount).format('0.a')}</span></p>
+                        <p><AiOutlineLike />0</p>
                         <hr />
-                        <p><AiOutlineDislike /> <span>{numeral(video[0]?.statistics?.favoriteCount).format('0.a')}</span></p>
+                        <p><AiOutlineDislike />0</p>
                     </div>
                 </div>
                 <div className="video_description">

@@ -15,12 +15,17 @@
         left: 0;
         background-color: white;
         width: 20vw;
-        height: 150vh;
+        height: 100vh;
+        overflow-y:auto;
+       &--home{
+        margin-top: 50px !important;
+       }
 
         div {
             margin: 10px 0;
             text-align: center;
             width: 100%;
+            margin-top: 30px;
             
             &:nth-child(1){
                 &:hover {
@@ -41,6 +46,7 @@
             svg {
                 margin-right: 10px;
                 text-align: center;
+                font-size: 30px;
             }
 
             p {

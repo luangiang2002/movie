@@ -35,7 +35,6 @@ function HomePage({ handleToggleSidebar, sidebar }) {
 
   return (
     <div className="homepage">
-
       <div className='homepage_category'>
         {keyword.map((value, i) => (
           <p

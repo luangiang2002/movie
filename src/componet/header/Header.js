@@ -40,7 +40,11 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
   const urlAvatar = useSelector((state) => state.imageAvatar);
 
   const handleUpload=()=>{
-    navigate('/upload')
+    if (isLoggedIn) {
+      navigate('/upload');
+    } else {
+      navigate('/modal');
+    }
   }
   return (
     <div className=' header '>
@@ -58,7 +62,6 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
       </div>
       <div className='header_icon' >
         <RiFolderUploadLine onClick={handleUpload}/>
-        <IoIosNotificationsOutline />
         {urlAvatar?.urlAvatar ? (
           <img src={urlAvatar?.urlAvatar} alt='avater' onClick={handleImgClick} />
         ) : (

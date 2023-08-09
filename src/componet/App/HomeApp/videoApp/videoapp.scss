@@ -1,0 +1,46 @@
+
+@import "~video-react/styles/scss/video-react";
+.videoapp{
+    margin-top: 70px;
+    padding: 30px;
+    &_title{
+        font-weight: 500;
+        font-size: 20px;
+    }
+    &_author{
+        display: flex;
+        justify-content:  space-between;
+        &--icon{
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right:  10px;
+            }
+            p{
+                margin-top: 10px;
+              
+            }
+           
+        }
+        &--subcript{
+            button{
+                border: none;
+                padding: 0 10px;
+                border-radius: 20px;
+                background-color: rgb(152, 58, 58);
+                height: 35px;
+                color: white;
+            }
+        }
+        &--like{
+            svg{
+                font-size: 25px;
+            }
+            span{
+                margin-right: 10px;
+            }
+           
+        }
+    }
+}

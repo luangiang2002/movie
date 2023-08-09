@@ -1,0 +1,54 @@
+.fileupload{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &_dropzoneStyle{
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px dashed #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        padding: 0 5px 0 15px;
+        p{
+            font-size: 10px;
+        }
+    }
+    &_video{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        h2{
+            margin-top: 10px;
+        }
+        input{
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid black;
+            padding: 0 10px;
+            height: 35px;
+        }
+        label{
+          margin-top: 10px;
+        }
+        textarea{
+            width: 100%;
+            border: 1px solid black;
+            padding: 0 10px;
+        }
+        input[type="file"]{
+           margin: 0;
+           border: none;
+        }
+
+        button{
+            border: none;
+            outline: none;
+            padding: 5px 10px;
+        }
+    }
+}
