@@ -6,7 +6,7 @@ import { getVideoByCategory } from '../redux/action/videoAction';
 import { useEffect, useState } from 'react';
 
 const keyword = [
-  'New',
+  'All',
   'Âm nhạc',
   'trực tiếp',
   'Danh sách kết hợp',
@@ -18,10 +18,10 @@ const keyword = [
   'Đề xuất mới'
 ];
 
-function HomePage({ handleToggleSidebar, sidebar }) {
+function HomePage() {
   const dispatch = useDispatch();
   const { video, loading } = useSelector(state => state.search);
-  const [active, setActive] = useState('New');
+  const [active, setActive] = useState('All');
 
   useEffect(() => {
     dispatch(getVideoByCategory(active));
@@ -30,7 +30,6 @@ function HomePage({ handleToggleSidebar, sidebar }) {
   const handleClick = (value) => {
     setActive(value);
   };
-
   const _video = video?.video;
 
   return (

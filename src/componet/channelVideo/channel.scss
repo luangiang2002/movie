@@ -19,7 +19,6 @@
             text-align: center;
 
             img {
-
                 border-radius: 50%;
             }
 
@@ -28,7 +27,6 @@
                 margin-bottom: 0;
                 align-items: center;
             }
-
         }
     }
 
@@ -45,33 +43,26 @@
     }
 }
 
-@media (max-width:1439px) {
+@media (max-width: 1439px) {
     .channel {
         grid-template-columns: repeat(3, 1fr);
-
-       
     }
 }
 
-@media (max-width:$breakpoints-lg) {
+@media (max-width: $breakpoints-lg) {
     .channel {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width:$breakpoints-small) {
+@media (max-width: $breakpoints-small) {
     .channel {
-
-       
-
         &_category {
             grid-template-columns: repeat(1, 1fr);
 
             p {
                 font-size: 13px;
             }
-
-
         }
     }
 }

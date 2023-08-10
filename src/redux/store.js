@@ -1,32 +1,33 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 
-import { composeWithDevTools } from 'redux-devtools-extension'
-import thunk from 'redux-thunk'
-import {  ChannelReducer, VideoCHANNEL, VideoComment, VideoDetail, VideoReducer, selectedVideoReducer } from './reducer/videoReducer'
-import { ShortReducer } from './reducer/ToggleReducer'
-import  { avatarReducer } from './reducer/avatarReducer'
-import { commentReducer } from './reducer/commentReducer'
-import { videoUploadReducer } from './reducer/VideoReuderApp'
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import {
+    ChannelReducer,
+    VideoCHANNEL,
+    VideoReducer,
+    VideoidReducer,
+    selectedVideoReducer,
+} from './reducer/videoReducer';
+import { ShortReducer } from './reducer/ToggleReducer';
+import { avatarReducer } from './reducer/avatarReducer';
+import { commentReducer } from './reducer/commentReducer';
+import { videoUploadReducer } from './reducer/VideoReuderApp';
+import { LibraryReducer } from './reducer/libraryReducer';
 
 const rootReducer = combineReducers({
-    
-    search:selectedVideoReducer,
-    videowatch:VideoReducer,
-    comment:VideoComment,
-    videoChannel:VideoCHANNEL,
-    videoDetail:VideoDetail,
-    short:ShortReducer,
-    imageAvatar:avatarReducer,
-    channel:ChannelReducer,
-    videosapp:videoUploadReducer,
-    addcomment:commentReducer,
-})
+    search: selectedVideoReducer,
+    videowatch: VideoReducer,
+    videoChannel: VideoCHANNEL,
+    short: ShortReducer,
+    imageAvatar: avatarReducer,
+    channel: ChannelReducer,
+    videosapp: videoUploadReducer,
+    addcomment: commentReducer,
+    library: LibraryReducer,
+    videoid: VideoidReducer,
+});
 
-
-const store = createStore(
-    rootReducer,
-    {},
-    composeWithDevTools(applyMiddleware(thunk))
-)
+const store = createStore(rootReducer, {}, composeWithDevTools(applyMiddleware(thunk)));
 
 export default store;

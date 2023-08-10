@@ -1,0 +1,45 @@
+.channelApp {
+    margin-top: 70px;
+    padding: 0 30px;
+
+    &_banner {
+        width: 100%;
+        height: 300px;
+        margin-top: 70px;
+        margin-bottom: 150px;
+        background: linear-gradient(90deg, rgb(0, 238, 247) 0%, rgb(206, 3, 184) 100%, rgb(0, 212, 255) 100%);
+        position: relative;
+
+        div {
+            position: absolute;
+            bottom: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+
+            img {
+                border-radius: 50%;
+                width: 100px;
+                height: 100px;
+            }
+
+            p {
+                margin-left: -10px;
+                margin-bottom: 0;
+                align-items: center;
+            }
+        }
+    }
+
+    &_list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+
+        &--duration {
+            img {
+                object-fit: cover;
+            }
+        }
+    }
+}

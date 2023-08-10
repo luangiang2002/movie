@@ -1,85 +1,86 @@
-import React, { useEffect, useState } from 'react'
-import './videoapp.scss'
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai'
-import ShowMoreText from "react-show-more-text";
+import React, { useEffect, useState } from 'react';
+import './videoapp.scss';
+import { AiFillLike, AiFillDislike } from 'react-icons/ai';
+import ShowMoreText from 'react-show-more-text';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../../../../firebase/fibefire';
 import CommentApp from './CommentApp';
-import { GetVideoData, getCommentsByVideoId } from './GetData';
-import { VIDEO_COMMENT_SUCCESS } from '../../../../redux/actionType';
+import { GetVideoData, getByIdVideo, getCommentsByVideoId } from './GetData';
+import { LIBRARY_VIDEO, VIDEO_COMMENT_SUCCESS } from '../../../../redux/actionType';
 import { CommentAction } from '../../../../redux/action/commentAction';
 import { videoUpload } from '../../../../redux/action/VideoActionApp';
 import ReactPlayer from 'react-player';
+import { getWatchedVideosForUser } from '../../../../redux/action/libraryAction';
+import { GethandleLikeDislike, handleCommenta, toggleSubscription } from '../../../comment/CommentDataFibe';
 const VideoApp = () => {
-    const { id } = useParams()
-    const { videos, loading } = useSelector(state => state.videosapp)
-    const selectedVideo = videos.find(video => video.videoId === id);
-    const { urlAvatar } = useSelector(state => state.imageAvatar)
+    const { id } = useParams();
+    const { videos, loading } = useSelector((state) => state.videosapp);
+    const selectedVideo = videos.find((video) => video.videoId === id);
+    const { urlAvatar } = useSelector((state) => state.imageAvatar);
+    const avatarChannel = useSelector((state) => state.imageAvatar);
+    const { watchedVideos } = useSelector((state) => state.library);
+    const dislikeLike = watchedVideos.find((video) => video.videoId === id);
+    const [subscribed, setSubscribed] = useState(false);
     const [comment, setComment] = useState('');
-    const avatarChannel = useSelector(state => state.imageAvatar)
+    const userId = avatarChannel.firebaseId;
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const handleInputChange = (event) => {
-        setComment(event.target.value);
-    };
+    const userInfo = JSON.parse(localStorage.getItem('watch-user'));
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             handleComment();
         }
     };
-
     const handleComment = async () => {
-        if (!comment) {
-            toast.error('Vui lòng nhập bình luận trước khi gửi', {
-                autoClose: 3000,
-                position: 'top-left',
-            });
-            return;
-        }
-        const userInfo = JSON.parse(localStorage.getItem('watch-user'));
-        if (!userInfo) {
+        if (!userInfo || !userInfo.email) {
             toast.error('Bạn cần đăng nhập để bình luận', {
                 autoClose: 3000,
                 position: 'top-left',
             });
             return;
         }
-        const currentDate = new Date();
-        const currentTime = currentDate.toISOString();
-        const commentData = {
-            CommentId: uuidv4(),
-            videoId: selectedVideo.videoId,
-            content: comment,
-            displayName: userInfo.email,
-            timestamp: currentTime,
-            ChannelAvatar: avatarChannel.urlAvatar
-        };
+        const datacomment = await handleCommenta(comment, selectedVideo, avatarChannel, setComment, userInfo);
+        if (datacomment) {
+            dispatch({ type: VIDEO_COMMENT_SUCCESS, payload: [...comments, datacomment] });
+            setComment('');
+            return;
+        }
+    };
 
-        const commentsCollectionRef = collection(db, 'comments');
-        await addDoc(commentsCollectionRef, commentData);
-
-        dispatch({ type: VIDEO_COMMENT_SUCCESS, payload: [...comments, commentData] });
-
-        toast.success('Gửi bình luận thành công', {
-            autoClose: 3000,
-            position: 'top-left',
-        });
-        setComment('');
-    }
-
+    const handleLikeDislike = async (videoId, reactionType) => {
+        if (!userInfo) {
+            toast.error('Bạn cần đăng nhập để like video', {
+                autoClose: 3000,
+                position: 'top-left',
+            });
+            return;
+        }
+        const dataLikeDislike = await GethandleLikeDislike(videoId, reactionType, userId);
+        dispatch({ type: LIBRARY_VIDEO, payload: dataLikeDislike });
+    };
+    const handletoggleSubscription = async (video, reactionType) => {
+        if (!userInfo) {
+            toast.error('Bạn cần đăng nhập để đăng kí', {
+                autoClose: 3000,
+                position: 'top-left',
+            });
+            return;
+        }
+        const id = await getByIdVideo(video.videoId);
+        await toggleSubscription(id, reactionType, setSubscribed, userId);
+    };
     useEffect(() => {
         const fetchComments = async () => {
             const videos = await GetVideoData();
             dispatch(videoUpload(videos));
         };
-
         fetchComments();
     }, [dispatch]);
-    const { comments } = useSelector(state => state.addcomment)
+
+    const { comments } = useSelector((state) => state.addcomment);
+
     useEffect(() => {
         const fetchComments = async () => {
             const comments = await getCommentsByVideoId(id);
@@ -90,12 +91,26 @@ const VideoApp = () => {
     const location = useLocation();
 
     useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [location]);
-  
+        window.scrollTo(0, 0);
+        dispatch(getWatchedVideosForUser(userId));
+    }, [dispatch, location, userId]);
+
+    useEffect(() => {
+        if (dislikeLike?.subscript === 1 && dislikeLike?.firebaseID === userId) {
+            setSubscribed(true);
+        } else {
+            setSubscribed(false);
+        }
+    }, [dislikeLike?.firebaseID, dislikeLike?.subscript, userId]);
+    const likeButtonClassName = dislikeLike?.like === 1 ? 'like' : '';
+    const dislikeButtonClassName = dislikeLike?.dislike === 1 ? 'dislike' : '';
+    const handchanle = (channelID) => {
+        navigate(`/channelapp/${channelID}`);
+    };
+
     return (
         <>
-            <div className=' videoapp'>
+            <div className=" videoapp">
                 {!loading && comments && (
                     <>
                         <ReactPlayer
@@ -106,19 +121,51 @@ const VideoApp = () => {
                             controls={true}
                             loop={true}
                         />
-                        <p className='videoapp_title'>{selectedVideo?.title}</p>
+                        <p className="videoapp_title">{selectedVideo?.title}</p>
                         <div className="videoapp_author d-flex">
                             <div className="videoapp_author--icon d-flex">
-                                <img src={selectedVideo?.channelAvatar} alt="" />
-                                <p>{selectedVideo?.channelTitle} </p>
+                                <img
+                                    src={selectedVideo?.channelAvatar}
+                                    alt=""
+                                    onClick={() => handchanle(selectedVideo.firebaseID)}
+                                />
+                                <p onClick={() => handchanle(selectedVideo.firebaseID)}>
+                                    {selectedVideo?.channelTitle}{' '}
+                                </p>
                             </div>
                             <div className="videoapp_author--subcript">
-                                <button>Đăng kí</button>
+                                {subscribed ? (
+                                    <button
+                                        className="dissubcript"
+                                        onClick={() => handletoggleSubscription(selectedVideo, 'hủy đăng kí')}
+                                    >
+                                        Hủy đăng ký
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="subcript"
+                                        onClick={() => handletoggleSubscription(selectedVideo, 'đăng kí')}
+                                    >
+                                        Đăng ký
+                                    </button>
+                                )}
                             </div>
-                            <div className='videoapp_author--like d-flex'>
-                                <p><AiOutlineLike /><span>0</span></p>
+                            <div className="videoapp_author--like d-flex">
+                                <p>
+                                    <AiFillLike
+                                        className={`like-button ${likeButtonClassName}`}
+                                        onClick={() => handleLikeDislike(selectedVideo.videoId, 'like')}
+                                    />
+                                    <span>{dislikeLike?.like}</span>
+                                </p>
                                 <hr />
-                                <p><AiOutlineDislike /><span>0</span></p>
+                                <p>
+                                    <AiFillDislike
+                                        className={`like-button ${dislikeButtonClassName}`}
+                                        onClick={() => handleLikeDislike(selectedVideo.videoId, 'dislike')}
+                                    />
+                                    <span>{dislikeLike?.dislike}</span>
+                                </p>
                             </div>
                         </div>
                         <div className="videoapp_description">
@@ -129,7 +176,7 @@ const VideoApp = () => {
                                 className="content-css"
                                 anchorClass="show-more-less-clickable"
                                 expanded={false}
-                                truncatedEndingComponent={"... "}
+                                truncatedEndingComponent={'... '}
                             >
                                 <span>{moment(selectedVideo?.timestamp).fromNow()}</span> <br />
                                 {selectedVideo?.description}
@@ -139,19 +186,22 @@ const VideoApp = () => {
                         <div className="comments">
                             <div className="comments_input d-flex">
                                 <img src={urlAvatar} alt="" />
-                                <input type="text" placeholder='Viết bình luận' value={comment} onChange={handleInputChange} onKeyDown={handleKeyDown} />
+                                <input
+                                    type="text"
+                                    placeholder="Viết bình luận"
+                                    value={comment}
+                                    onChange={(e) => setComment(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                />
                                 <button onClick={handleComment}>Comment</button>
                             </div>
-                            {!loading &&
-                                <CommentApp id={id} loading={loading} comments={comments} />
-                            }
+                            {!loading && <CommentApp id={id} loading={loading} comments={comments} />}
                         </div>
-
                     </>
                 )}
             </div>
         </>
-    )
-}
+    );
+};
 
-export default VideoApp
+export default VideoApp;

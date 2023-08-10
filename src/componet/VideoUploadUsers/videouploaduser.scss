@@ -1,0 +1,140 @@
+.videoupload {
+    margin-top: 70px;
+    padding: 20px 30px 0 30px;
+
+    &_list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        height: 100%;
+        gap: 20px;
+    }
+
+    &_title {
+        display: flex;
+        justify-content: space-between;
+
+        &--icon {
+            display: flex;
+            align-items: baseline;
+
+            svg {
+                font-size: 18px;
+            }
+
+            p {
+                margin-left: 20px;
+                font-weight: 500;
+            }
+        }
+
+        p {
+            font-size: 20px;
+            font-weight: 500;
+        }
+    }
+
+    &_video {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &--duration {
+            width: 100%;
+            object-fit: contain;
+
+            img {
+                width: 100%;
+                height: 300px;
+                object-fit: fill;
+            }
+        }
+
+        &--detail {
+            margin-top: 20px;
+            justify-content: space-between;
+            position: relative;
+
+            &_channel {
+                img {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    margin-right: 20px;
+                }
+            }
+
+            &_title {
+                p {
+                    margin-bottom: 0;
+                }
+
+                h4 {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    .videoupload {
+        &_list {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &_video {
+            &--duration {
+                img {
+                    height: 250px;
+                }
+            }
+
+            &--detail_title h4 {
+                font-size: 15px;
+            }
+
+            &--detail_title p {
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+@media (max-width: 720px) {
+    .videoupload {
+        &_list {
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        &_title {
+            p {
+                font-size: 13px;
+            }
+        }
+
+        &_video {
+            &--duration {
+                img {
+                    height: 200px;
+                }
+            }
+
+            &--detail_title h4 {
+                font-size: 13px;
+            }
+
+            &--detail_title p {
+                font-size: 13px;
+            }
+        }
+    }
+}
+
+.delete {
+    position: absolute;
+    right: 6%;
+    border: none;
+    background: unset;
+    outline: none;
+}

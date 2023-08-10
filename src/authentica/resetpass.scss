@@ -1,5 +1,4 @@
 .resetPassword {
-
     background-color: #edede9;
     width: 100vw;
     height: 100vh;
@@ -55,26 +54,26 @@
         }
     }
 }
-@media (min-width:1440px) {
+@media (min-width: 1440px) {
     .resetPassword {
         &_div {
             width: 20%;
         }
     }
 }
-@media (max-width:1200px) {
+@media (max-width: 1200px) {
     .resetPassword {
         &_div {
             width: 50%;
         }
     }
 }
-@media (max-width:767px) {
+@media (max-width: 767px) {
     .resetPassword {
         &_div {
             width: 100vw;
             height: 100vh;
-            margin-top:50px ;
+            margin-top: 50px;
         }
     }
 }

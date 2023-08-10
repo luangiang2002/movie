@@ -7,10 +7,9 @@
     position: fixed;
     z-index: 999;
     width: 100%;
-    padding: 10px 40px ;
+    padding: 10px 40px;
     background-color: white;
     top: 0;
-   
 
     &_logo {
         img {
@@ -34,7 +33,7 @@
             height: 40px;
             width: 100%;
         }
-        button{
+        button {
             position: absolute;
             right: 5%;
             top: 15%;
@@ -44,15 +43,11 @@
 
             svg {
                 font-size: 25px;
-               
             }
         }
-
-       
     }
 
     &_icon {
-
         svg {
             font-size: 25px;
             margin-right: 20px;
@@ -63,13 +58,12 @@
             height: 50px;
             border-radius: 50%;
         }
-
     }
 }
 
-@media (max-width:$breakpoints-small) {
+@media (max-width: $breakpoints-small) {
     .header {
-        padding:15px;
+        padding: 15px;
 
         &_logo {
             img {
@@ -78,7 +72,7 @@
         }
         &_search {
             input {
-              width: 150px;
+                width: 150px;
             }
         }
         &_icon {
@@ -86,8 +80,6 @@
                 width: 40px;
                 height: 40px;
             }
-    
         }
     }
-
 }

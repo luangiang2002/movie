@@ -1,28 +1,28 @@
-import { SHORT_LIST_FAIL, SHORT_LIST_REQUEST, SHORT_LIST_SUCCESS } from "../actionType"
+import { SHORT_LIST_FAIL, SHORT_LIST_REQUEST, SHORT_LIST_SUCCESS } from '../actionType';
 
-export const ShortReducer = (state = {short: [],loading: true, }, action)=>{
-    const {payload,type}=action
+export const ShortReducer = (state = { short: [], loading: true }, action) => {
+    const { payload, type } = action;
 
     switch (type) {
         case SHORT_LIST_REQUEST:
             return {
                 ...state,
-                loading:true
-            }
+                loading: true,
+            };
         case SHORT_LIST_SUCCESS:
-            return{
+            return {
                 ...state,
-                short:payload,
-                loading:false,
-            }
+                short: payload,
+                loading: false,
+            };
         case SHORT_LIST_FAIL:
-            return{
+            return {
                 ...state,
-                short:null,
-                error:payload
-            }
-    
+                short: null,
+                error: payload,
+            };
+
         default:
             return state;
     }
-}
+};

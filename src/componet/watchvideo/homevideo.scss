@@ -2,11 +2,4 @@
 
 .homevideo {
     overflow: hidden;
-    padding: 0 30px 0 0;
-}
-
-@media (max-width:$breakpoints-lg) {
-    .homevideo {
-        padding: 0 10px 0 0;
-    }
 }
