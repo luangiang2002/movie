@@ -6,7 +6,7 @@
     margin-right: 10px;
     overflow: hidden;
     &_video {
-       padding: 0 15px 0 30px;
+        padding: 0 15px 0 30px;
         &--duration {
             img {
                 width: 100%;
@@ -22,7 +22,7 @@
                 color: white;
                 padding: 5px;
             }
-            &_img{
+            &_img {
                 max-height: 450px;
             }
         }
@@ -38,7 +38,6 @@
             }
 
             div {
-
                 width: 100%;
 
                 h4 {
@@ -51,26 +50,24 @@
                 p {
                     margin-bottom: 0;
                     color: $color-titlechild;
-
                 }
             }
-
         }
     }
 }
-.lazy-load-image-background{
+.lazy-load-image-background {
     display: block !important;
 }
 
-@media (max-width:$breakpoints-small ){
-    .search{
-        &_video{
-            &--detail{
-                div{
-                    h4{
+@media (max-width: $breakpoints-small) {
+    .search {
+        &_video {
+            &--detail {
+                div {
+                    h4 {
                         font-size: 12px;
                     }
-                    p{
+                    p {
                         font-size: 11px;
                     }
                 }
@@ -79,32 +76,32 @@
     }
 }
 
-@media (min-width:$breakpoint-xl ){
-    .search{
-        &_video{
-            &--detail{
-                div{
-                    h4{
+@media (min-width: $breakpoint-xl) {
+    .search {
+        &_video {
+            &--detail {
+                div {
+                    h4 {
                         font-size: 30px;
                     }
-                    p{
+                    p {
                         font-size: 28px;
                     }
                 }
             }
             &--duration {
-                &_img{
+                &_img {
                     height: 118px;
                 }
             }
         }
     }
 }
-@media (max-width:480px ){
-    .search{
-        &_video{
+@media (max-width: 480px) {
+    .search {
+        &_video {
             &--duration {
-                &_img{
+                &_img {
                     height: 118px;
                 }
             }

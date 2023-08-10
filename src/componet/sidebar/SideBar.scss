@@ -21,11 +21,10 @@
         p {
             font-size: 10px;
         }
-
     }
 }
 
-@media (max-width:$breakpoints-small) {
+@media (max-width: $breakpoints-small) {
     .sidebar {
         margin-top: 0;
         div {

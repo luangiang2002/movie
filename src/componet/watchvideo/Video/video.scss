@@ -1,13 +1,15 @@
 @import '../../../index.scss';
 
 .video {
-margin-top: 70px;
+    margin-top: 70px;
+    padding: 30px;
+
     iframe {
-        height: 400px;
+        height: 80vh;
     }
 
     p {
-        color: $color-titleparent ;
+        color: $color-titleparent;
         font-weight: 500;
     }
 
@@ -26,27 +28,16 @@ margin-top: 70px;
 
             p {
                 margin: 0 20px;
-                color: $color-titleparent ;
+                color: $color-titleparent;
 
                 span {
                     color: $color-titlechild;
                     font-size: 15px;
                 }
             }
-
-            button {
-                width: 100px;
-                height: 40px;
-                outline: none;
-                border: none;
-                border-radius: 20px;
-                background-color: rgb(199, 49, 49);
-                color: white;
-            }
         }
 
         &--like {
-
             width: 150px;
             border-radius: 10px;
             justify-content: center;
@@ -56,7 +47,6 @@ margin-top: 70px;
             }
 
             p {
-
                 display: flex;
                 margin-top: 20px;
                 align-items: self-end;
@@ -75,7 +65,17 @@ margin-top: 70px;
                     font-size: 20px;
                     margin-top: 10px;
                 }
+            }
+        }
 
+        &--subcript {
+            button {
+                width: 150px;
+                height: 50px;
+                outline: none;
+                border: none;
+                border-radius: 30px;
+                color: white;
             }
         }
     }
@@ -89,16 +89,11 @@ margin-top: 70px;
     }
 }
 
-@media (max-width:$breakpoints-lg) {
+@media (max-width: $breakpoints-lg) {
     .video {
-
-        iframe {
-            height: 400px;
-
-        }
-
         p {
             font-size: 10px;
+
             span {
                 font-size: 10px;
             }
@@ -110,23 +105,35 @@ margin-top: 70px;
                     display: block;
                     width: 100%;
                     margin: 0;
+
                     span {
                         font-size: 10px;
                     }
                 }
-                button{
-                    width: 150px;
-                    margin-left: -40px;
+                img {
+                    width: 35px;
+                    height: 35px;
                 }
-                
             }
+
             &--like {
-    
                 svg {
                     font-size: 20px;
                 }
             }
+            &--subcript {
+                button {
+                    width: 70px;
+                    height: 30px;
+                    outline: none;
+                    border: none;
+                    font-size: 10px;
+                    border-radius: 30px;
+                    color: white;
+                }
+            }
         }
+
         &_description {
             span {
                 font-size: 10px;
@@ -135,14 +142,10 @@ margin-top: 70px;
     }
 }
 
-@media (max-width:$breakpoints-small) {
-    .video {
+.dissubcript {
+    background-color: rgb(152, 58, 58);
+}
 
-        iframe {
-            height: 200px;
-
-        }
-
-     
-    }
+.subcript {
+    background-color: gray;
 }

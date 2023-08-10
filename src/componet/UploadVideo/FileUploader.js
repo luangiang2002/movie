@@ -8,7 +8,7 @@ import { getUserIdByEmail } from '../AvatarLogin/FirebaseData';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { ClipLoader } from 'react-spinners';
-import './FileUploader.scss'
+import './FileUploader.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { VIDEO_UPDATE_SUCCESS } from '../../redux/actionType';
 const VideoUploader = ({ userInfo }) => {
@@ -16,7 +16,7 @@ const VideoUploader = ({ userInfo }) => {
     const [uploading, setUploading] = useState('kéo hoặc nhấn vào đây để tải ảnh lên ....');
     const urlAvatar = useSelector((state) => state.imageAvatar);
     const [thumbnailsurl, setThumbnailsurl] = useState('');
-    const [id, setId] = useState()
+    const [id, setId] = useState();
     const [videoInfo, setVideoInfo] = useState({
         title: '',
         description: '',
@@ -26,26 +26,29 @@ const VideoUploader = ({ userInfo }) => {
         firebaseID: '',
     });
     const dispatch = useDispatch();
-    const onDrop = useCallback(async (acceptedFiles) => {
-        setUploading(<ClipLoader color="#36D7B7" loading={uploading} size={30} />);
-        const file = acceptedFiles[0];
-        const video = uuidv4();
-        const videoName = `video_${video}.mp4`;
+    const onDrop = useCallback(
+        async (acceptedFiles) => {
+            setUploading(<ClipLoader color="#36D7B7" loading={uploading} size={30} />);
+            const file = acceptedFiles[0];
+            const video = uuidv4();
+            const videoName = `video_${video}.mp4`;
 
-        const avatarRef = ref(storage, `${userInfo?.email}/${videoName}`);
+            const avatarRef = ref(storage, `${userInfo?.email}/${videoName}`);
 
-        await uploadBytes(avatarRef, file); // Lưu video vào Firebase Storage
+            await uploadBytes(avatarRef, file); // Lưu video vào Firebase Storage
 
-        const downloadUrl = await getDownloadURL(avatarRef);
+            const downloadUrl = await getDownloadURL(avatarRef);
 
-        setVideoUrl(downloadUrl);
+            setVideoUrl(downloadUrl);
 
-        toast.success(`Tải lên video thành công`, {
-            autoClose: 3000,
-            position: 'top-left',
-        });
-        setUploading('tệp đã tải lên thành công hoàn thành các bước tiếp theo để tải video lên...');
-    }, [uploading, userInfo?.email]);
+            toast.success(`Tải lên video thành công`, {
+                autoClose: 3000,
+                position: 'top-left',
+            });
+            setUploading('tệp đã tải lên thành công hoàn thành các bước tiếp theo để tải video lên...');
+        },
+        [uploading, userInfo?.email],
+    );
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -80,11 +83,13 @@ const VideoUploader = ({ userInfo }) => {
         const videoData = {
             ...videoInfo,
             video: videoUrl,
-            videoId:videoid,
+            videoId: videoid,
             thumbnailsurl: thumbnailsurl,
             timestamp: currentTime,
             firebaseID: id,
             channelAvatar: urlAvatar?.urlAvatar,
+            like: '0',
+            dislike: '0',
         };
 
         const videosCollectionRef = collection(db, 'videos');
@@ -110,13 +115,13 @@ const VideoUploader = ({ userInfo }) => {
         if (userInfo && userInfo.email) {
             getUserIdByEmail(userInfo.email)
                 .then((id) => {
-                    setId(id)
+                    setId(id);
                     const docRef = collection(db, 'videos');
                     const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
                         const newVideos = [];
                         querySnapshot.forEach((doc) => {
                             newVideos.push({ id: doc.id, ...doc.data() });
-                            dispatch({ type: VIDEO_UPDATE_SUCCESS, payload: newVideos })
+                            dispatch({ type: VIDEO_UPDATE_SUCCESS, payload: newVideos });
                         });
                     });
                     return () => unsubscribe();
@@ -128,13 +133,13 @@ const VideoUploader = ({ userInfo }) => {
     }, [dispatch, userInfo]);
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
     return (
-        <div className='fileupload'>
-            <div {...getRootProps()} className='fileupload_dropzoneStyle'>
+        <div className="fileupload">
+            <div {...getRootProps()} className="fileupload_dropzoneStyle">
                 <input {...getInputProps()} />
                 <p>{uploading}</p>
             </div>
             {/* {videoUrl && ( */}
-            <div className='fileupload_video'>
+            <div className="fileupload_video">
                 <h2>Thông tin về video:</h2>
                 <input
                     type="text"
@@ -157,15 +162,10 @@ const VideoUploader = ({ userInfo }) => {
                     placeholder="Mô tả"
                 ></textarea>
                 <label htmlFor="image">chọn ảnh bìa video</label>
-                <input
-                    type="file"
-                    accept="image/*"
-                    id='image'
-                    onChange={handleThumbnailChange}
-                />
+                <input type="file" accept="image/*" id="image" onChange={handleThumbnailChange} />
                 <br />
                 <button onClick={handlePublish}>Đăng video</button>
-                <Link to='/'>Trở về </Link>
+                <Link to="/">Trở về </Link>
             </div>
             {/* )} */}
         </div>

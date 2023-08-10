@@ -8,26 +8,27 @@
     width: 100vw;
     display: block;
     z-index: 999;
+    overflow: hidden;
     &_toggleSidebar {
-        display: none;
+        display: block;
         position: absolute;
         top: 0;
         left: 0;
         background-color: white;
         width: 20vw;
         height: 100vh;
-        overflow-y:auto;
-       &--home{
-        margin-top: 50px !important;
-       }
+        overflow-y: auto;
+        &--home {
+            margin-top: 50px !important;
+        }
 
         div {
             margin: 10px 0;
             text-align: center;
             width: 100%;
             margin-top: 30px;
-            
-            &:nth-child(1){
+
+            &:nth-child(1) {
                 &:hover {
                     background-color: unset;
                 }
@@ -52,7 +53,6 @@
             p {
                 font-size: 20px;
             }
-
         }
 
         &--logo {
@@ -70,26 +70,21 @@
 .close {
     display: none;
 }
-.toggle {
-    overflow: hidden;
-    &_open{
-        display: block;
-    }
-}
-@media (max-width:$breakpoints-small){
-    .toggle{
-    &_toggleSidebar {
-        width: 40vw;
-        height: 150vh;
 
-        div{
-            p {
-                font-size: 10px;
-            }
-            svg {
-                font-size: 20px;
+@media (max-width: $breakpoints-small) {
+    .toggle {
+        &_toggleSidebar {
+            width: 40vw;
+            height: 150vh;
+
+            div {
+                p {
+                    font-size: 10px;
+                }
+                svg {
+                    font-size: 20px;
+                }
             }
         }
     }
-}
 }

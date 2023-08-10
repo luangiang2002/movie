@@ -1,15 +1,14 @@
-import React from 'react'
-import './uploadVideo.scss'
-import FileUploader from './FileUploader'
+import React from 'react';
+import './uploadVideo.scss';
+import FileUploader from './FileUploader';
 const UploadVideo = () => {
-  const userInfo = JSON.parse(localStorage.getItem('watch-user'));
+    const userInfo = JSON.parse(localStorage.getItem('watch-user'));
 
-  return (
-    <div className='upload'>
-          <FileUploader userInfo={userInfo} />
-    </div>
+    return (
+        <div className="upload">
+            <FileUploader userInfo={userInfo} />
+        </div>
+    );
+};
 
-  )
-}
-
-export default UploadVideo
+export default UploadVideo;

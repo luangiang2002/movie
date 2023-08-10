@@ -3,8 +3,6 @@
 .pagevideo {
     display: block;
     &_video {
-       
-
         img {
             width: 100%;
             object-fit: contain;
@@ -33,7 +31,6 @@
             }
 
             div {
-
                 width: 100%;
 
                 h4 {
@@ -46,13 +43,11 @@
                 p {
                     margin-bottom: 0;
                     color: $color-titlechild;
-
                 }
             }
-
         }
     }
 }
-.lazy-load-image-background{
+.lazy-load-image-background {
     display: block !important;
 }

@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react'
-import './library.scss'
+import React, { useEffect } from 'react';
+import './library.scss';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getDisLikeVideosForUser, getLikeVideosForUser, getWatchedVideosForUser } from '../../redux/action/libraryAction';
-import LibraryVideo from './libraryVideoAll/LibraryVideo';
-import LibraryVideoLike from './libraryVideoAll/LibraryVideoLike';
-import LibraryVideoDisLike from './libraryVideoAll/LibraryVideoDisLike';
+import {
+    getDisLikeVideosForUser,
+    getLikeVideosForUser,
+    getWatchedVideosForUser,
+} from '../../redux/action/libraryAction';
+import { useNavigate } from 'react-router-dom';
+import LibraryList from './libraryVideoAll/LibraryList';
 const Library = () => {
-    const { firebaseId } = useSelector(state => state.imageAvatar)
-    const { watchedVideos, loading } = useSelector(state => state.library)
-    const { likedVideos } = useSelector(state => state.library)
-    const { DislikeVideos } = useSelector(state => state.library)
-    const dispatch = useDispatch()
+    const { firebaseId } = useSelector((state) => state.imageAvatar);
+    const { watchedVideos, loading } = useSelector((state) => state.library);
+    const { likedVideos } = useSelector((state) => state.library);
+    const { DislikeVideos } = useSelector((state) => state.library);
+    const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getWatchedVideosForUser(firebaseId));
         dispatch(getLikeVideosForUser(firebaseId));
@@ -34,21 +37,57 @@ const Library = () => {
         return dateB - dateA;
     });
 
+    const navigate = useNavigate();
+
+    const navigateToVideo = (videoId) => {
+        navigate(`/videoapp/${videoId.videoId}`);
+    };
+
+    const navigateToYoutube = (videoId) => {
+        navigate(`/homevideo/${videoId.videoId}`);
+    };
+
+    const navigateVIdeoAll = () => {
+        navigate('/videoall/');
+    };
+    const navigateLikeAll = () => {
+        navigate('/likeall/');
+    };
+    const navigateDisLikwAll = () => {
+        navigate('/dislikeall/');
+    };
+
     return (
         <>
-            {
-                !loading ?
-                    <>
-                        <LibraryVideo sortedWatchedVideos={sortedWatchedVideos}  />
-                        <LibraryVideoLike sortedWatchedLike={sortedWatchedLike}  />
-                        <LibraryVideoDisLike sortedWatchedDisLike={sortedWatchedDisLike}  />
-                    </>
-                    :
-                    <div>Loading...</div>
-        }
-
+            {!loading ? (
+                <>
+                    <LibraryList
+                        videos={sortedWatchedVideos}
+                        title="video đã xem"
+                        toggleAll={navigateVIdeoAll}
+                        handleVideoAppClick={navigateToVideo}
+                        handleVideoYTbClick={navigateToYoutube}
+                    />
+                    <LibraryList
+                        videos={sortedWatchedLike}
+                        title="video đã thích"
+                        toggleAll={navigateLikeAll}
+                        handleVideoAppClick={navigateToVideo}
+                        handleVideoYTbClick={navigateToYoutube}
+                    />
+                    <LibraryList
+                        videos={sortedWatchedDisLike}
+                        title="video không thích"
+                        toggleAll={navigateDisLikwAll}
+                        handleVideoAppClick={navigateToVideo}
+                        handleVideoYTbClick={navigateToYoutube}
+                    />
+                </>
+            ) : (
+                <div>Loading...</div>
+            )}
         </>
-    )
-}
+    );
+};
 
-export default Library
+export default Library;

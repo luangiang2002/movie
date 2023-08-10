@@ -3,25 +3,24 @@
     background-color: #8e9aaf;
     width: 100vw;
     height: 100vh;
-    
-   
+
     &_div {
-       position: absolute;
-       top: 40%;
-       left: 50%;
-       padding: 20px;
-       transform: translate((-50%, -50%));
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        padding: 20px;
+        transform: translate((-50%, -50%));
         background-color: white;
-        div{
+        div {
             display: flex;
             justify-content: center;
         }
-        h1{
+        h1 {
             display: flex;
             justify-content: center;
         }
-        p{
-            &:nth-child(1){
+        p {
+            &:nth-child(1) {
                 margin-right: 10px;
             }
         }

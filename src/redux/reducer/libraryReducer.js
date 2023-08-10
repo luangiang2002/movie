@@ -5,6 +5,7 @@ const initialState = {
     likedVideos: [],
     subripts: [],
     DislikeVideos:[],
+    video:[],
     loading:true
   };
   
@@ -37,26 +38,7 @@ const initialState = {
       case VIDEO_UPLOAD_USERS:
         return {
           ...state,
-          subripts: Array.isArray(action.payload) ? action.payload : state.subripts,
-          loading:false,
-        };
-      default:
-        return state;
-    }
-  };
-  
-
-const initial= {
-    videos:[],
-    loading:true
-  };
-  
-  export const uploadVideoReducer= (state = initial, action) => {
-    switch (action.type) {
-      case VIDEO_UPLOAD_USERS:
-        return {
-          ...state,
-          videos: Array.isArray(action.payload) ? action.payload : state.videos,
+          video: Array.isArray(action.payload) ? action.payload : state.video,
           loading:false,
         };
       default:

@@ -15,22 +15,21 @@
                     }
                 }
             }
-            &--icon{
+            &--icon {
                 display: flex;
                 justify-content: center;
                 flex-direction: column;
                 align-items: center;
                 margin-left: 10px;
-                button{
+                button {
                     border: none;
                     width: 30px;
                     height: 30px;
-                    svg{
+                    svg {
                         font-size: 30px;
                     }
                 }
             }
-
         }
     }
 }
