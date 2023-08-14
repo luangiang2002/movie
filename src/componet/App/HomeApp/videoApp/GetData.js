@@ -35,7 +35,6 @@ export const getUserIdByComment = async (CommentId) => {
     if (!querySnapshot.empty) {
         return querySnapshot.docs[0].id;
     } else {
-        console.log('Không tìm thấy người dùng có CommentId này.');
         return;
     }
 };
@@ -47,7 +46,16 @@ export const getByIdVideo = async (VideoId) => {
     if (!querySnapshot.empty) {
         return querySnapshot.docs[0].id;
     } else {
-        console.log('Không tìm thấy người dùng có VideoId này.');
+        return;
+    }
+};
+export const getvideoInter = async (VideoId) => {
+    const usersRef = collection(db, 'videoInteractions');
+    const q = query(usersRef, where('videoId', '==', VideoId));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+        return querySnapshot.docs[0].id;
+    } else {
         return;
     }
 };
@@ -66,7 +74,19 @@ export const fetchData = async () => {
 
         return videosData;
     } catch (error) {
-        console.error('Error fetching video data:', error);
         return [];
+    }
+};
+export const getByIdVideos = async (VideoId) => {
+    try {
+        const usersRef = collection(db, 'videos');
+        const q = query(usersRef, where('videoId', '==', VideoId));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            return querySnapshot.docs[0].id;
+        } else return;
+    } catch (error) {
+        throw error;
     }
 };

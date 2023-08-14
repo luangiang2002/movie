@@ -2,7 +2,7 @@ import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { db } from '../../firebase/fibefire';
 import { v4 as uuidv4 } from 'uuid';
-import { fetchData, getByIdVideo } from '../App/HomeApp/videoApp/GetData';
+import { fetchData, getByIdVideo, getByIdVideos, getvideoInter } from '../App/HomeApp/videoApp/GetData';
 
 const currentDate = new Date();
 const currentTime = currentDate.toISOString();
@@ -37,7 +37,7 @@ export const handleCommenta = async (comment, selectedVideo, avatarChannel, setC
     return commentData;
 };
 
-export const toggleSubscription = async (id, reactionType, setSubscribed, userId) => {
+export const toggleSubscription = async (id, reactionType, setSubscribed, userId, videoID, videoInter) => {
     try {
         const videoRef = doc(db, 'watchedVideos', id);
         const videoSnapshot = await getDoc(videoRef);
@@ -62,9 +62,27 @@ export const toggleSubscription = async (id, reactionType, setSubscribed, userId
                 subscript: videoData.subscript || 0,
                 subscribedby: videoData.subscribedby || [],
             });
+            if (videoID) {
+                const videos = doc(db, 'videos', videoID);
+                await getDoc(videos);
+                await updateDoc(videos, {
+                    subscript: videoData.subscript || 0,
+                    subscribedby: videoData.subscribedby || [],
+                });
+            } else {
+                const videoRef = doc(db, 'videoInteractions', videoInter);
+                await getDoc(videoRef);
+                await updateDoc(videoRef, {
+                    subscript: videoData.subscript || 0,
+                    subscribedby: videoData.subscribedby || [],
+                });
+            }
         }
     } catch (error) {
-        console.error('Lỗi khi đăng ký hoặc hủy đăng ký video:', error);
+        toast.error('Lỗi khi đăng ký hoặc hủy đăng ký video', {
+            autoClose: 3000,
+            position: 'top-left',
+        });
     }
 };
 
@@ -103,8 +121,11 @@ export const gethandleComment = async (id, commentAPi, urlAvatar, channeId, thum
 export const GethandleLikeDislike = async (videoId, reactionType, userId) => {
     try {
         const id = await getByIdVideo(videoId);
-        const videoRef = doc(db, 'watchedVideos', id);
-        const videoSnapshot = await getDoc(videoRef);
+        const videoID = await getByIdVideos(videoId);
+        const videoInter = await getvideoInter(videoId);
+
+        const watchedVideosRef = doc(db, 'watchedVideos', id);
+        const videoSnapshot = await getDoc(watchedVideosRef);
 
         if (videoSnapshot.exists()) {
             const videoData = videoSnapshot.data();
@@ -135,12 +156,21 @@ export const GethandleLikeDislike = async (videoId, reactionType, userId) => {
                 like: updatedLikedBy.length,
                 dislike: updatedDislikedBy.length,
             };
+            if (videoID) {
+                const videoRef = doc(db, 'videos', videoID);
+                await getDoc(videoRef);
+                await updateDoc(videoRef, commentData);
+            } else {
+                const videoRef = doc(db, 'videoInteractions', videoInter);
+                await getDoc(videoRef);
+                await updateDoc(videoRef, commentData);
+            }
+            await updateDoc(watchedVideosRef, commentData);
 
-            await updateDoc(videoRef, commentData);
             return fetchData();
         }
     } catch (error) {
-        toast.success('không thành công', {
+        toast.error('không thành công', {
             autoClose: 3000,
             position: 'top-left',
         });
