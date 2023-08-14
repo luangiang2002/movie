@@ -8,12 +8,11 @@ import './videouploaduser.scss';
 import { db } from '../../firebase/fibefire';
 import { VIDEO_UPLOAD_USERS } from '../../redux/actionType';
 import { toast } from 'react-toastify';
-import { getByIdVideo } from '../App/HomeApp/videoApp/GetData';
 import { gethandleVideoClick } from '../GetAddWatches';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 const VideoUploadUsers = () => {
     const { firebaseId } = useSelector((state) => state.imageAvatar);
-    const { videos } = useSelector((state) => state.videouploaduser);
+    const { video } = useSelector((state) => state.library);
     const dispatch = useDispatch();
     const [showEditDelete, setShowEditDelete] = useState(null);
 
@@ -22,7 +21,7 @@ const VideoUploadUsers = () => {
         await gethandleVideoClick(video, firebaseId, dispatch);
         navigate(`/videoapp/${video.videoId}`);
     };
-    const sortedWatchedVideos = videos.sort((a, b) => {
+    const sortedWatchedVideos = video.sort((a, b) => {
         const dateA = new Date(a.watchedAt);
         const dateB = new Date(b.watchedAt);
         return dateB - dateA;
@@ -40,8 +39,17 @@ const VideoUploadUsers = () => {
             const videoRef = doc(db, 'videos', videoId);
             await deleteDoc(videoRef);
         } catch (error) {
-            console.error('Lỗi khi xóa video từ Firestore:', error);
             throw error;
+        }
+    };
+    const getByIdVideo = async (VideoId) => {
+        const usersRef = collection(db, 'videos');
+        const q = query(usersRef, where('videoId', '==', VideoId));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            return querySnapshot.docs[0].id;
+        } else {
+            return;
         }
     };
 
@@ -50,7 +58,7 @@ const VideoUploadUsers = () => {
         try {
             await deleteVideoInFirebase(id);
 
-            const updatedVideo = videos.filter((video) => video.videoId !== videoId);
+            const updatedVideo = video.filter((video) => video.videoId !== videoId);
             dispatch({ type: VIDEO_UPLOAD_USERS, payload: updatedVideo });
 
             toast.success('Xóa video thành công', {
@@ -58,7 +66,6 @@ const VideoUploadUsers = () => {
                 position: 'top-left',
             });
         } catch (error) {
-            console.log(error);
             toast.error('Xóa video thất bại', {
                 autoClose: 3000,
                 position: 'top-left',
