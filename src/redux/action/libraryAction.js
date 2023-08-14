@@ -20,6 +20,10 @@ export const getLibrary = (videos) => (dispatch) => {
             payload: videos,
         });
         dispatch({
+            type: LIBRARY_DISLIKE,
+            payload: videos,
+        });
+        dispatch({
             type: LIBRARY_SUBRIPTS,
             payload: videos,
         });

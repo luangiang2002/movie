@@ -71,21 +71,19 @@ const VideoApp = () => {
         await toggleSubscription(id, reactionType, setSubscribed, userId, videoID);
     };
     useEffect(() => {
-        const fetchComments = async () => {
+        (async () => {
             const videos = await GetVideoData();
             dispatch(videoUpload(videos));
-        };
-        fetchComments();
+        })();
     }, [dispatch]);
 
     const { comments } = useSelector((state) => state.addcomment);
 
     useEffect(() => {
-        const fetchComments = async () => {
+        (async () => {
             const comments = await getCommentsByVideoId(id);
             dispatch(CommentAction(comments));
-        };
-        fetchComments();
+        })();
     }, [dispatch, id]);
     const location = useLocation();
 

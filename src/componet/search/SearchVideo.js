@@ -22,11 +22,10 @@ const SearchVideo = () => {
     }, [videos, id]);
 
     useEffect(() => {
-        const fetchComments = async () => {
+        (async () => {
             const videos = await GetVideoData();
             dispatch(videoUpload(videos));
-        };
-        fetchComments();
+        })();
     }, [dispatch]);
     useEffect(() => {
         dispatch(getVideoByCategory(id));

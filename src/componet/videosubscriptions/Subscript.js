@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './subcript.scss';
 import moment from 'moment';
-const Subscript = ({ videosb, handleVideoClicksb, hadleYoutubesb }) => {
+import { getSubscriptVideosForUser } from '../../redux/action/libraryAction';
+const Subscript = ({ videosb, handleVideoClicksb, hadleYoutubesb, firebaseId, dispatch }) => {
     const sortedWatchedsub = videosb.subripts.sort((a, b) => {
         const dateA = new Date(a.watchedAt);
         const dateB = new Date(b.watchedAt);
         return dateB - dateA;
     });
+    useEffect(() => {
+        dispatch(getSubscriptVideosForUser(firebaseId));
+    }, [dispatch, firebaseId]);
+
     return (
         <div className="library">
             <div className="library_list">
@@ -28,14 +33,14 @@ const Subscript = ({ videosb, handleVideoClicksb, hadleYoutubesb }) => {
                                     <h4 onClick={() => hadleYoutubesb(video)}>{video.title}</h4>
                                     <p className="library_video--detail_author">{video.channelTitle}</p>
                                     <p className="library_video--detail_sub">
-                                        đã like : {moment(video.watchedAt).fromNow()}{' '}
+                                        đã subscript : {moment(video.watchedAt).fromNow()}{' '}
                                     </p>
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div>Bạn chưa xem video </div>
+                    <div>Bạn chưa đăng kí kênh nào </div>
                 )}
             </div>
         </div>

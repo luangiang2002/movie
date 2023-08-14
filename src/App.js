@@ -123,6 +123,8 @@ function App() {
                             videosb={video}
                             handleVideoClicksb={handleVideoClick}
                             hadleYoutubesb={hadleYoutube}
+                            dispatch={dispatch}
+                            firebaseId={firebaseId}
                         />
                     }
                 ></Route>

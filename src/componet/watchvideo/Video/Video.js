@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { LIBRARY_VIDEO, VIDEO_COMMENT_SUCCESS, VIDEO_INTER } from '../../../redux/actionType';
+import { VIDEO_COMMENT_SUCCESS, VIDEO_INTER } from '../../../redux/actionType';
 import { CommentAction } from '../../../redux/action/commentAction';
 import CommentApp from '../../App/HomeApp/videoApp/CommentApp';
 import { getChannel } from '../../../redux/action/videoAction';
@@ -89,11 +89,10 @@ const Video = ({ id, video }) => {
     };
 
     useEffect(() => {
-        const fetchComments = async () => {
+        (async () => {
             const comments = await getCommentsByVideoId(id);
             dispatch(CommentAction(comments));
-        };
-        fetchComments();
+        })();
     }, [dispatch, id]);
     useEffect(() => {
         dispatch(getChannel(channeId));
