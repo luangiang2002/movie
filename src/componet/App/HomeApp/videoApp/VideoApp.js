@@ -7,8 +7,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import CommentApp from './CommentApp';
-import { GetVideoData, getByIdVideo, getCommentsByVideoId } from './GetData';
-import { LIBRARY_VIDEO, VIDEO_COMMENT_SUCCESS } from '../../../../redux/actionType';
+import { GetVideoData, getByIdVideo, getByIdVideos, getCommentsByVideoId } from './GetData';
+import { VIDEO_COMMENT_SUCCESS, VIDEO_UPDATE_SUCCESS } from '../../../../redux/actionType';
 import { CommentAction } from '../../../../redux/action/commentAction';
 import { videoUpload } from '../../../../redux/action/VideoActionApp';
 import ReactPlayer from 'react-player';
@@ -20,8 +20,6 @@ const VideoApp = () => {
     const selectedVideo = videos.find((video) => video.videoId === id);
     const { urlAvatar } = useSelector((state) => state.imageAvatar);
     const avatarChannel = useSelector((state) => state.imageAvatar);
-    const { watchedVideos } = useSelector((state) => state.library);
-    const dislikeLike = watchedVideos.find((video) => video.videoId === id);
     const [subscribed, setSubscribed] = useState(false);
     const [comment, setComment] = useState('');
     const userId = avatarChannel.firebaseId;
@@ -58,7 +56,7 @@ const VideoApp = () => {
             return;
         }
         const dataLikeDislike = await GethandleLikeDislike(videoId, reactionType, userId);
-        dispatch({ type: LIBRARY_VIDEO, payload: dataLikeDislike });
+        dispatch({ type: VIDEO_UPDATE_SUCCESS, payload: dataLikeDislike });
     };
     const handletoggleSubscription = async (video, reactionType) => {
         if (!userInfo) {
@@ -69,7 +67,8 @@ const VideoApp = () => {
             return;
         }
         const id = await getByIdVideo(video.videoId);
-        await toggleSubscription(id, reactionType, setSubscribed, userId);
+        const videoID = await getByIdVideos(video.videoId);
+        await toggleSubscription(id, reactionType, setSubscribed, userId, videoID);
     };
     useEffect(() => {
         const fetchComments = async () => {
@@ -96,14 +95,14 @@ const VideoApp = () => {
     }, [dispatch, location, userId]);
 
     useEffect(() => {
-        if (dislikeLike?.subscript === 1 && dislikeLike?.firebaseID === userId) {
+        if (selectedVideo?.subscribedby?.includes(userId)) {
             setSubscribed(true);
         } else {
             setSubscribed(false);
         }
-    }, [dislikeLike?.firebaseID, dislikeLike?.subscript, userId]);
-    const likeButtonClassName = dislikeLike?.like === 1 ? 'like' : '';
-    const dislikeButtonClassName = dislikeLike?.dislike === 1 ? 'dislike' : '';
+    }, [selectedVideo?.subscribedby, userId]);
+    const likeButtonClassName = selectedVideo?.likedBy?.includes(userId) ? 'like' : '';
+    const dislikeButtonClassName = selectedVideo?.dislikedBy?.includes(userId) ? 'dislike' : '';
     const handchanle = (channelID) => {
         navigate(`/channelapp/${channelID}`);
     };
@@ -156,7 +155,7 @@ const VideoApp = () => {
                                         className={`like-button ${likeButtonClassName}`}
                                         onClick={() => handleLikeDislike(selectedVideo.videoId, 'like')}
                                     />
-                                    <span>{dislikeLike?.like}</span>
+                                    <span>{selectedVideo?.like}</span>
                                 </p>
                                 <hr />
                                 <p>
@@ -164,7 +163,7 @@ const VideoApp = () => {
                                         className={`like-button ${dislikeButtonClassName}`}
                                         onClick={() => handleLikeDislike(selectedVideo.videoId, 'dislike')}
                                     />
-                                    <span>{dislikeLike?.dislike}</span>
+                                    <span>{selectedVideo?.dislike}</span>
                                 </p>
                             </div>
                         </div>

@@ -1,5 +1,12 @@
 import { db } from '../../firebase/fibefire';
-import { LIBRARY_DISLIKE, LIBRARY_LIKE, LIBRARY_SUBRIPTS, LIBRARY_VIDEO, VIDEO_UPLOAD_USERS } from '../actionType';
+import {
+    LIBRARY_DISLIKE,
+    LIBRARY_LIKE,
+    LIBRARY_SUBRIPTS,
+    LIBRARY_VIDEO,
+    VIDEO_INTER,
+    VIDEO_UPLOAD_USERS,
+} from '../actionType';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 export const getLibrary = (videos) => (dispatch) => {
@@ -17,7 +24,7 @@ export const getLibrary = (videos) => (dispatch) => {
             payload: videos,
         });
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 };
 
@@ -37,7 +44,7 @@ export const getWatchedVideosForUser = (firebaseID) => async (dispatch) => {
             payload: watchedVideosData,
         });
     } catch (error) {
-        console.error('Error fetching watched videos: ', error);
+        throw error;
     }
 };
 export const getLikeVideosForUser = (firebaseId) => async (dispatch) => {
@@ -56,7 +63,7 @@ export const getLikeVideosForUser = (firebaseId) => async (dispatch) => {
             payload: likedVideos,
         });
     } catch (error) {
-        console.error('Error fetching watched videos: ', error);
+        throw error;
     }
 };
 export const getDisLikeVideosForUser = (firebaseId) => async (dispatch) => {
@@ -75,7 +82,7 @@ export const getDisLikeVideosForUser = (firebaseId) => async (dispatch) => {
             payload: dislikedVideos,
         });
     } catch (error) {
-        console.error('Error fetching watched videos: ', error);
+        throw error;
     }
 };
 export const getSubscriptVideosForUser = (firebaseId) => async (dispatch) => {
@@ -94,7 +101,7 @@ export const getSubscriptVideosForUser = (firebaseId) => async (dispatch) => {
             payload: subripts,
         });
     } catch (error) {
-        console.error('Error fetching watched videos: ', error);
+        throw error;
     }
 };
 export const getVideoUploadUser = (firebaseId) => async (dispatch) => {
@@ -113,6 +120,25 @@ export const getVideoUploadUser = (firebaseId) => async (dispatch) => {
             payload: video,
         });
     } catch (error) {
-        console.error('Error fetching watched videos: ', error);
+        throw error;
+    }
+};
+export const getVideoInter = (videoId) => async (dispatch) => {
+    try {
+        const videos = [];
+        const likedVideosRef = collection(db, 'videoInteractions');
+        const q = query(likedVideosRef, where('videoId', '==', videoId));
+
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            const videoData = doc.data();
+            videos.push(videoData);
+        });
+        dispatch({
+            type: VIDEO_INTER,
+            payload: videos,
+        });
+    } catch (error) {
+        throw error;
     }
 };

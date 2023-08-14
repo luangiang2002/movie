@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { LIBRARY_VIDEO, VIDEO_COMMENT_SUCCESS } from '../../../redux/actionType';
+import { LIBRARY_VIDEO, VIDEO_COMMENT_SUCCESS, VIDEO_INTER } from '../../../redux/actionType';
 import { CommentAction } from '../../../redux/action/commentAction';
 import CommentApp from '../../App/HomeApp/videoApp/CommentApp';
 import { getChannel } from '../../../redux/action/videoAction';
-import { getWatchedVideosForUser } from '../../../redux/action/libraryAction';
+import { getVideoInter, getWatchedVideosForUser } from '../../../redux/action/libraryAction';
 import { GethandleLikeDislike, gethandleComment, toggleSubscription } from '../../comment/CommentDataFibe';
-import { getByIdVideo, getCommentsByVideoId } from '../../App/HomeApp/videoApp/GetData';
+import { getByIdVideo, getCommentsByVideoId, getvideoInter } from '../../App/HomeApp/videoApp/GetData';
 
 const Video = ({ id, video }) => {
     const dispatch = useDispatch();
@@ -24,8 +24,8 @@ const Video = ({ id, video }) => {
     const channeId = _video?.snippet?.channelId;
     const thumbnailsurl = _video?.snippet?.thumbnails?.default?.url;
     const { comments } = useSelector((state) => state?.addcomment);
-    const { watchedVideos } = useSelector((state) => state.library);
-    const dislikeLike = watchedVideos.find((video) => video.videoId === id);
+    const { videos } = useSelector((state) => state.library);
+    const dislikeLike = videos.find((video) => video.videoId === id);
     const userId = avatarChannel.firebaseId;
     const [subscribed, setSubscribed] = useState(false);
     const userInfo = JSON.parse(localStorage.getItem('watch-user'));
@@ -71,7 +71,7 @@ const Video = ({ id, video }) => {
             return;
         }
         const dataLikeDislike = await GethandleLikeDislike(videoId, reactionType, userId);
-        dispatch({ type: LIBRARY_VIDEO, payload: dataLikeDislike });
+        dispatch({ type: VIDEO_INTER, payload: dataLikeDislike });
     };
 
     const handletoggleSubscription = async (videoId, reactionType) => {
@@ -83,7 +83,9 @@ const Video = ({ id, video }) => {
             return;
         }
         const id = await getByIdVideo(videoId);
-        await toggleSubscription(id, reactionType, setSubscribed, userId);
+        const videoInter = await getvideoInter(videoId);
+        const videoID = '';
+        await toggleSubscription(id, reactionType, setSubscribed, userId, videoID, videoInter);
     };
 
     useEffect(() => {
@@ -96,18 +98,19 @@ const Video = ({ id, video }) => {
     useEffect(() => {
         dispatch(getChannel(channeId));
         dispatch(getWatchedVideosForUser(userId));
+        dispatch(getVideoInter(id));
     }, [dispatch, id, channeId, userId]);
 
     useEffect(() => {
-        if (dislikeLike?.subscript === 1 && dislikeLike?.firebaseID === userId) {
+        if (dislikeLike?.subscribedby?.includes(userId)) {
             setSubscribed(true);
         } else {
             setSubscribed(false);
         }
-    }, [dislikeLike?.firebaseID, dislikeLike?.subscript, userId]);
+    }, [dislikeLike?.subscribedby, userId]);
 
-    const likeButtonClassName = dislikeLike?.like === 1 ? 'like' : '';
-    const dislikeButtonClassName = dislikeLike?.dislike === 1 ? 'dislike' : '';
+    const likeButtonClassName = dislikeLike?.likedBy?.includes(userId) ? 'like' : '';
+    const dislikeButtonClassName = dislikeLike?.dislikedBy?.includes(userId) ? 'dislike' : '';
     return (
         <>
             {!loading && (
