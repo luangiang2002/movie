@@ -3,21 +3,20 @@ import './short.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { getShort } from '../../redux/action/toggleAction';
 import AutoplayVideo from './AutoplayVideo';
-const Short = ({ sidebar, handleToggleSidebar }) => {
+import { PropagateLoader } from 'react-spinners';
+const Short = () => {
     const { short, loading } = useSelector((state) => state.short);
-
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getShort());
     }, [dispatch]);
-    const videoIds = ['GStRLppm_0k', '3CI20GQhekE', 'hiE2su_BapQ', '3u9Q-Z672w4', '-DWksaMuQOw', 'hPG2nU0UsTA'];
     return (
         <div className="short">
             <div className="short_video">
                 {!loading && short && short?.short ? (
-                    <AutoplayVideo videoIds={videoIds} video={short} />
+                    <AutoplayVideo video={short} />
                 ) : (
-                    <p>loading...</p>
+                    <PropagateLoader color="#36d7b7" />
                 )}
             </div>
         </div>

@@ -7,3 +7,11 @@ export const request = axios.create({
         'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com',
     },
 });
+
+export const short = axios.create({
+    baseURL: 'https://youtube-v3-alternative.p.rapidapi.com',
+    headers: {
+        'X-RapidAPI-Key': '57fdf0c0b6msh77754954949348fp1a0da7jsnc296030e650c',
+        'X-RapidAPI-Host': 'youtube-v3-alternative.p.rapidapi.com',
+    },
+});

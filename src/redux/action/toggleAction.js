@@ -1,26 +1,24 @@
-import { request } from '../../rapidApi/api';
+import { short } from '../../rapidApi/api';
 import { SHORT_LIST_FAIL, SHORT_LIST_REQUEST, SHORT_LIST_SUCCESS } from '../actionType';
 export const getShort = (id) => async (dispatch) => {
-    const now = new Date();
-    const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     try {
         dispatch({
             type: SHORT_LIST_REQUEST,
         });
-        const res = await request.get(`/search`, {
+        const res = await short.get(`/search`, {
             params: {
-                part: 'snippet',
-                maxResults: '20',
+                query: 'tiktok',
+                geo: 'US',
+                lang: 'en',
                 type: 'video',
-                videoDuration: 'short',
-                order: 'date',
-                publishedAfter: oneMonthAgo.toISOString(),
+                duration: 'short',
+                upload_date: 'month',
             },
         });
         dispatch({
             type: SHORT_LIST_SUCCESS,
             payload: {
-                short: res.data.items,
+                short: res.data.data,
             },
         });
     } catch (error) {

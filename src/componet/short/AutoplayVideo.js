@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import ReactPlayer from 'react-player';
-const AutoplayVideo = ({ videoIds, video }) => {
+const AutoplayVideo = ({ video }) => {
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     const handleVideoChange = (inView, index) => {
         if (inView) {
@@ -34,8 +34,8 @@ const AutoplayVideo = ({ videoIds, video }) => {
                         loop={true}
                         volume={1}
                         controls={true}
-                        muted
-                        url={`//www.youtube.com/embed/${videoId.id.videoId}?autoplay=1`}
+                        muted={false}
+                        url={`//www.youtube.com/embed/${videoId.videoId}?autoplay=1`}
                         className="short_video_inview--player"
                         onPlay={() => handleVideoPlay(index)}
                         onPause={handleVideoPause}
