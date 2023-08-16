@@ -17,6 +17,7 @@
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.45.4",
     "react-icons": "^4.10.1",
     "react-in-viewport": "^1.0.0-alpha.30",
     "react-infinite-scroll-component": "^6.1.0",
