@@ -1,0 +1,92 @@
+.signup {
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    width: 100vw;
+    height: 100vh;
+
+    &_form {
+        width: 500px;
+
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        border-radius: 5px;
+        padding: 20px;
+
+        h1 {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        input {
+            height: 35px;
+            outline: none;
+            border: 1px solid #48bfe3;
+            padding: 0 10px;
+            width: 100%;
+            border-radius: 10px;
+        }
+        p {
+            margin-top: 20px;
+        }
+        span {
+            color: red;
+        }
+        button {
+            width: 100%;
+            height: 35px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4ea8de;
+            margin: 20px 0;
+            color: white;
+            opacity: 0.7;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        &_google {
+            button {
+                width: 100%;
+                height: 35px;
+                background-color: white;
+                border: 1px solid #e9ecef;
+                border-radius: 5px;
+                margin: 10px 0;
+                color: black;
+            }
+        }
+
+        &_gignup {
+            font-size: 15px;
+            text-align: center;
+        }
+
+        &--icon {
+            position: relative;
+
+            svg {
+                position: absolute;
+                right: 5%;
+                top: 30%;
+            }
+        }
+    }
+}
+
+a {
+    text-decoration: none;
+    color: #7400b8;
+}
+
+@media (max-width: 767px) {
+    .signup {
+        &_form {
+            width: 100%;
+            height: 100vh;
+        }
+    }
+}

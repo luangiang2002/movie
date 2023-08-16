@@ -23,8 +23,8 @@ export const getVideoByCategory = (keyword) => async (dispatch) => {
             params: {
                 q: keyword,
                 part: 'snippet,id',
-                regionCode: 'US',
-                maxResults: '40',
+                maxResults: '5',
+                randomParam: Math.random(),
             },
         });
         dispatch({

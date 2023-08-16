@@ -1,5 +1,5 @@
 import { doc, onSnapshot } from 'firebase/firestore';
-import { getUserIdByEmail } from '../../componet/AvatarLogin/FirebaseData';
+import { getUserIdByEmail } from '../../Components/AvatarLogin/FirebaseData';
 import {
     UPDATE_AVATAR,
     UPDATE_FIREBASE_ID,

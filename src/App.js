@@ -1,35 +1,35 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import HomePage from './componet/HomePage';
+import HomePage from './Components/HomePage';
 import { useEffect, useState } from 'react';
-import SingUp from './authentica/SingUp';
-import Singout from './authentica/Singout';
-import ResetPassword from './authentica/ResetPassword';
-import Login from './authentica/Login';
-import SearchVideo from './componet/search/SearchVideo';
-import HomeVideo from './componet/watchvideo/HomeVideo';
-import Channel from './componet/channelVideo/Channel';
-import Short from './componet/short/Short';
+import SingUp from './Authentication/SingUp';
+import Singout from './Authentication/Singout';
+import ResetPassword from './Authentication/ResetPassword';
+import Login from './Authentication/Login';
+import SearchVideo from './Components/Search/SearchVideo';
+import HomeVideo from './Components/WatchVideo/HomeVideo';
+import Short from './Components/Short/Short';
 import { useDispatch, useSelector } from 'react-redux';
-import Header from './componet/header/Header';
-import ToggleSideBar from './componet/sidebar/ToggleSideBar';
-import UploadVideo from './componet/UploadVideo/UploadVideo';
-import ComponetnError from './componet/componenError/ComponetnError';
-import HomeApp from './componet/App/HomeApp/HomeApp';
-import VideoApp from './componet/App/HomeApp/videoApp/VideoApp';
-import Library from './componet/Lirbary/Library';
-import VideoAll from './componet/Lirbary/libraryVideoAll/VideoAll';
-import LikeAll from './componet/Lirbary/libraryVideoAll/LikeAll';
-import DisLikeAll from './componet/Lirbary/libraryVideoAll/DislikeAll';
-import Subscript from './componet/videosubscriptions/Subscript';
-import VideoUploadUsers from './componet/VideoUploadUsers/VideoUploadUsers';
-import ChannelApp from './componet/App/channelapp/ChannelApp';
+import Header from './Components/Header/Header';
+import UploadVideo from './Components/UploadVideo/UploadVideo';
+import HomeApp from './Components/App/HomeApp/HomeApp';
+import VideoApp from './Components/App/HomeApp/VideoApp/VideoApp';
+import Library from './Components/Lirbary/Library';
+import VideoAll from './Components/Lirbary/libraryVideoAll/VideoAll';
+import LikeAll from './Components/Lirbary/libraryVideoAll/LikeAll';
+import DisLikeAll from './Components/Lirbary/libraryVideoAll/DislikeAll';
+import Subscript from './Components/VideoSubscriptions/Subscript';
+import VideoUploadUsers from './Components/VideoUploadUsers/VideoUploadUsers';
+import ChannelApp from './Components/App/ChannelApp/ChannelApp';
 import { getAvatar } from './redux/action/avatarAction';
 import { getSubscriptVideosForUser, getWatchedVideosForUser } from './redux/action/libraryAction';
+import ToggleSideBar from './Components/Sidebar/ToggleSideBar';
+import ComponetnError from './Components/ComponentError/ComponentError';
+import Channel from './Components/Channel/Channel';
 
 function App() {
-    const [sidebar, toggleSidebar] = useState(false);
+    const [SlideBar, toggleSidebar] = useState(false);
     const [hideHeader, setHideHeader] = useState(false);
     const location = useLocation();
     const handleToggleSidebar = () => toggleSidebar((value) => !value);
@@ -53,7 +53,8 @@ function App() {
 
     useEffect(() => {
         dispatch(getAvatar(userInfo, avatarChannel.urlAvatar));
-    }, [dispatch, userInfo, avatarChannel.urlAvatar]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, userInfo]);
 
     useEffect(() => {
         const hideHeaderOnLoginAndSignup = ['/login', '/signup', 'signout', '/reset'].includes(location.pathname);
@@ -63,27 +64,27 @@ function App() {
     return (
         <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
             {!hideHeader && <Header handleToggleSidebar={handleToggleSidebar} setDarkMode={setDarkMode} />}
-            <ToggleSideBar sidebar={sidebar} handleToggleSidebar={handleToggleSidebar} />
+            <ToggleSideBar SlideBar={SlideBar} handleToggleSidebar={handleToggleSidebar} />
             <Routes>
                 <Route
                     path="/"
-                    element={<HomePage handleToggleSidebar={handleToggleSidebar} sidebar={sidebar}></HomePage>}
+                    element={<HomePage handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></HomePage>}
                 ></Route>
                 <Route
                     path="/homevideo/:id"
-                    element={<HomeVideo handleToggleSidebar={handleToggleSidebar} sidebar={sidebar}></HomeVideo>}
+                    element={<HomeVideo handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></HomeVideo>}
                 ></Route>
                 <Route
                     path="/channel/:id"
-                    element={<Channel handleToggleSidebar={handleToggleSidebar} sidebar={sidebar}></Channel>}
+                    element={<Channel handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></Channel>}
                 ></Route>
                 <Route
                     path="/search/:id"
-                    element={<SearchVideo handleToggleSidebar={handleToggleSidebar} sidebar={sidebar}></SearchVideo>}
+                    element={<SearchVideo handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></SearchVideo>}
                 ></Route>
                 <Route
                     path="/sort"
-                    element={<Short handleToggleSidebar={handleToggleSidebar} sidebar={sidebar}></Short>}
+                    element={<Short handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></Short>}
                 ></Route>
 
                 <Route path="/login" element={<Login />}></Route>
