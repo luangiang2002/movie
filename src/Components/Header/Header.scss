@@ -7,7 +7,7 @@
     position: fixed;
     z-index: 999;
     width: 100%;
-    padding: 10px 40px;
+    padding: 10px 20px;
     background-color: white;
     top: 0;
 
@@ -63,8 +63,6 @@
 
 @media (max-width: $breakpoints-small) {
     .header {
-        padding: 15px;
-
         &_logo {
             img {
                 display: none;

@@ -8,16 +8,15 @@ const PageVideo = ({ video }) => {
     const { firebaseId } = useSelector((state) => state.imageAvatar);
     const navigate = useNavigate();
     const channelId = video?.snippet?.channelId;
-    const VideoId = video?.id?.videoId;
     const dispatch = useDispatch();
     const handleVideoClick = async (video) => {
-        await getYoutubeClick(video, firebaseId, dispatch);
-        navigate(`/homevideo/${VideoId}`);
+        const id = video.id;
+        await getYoutubeClick(video, id, firebaseId, dispatch);
+        navigate(`/homevideo/${video?.id}`);
     };
     const handleChannel = () => {
         navigate(`/channel/${channelId}`);
     };
-
     return (
         <div className=" pagevideo">
             <div className="pagevideo_video">
