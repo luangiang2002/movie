@@ -3,6 +3,7 @@
 .pagevideo {
     display: block;
     &_video {
+        cursor: pointer;
         img {
             width: 100%;
             object-fit: contain;
@@ -10,6 +11,9 @@
 
         &--duration {
             position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+
             p {
                 position: absolute;
                 right: 3%;
@@ -32,22 +36,40 @@
 
             div {
                 width: 100%;
-
-                h4 {
-                    font-size: 18px;
-                    font-weight: 500;
-                    margin-bottom: 0;
-                    color: $color-titleparent;
-                }
-
-                p {
-                    margin-bottom: 0;
-                    color: $color-titlechild;
-                }
             }
         }
     }
+
+    &:hover {
+        transform: scale(1.01);
+        transition: all 0.2s linear;
+    }
 }
+
+.pagevideo__title-wrapper {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pagevideo_title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 0;
+    color: $color-titleparent;
+}
+.pagevideo__author-text,
+.pagevideo_sub {
+    margin-bottom: 0;
+    font-size: 14px;
+    color: $color-titlechild;
+}
+.pagevideo__author-text:hover {
+    color: #111;
+}
+
 .lazy-load-image-background {
     display: block !important;
 }

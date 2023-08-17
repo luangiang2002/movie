@@ -7,6 +7,7 @@ import {
     VideoCHANNEL,
     VideoReducer,
     VideoidReducer,
+    homeVideoReducer,
     selectedVideoReducer,
 } from './reducer/videoReducer';
 import { ShortReducer } from './reducer/ToggleReducer';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     addcomment: commentReducer,
     library: LibraryReducer,
     videoid: VideoidReducer,
+    homeVideos: homeVideoReducer,
 });
 
 const store = createStore(rootReducer, {}, composeWithDevTools(applyMiddleware(thunk)));

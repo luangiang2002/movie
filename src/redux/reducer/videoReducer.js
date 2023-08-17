@@ -3,6 +3,9 @@ import {
     CHANNEL_VIDEO_FAIL,
     CHANNEL_VIDEO_REQUEST,
     CHANNEL_VIDEO_SUCCESS,
+    HOME_VIDEOS_FAIL,
+    HOME_VIDEOS_REQUEST,
+    HOME_VIDEOS_SUCCESS,
     RELATED_VIDEO_FAIL,
     RELATED_VIDEO_REQUEST,
     RELATED_VIDEO_SUCCESS,
@@ -29,6 +32,7 @@ export const selectedVideoReducer = (state = { video: [], loading: true, ActiveC
                 video: payload,
                 loading: false,
                 ActiveCategory: payload.category,
+                nextPageToken: payload.nextPageToken,
             };
         case SEARCH_VIDEO_FAIL:
             return {
@@ -144,6 +148,42 @@ export const VideoidReducer = (state = { videoid: [], loading: true }, action) =
                 error: payload,
             };
 
+        default:
+            return state;
+    }
+};
+
+const initialState = {
+    videos: [],
+    loading: true,
+    nextPageToken: null,
+    activeCategory: 'All',
+};
+
+export const homeVideoReducer = (state = initialState, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case HOME_VIDEOS_SUCCESS:
+            return {
+                ...state,
+                videos:
+                    state.activeCategory === payload.category ? [...state.videos, ...payload.videos] : payload.videos,
+                loading: false,
+                nextPageToken: payload.nextPageToken,
+                activeCategory: payload.category,
+            };
+        case HOME_VIDEOS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+            };
+        case HOME_VIDEOS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
         default:
             return state;
     }

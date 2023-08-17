@@ -34,17 +34,17 @@ export const gethandleVideoClick = async (video, firebaseId, dispatch) => {
     }
 };
 
-export const getYoutubeClick = async (video, firebaseId, dispatch) => {
+export const getYoutubeClick = async (video, id, firebaseId, dispatch) => {
     try {
-        if (!userInfo && !video.id.videoId) {
+        if (!userInfo && !id) {
             return;
         }
         const watchedVideosRef = collection(db, 'watchedVideos');
         const querySnapshot = await getDocs(
-            query(watchedVideosRef, where('videoId', '==', video.id.videoId), where('firebaseID', '==', firebaseId)),
+            query(watchedVideosRef, where('videoId', '==', id), where('firebaseID', '==', firebaseId)),
         );
         const videoData = {
-            videoId: video.id.videoId,
+            videoId: id,
             channelTitle: video.snippet.channelTitle,
             watchedAt: currentTime,
             thumbnail: video.snippet.thumbnails.default.url,
@@ -59,7 +59,7 @@ export const getYoutubeClick = async (video, firebaseId, dispatch) => {
         }
 
         const videoInter = collection(db, 'videoInteractions');
-        const videoSInter = await getDocs(query(videoInter, where('videoId', '==', video.id.videoId)));
+        const videoSInter = await getDocs(query(videoInter, where('videoId', '==', id)));
         if (videoSInter.empty) {
             await addDoc(videoInter, videoData);
         }

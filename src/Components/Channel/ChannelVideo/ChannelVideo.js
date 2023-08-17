@@ -10,7 +10,8 @@ const ChannelVideo = ({ video }) => {
     const { firebaseId } = useSelector((state) => state.imageAvatar);
     const dispatch = useDispatch();
     const handleVideo = async () => {
-        await getYoutubeClick(video, firebaseId, dispatch);
+        const id = video?.id?.videoId;
+        await getYoutubeClick(video, id, firebaseId, dispatch);
         navigate(`/homevideo/${video?.id?.videoId}`);
     };
     return (

@@ -14,7 +14,8 @@ const Search = ({ video }) => {
     const dispatch = useDispatch();
 
     const handleVideoClick = async () => {
-        await getYoutubeClick(video, firebaseId, dispatch);
+        const id = VideoId;
+        await getYoutubeClick(video, id, firebaseId, dispatch);
         navigate(`/homevideo/${VideoId}`);
     };
     const handleChannel = () => {
