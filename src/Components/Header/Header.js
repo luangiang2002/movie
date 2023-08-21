@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineSearch } from 'react-icons/ai';
 import './Header.scss';
@@ -40,6 +40,7 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
             navigate('/login');
         }
     }, [isLoggedIn, navigate]);
+
     const urlAvatar = useSelector((state) => state.imageAvatar);
 
     const handleUpload = () => {
@@ -49,6 +50,20 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
             navigate('/modal');
         }
     };
+    const avatarRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (avatarRef.current && !avatarRef.current.contains(event.target)) {
+                setShowAvatar(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
     return (
         <div className=" header ">
             <div className="header_logo">
@@ -80,7 +95,7 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
                 )}
             </div>
             {isLoggedIn && showAvatar && (
-                <div className="avatar">
+                <div ref={avatarRef} className="avatar">
                     <Avatar userInfo={userInfo} setDarkMode={setDarkMode} />
                 </div>
             )}

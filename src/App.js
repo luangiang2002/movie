@@ -27,6 +27,8 @@ import { getSubscriptVideosForUser, getWatchedVideosForUser } from './redux/acti
 import ToggleSideBar from './Components/Sidebar/ToggleSideBar';
 import ComponetnError from './Components/ComponentError/ComponentError';
 import Channel from './Components/Channel/Channel';
+import { db } from './firebase/fibefire';
+import { doc, getDoc, setDoc } from '@firebase/firestore';
 
 function App() {
     const [SlideBar, toggleSidebar] = useState(false);
@@ -61,9 +63,28 @@ function App() {
         setHideHeader(hideHeaderOnLoginAndSignup);
     }, [location]);
     const [isDarkMode, setDarkMode] = useState(false);
+    const handleDarkModeToggle = async () => {
+        const darkModeValue = !isDarkMode;
+
+        const settingsDocRef = doc(db, 'settings', 'darkMode');
+        await setDoc(settingsDocRef, { value: darkModeValue });
+
+        setDarkMode(darkModeValue);
+    };
+
+    useEffect(() => {
+        const darkModeRef = doc(db, 'settings', 'darkMode');
+        getDoc(darkModeRef).then((doc) => {
+            if (doc.exists()) {
+                const darkModeValue = doc.data().value;
+                setDarkMode(darkModeValue);
+            }
+        });
+    }, []);
+
     return (
         <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
-            {!hideHeader && <Header handleToggleSidebar={handleToggleSidebar} setDarkMode={setDarkMode} />}
+            {!hideHeader && <Header handleToggleSidebar={handleToggleSidebar} setDarkMode={handleDarkModeToggle} />}
             <ToggleSideBar SlideBar={SlideBar} handleToggleSidebar={handleToggleSidebar} />
             <Routes>
                 <Route
@@ -83,7 +104,7 @@ function App() {
                     element={<SearchVideo handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></SearchVideo>}
                 ></Route>
                 <Route
-                    path="/sort"
+                    path="/short"
                     element={<Short handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></Short>}
                 ></Route>
 
