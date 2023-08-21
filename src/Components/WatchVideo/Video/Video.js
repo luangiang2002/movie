@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './Video.scss';
-import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import ShowMoreText from 'react-show-more-text';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { VIDEO_COMMENT_SUCCESS, VIDEO_INTER } from '../../../redux/actionType';
+import { VIDEO_COMMENT_SUCCESS } from '../../../redux/actionType';
 import { CommentAction } from '../../../redux/action/commentAction';
 import CommentApp from '../../App/HomeApp/VideoApp/CommentApp';
 import { getChannel } from '../../../redux/action/videoAction';
 import { getVideoInter, getWatchedVideosForUser } from '../../../redux/action/libraryAction';
-import { GethandleLikeDislike, gethandleComment, toggleSubscription } from '../../comment/CommentDataFibe';
+import { gethandleComment, toggleSubscription } from '../../comment/CommentDataFibe';
 import { getByIdVideo, getCommentsByVideoId, getvideoInter } from '../../App/HomeApp/VideoApp/GetData';
+import LikeDislike from '../../LikeDislike';
 
 const Video = ({ id, video }) => {
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Video = ({ id, video }) => {
     const thumbnailsurl = _video?.snippet?.thumbnails?.default?.url;
     const { comments } = useSelector((state) => state?.addcomment);
     const { videos } = useSelector((state) => state.library);
-    const dislikeLike = videos.find((video) => video.videoId === id);
+    const interactions = videos.find((video) => video.videoId === id);
     const userId = avatarChannel.firebaseId;
     const [subscribed, setSubscribed] = useState(false);
     const userInfo = JSON.parse(localStorage.getItem('watch-user'));
@@ -42,7 +42,7 @@ const Video = ({ id, video }) => {
         if (!userInfo || !userInfo.email) {
             toast.error('Bạn cần đăng nhập để bình luận', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
             return;
         }
@@ -61,24 +61,11 @@ const Video = ({ id, video }) => {
             return;
         }
     };
-
-    const handleLikeDislike = async (videoId, reactionType) => {
-        if (!userInfo) {
-            toast.error('Bạn cần đăng nhập để like video', {
-                autoClose: 3000,
-                position: 'top-left',
-            });
-            return;
-        }
-        const dataLikeDislike = await GethandleLikeDislike(videoId, reactionType, userId);
-        dispatch({ type: VIDEO_INTER, payload: dataLikeDislike });
-    };
-
     const handletoggleSubscription = async (videoId, reactionType) => {
         if (!userInfo) {
             toast.error('Bạn cần đăng nhập để đăng kí', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
             return;
         }
@@ -101,15 +88,12 @@ const Video = ({ id, video }) => {
     }, [dispatch, id, channeId, userId]);
 
     useEffect(() => {
-        if (dislikeLike?.subscribedby?.includes(userId)) {
+        if (interactions?.subscribedby?.includes(userId)) {
             setSubscribed(true);
         } else {
             setSubscribed(false);
         }
-    }, [dislikeLike?.subscribedby, userId]);
-
-    const likeButtonClassName = dislikeLike?.likedBy?.includes(userId) ? 'like' : '';
-    const dislikeButtonClassName = dislikeLike?.dislikedBy?.includes(userId) ? 'dislike' : '';
+    }, [interactions?.subscribedby, userId]);
     return (
         <>
             {!loading && (
@@ -147,21 +131,12 @@ const Video = ({ id, video }) => {
                                         )}
                                     </div>
                                     <div className="videoapp_author--like d-flex">
-                                        <p>
-                                            <AiFillLike
-                                                className={`like-button ${likeButtonClassName}`}
-                                                onClick={() => handleLikeDislike(id, 'like')}
-                                            />
-                                            <span>{dislikeLike?.like}</span>
-                                        </p>
-                                        <hr />
-                                        <p>
-                                            <AiFillDislike
-                                                className={`like-button ${dislikeButtonClassName}`}
-                                                onClick={() => handleLikeDislike(id, 'dislike')}
-                                            />
-                                            <span>{dislikeLike?.dislike}</span>
-                                        </p>
+                                        <LikeDislike
+                                            selectedVideo={interactions}
+                                            id={id}
+                                            userInfo={userInfo}
+                                            userId={userId}
+                                        />
                                     </div>
                                 </div>
                                 <div className="video_description">

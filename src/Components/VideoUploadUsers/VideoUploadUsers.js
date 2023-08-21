@@ -63,12 +63,12 @@ const VideoUploadUsers = () => {
 
             toast.success('Xóa video thành công', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
         } catch (error) {
             toast.error('Xóa video thất bại', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
         }
     };

@@ -30,6 +30,7 @@ function HomePage() {
             dispatch(getPopularVideo());
         } else {
             dispatch(getVideoByCategoryG(value));
+            window.scrollTo(0, 0);
         }
     };
 
@@ -79,8 +80,9 @@ function HomePage() {
                     <div
                         className={`category__item-wrapper ${active === value ? 'active' : ''}`}
                         onClick={() => handleClick(value)}
+                        key={i}
                     >
-                        <p key={i}>{value}</p>
+                        <p>{value}</p>
                     </div>
                 ))}
             </div>
@@ -89,7 +91,7 @@ function HomePage() {
                 next={fetchData}
                 hasMore={true}
                 loader={<BeatLoader color="#36d7b7" />}
-                scrollThreshold={1}
+                scrollThreshold={0.8}
                 className="homepage_homevideo"
             >
                 {uniqueVideos.map((video, index) => (

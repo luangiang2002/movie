@@ -22,5 +22,4 @@ const Short = () => {
         </div>
     );
 };
-// ShortItem
 export default Short;

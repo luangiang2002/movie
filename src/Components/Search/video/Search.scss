@@ -2,35 +2,28 @@
 
 .search {
     display: grid;
-    margin-bottom: 10px;
-    margin-right: 10px;
+    margin-top: 60px;
     overflow: hidden;
     &_video {
-        padding: 0 15px 0 30px;
-        margin-top: 70px;
+        padding: 0 30px;
+        margin-bottom: 20px;
+        display: flex;
         &--duration {
+            margin-right: 40px;
+            width: 100%;
+            flex: 1;
+            max-height: 150px;
             img {
                 width: 100%;
-                object-fit: cover;
-                max-height: 500px;
-            }
-            position: relative;
-            p {
-                position: absolute;
-                right: 3%;
-                bottom: 0;
-                background-color: black;
-                color: white;
-                padding: 5px;
-            }
-            &_img {
-                max-height: 450px;
+                object-fit: fill;
+                height: 100%;
+                cursor: pointer;
             }
         }
 
         &--detail {
             margin-top: 10px;
-
+            flex: 3;
             img {
                 width: 50px;
                 height: 50px;
@@ -42,7 +35,7 @@
                 width: 100%;
 
                 h4 {
-                    font-size: 18px;
+                    font-size: 13px;
                     font-weight: 500;
                     margin-bottom: 0;
                     color: $color-titleparent;
@@ -51,6 +44,8 @@
                 p {
                     margin-bottom: 0;
                     color: $color-titlechild;
+                    cursor: pointer;
+                    font-size: 13px;
                 }
             }
         }
@@ -66,10 +61,10 @@
             &--detail {
                 div {
                     h4 {
-                        font-size: 12px;
+                        font-size: 10px;
                     }
                     p {
-                        font-size: 11px;
+                        font-size: 10px;
                     }
                 }
             }
@@ -83,10 +78,10 @@
             &--detail {
                 div {
                     h4 {
-                        font-size: 30px;
+                        font-size: 20px;
                     }
                     p {
-                        font-size: 28px;
+                        font-size: 20px;
                     }
                 }
             }
@@ -103,7 +98,17 @@
         &_video {
             &--duration {
                 &_img {
-                    height: 118px;
+                    height: 100px;
+                }
+            }
+            &--detail {
+                div {
+                    h4 {
+                        font-size: 8px;
+                    }
+                    p {
+                        font-size: 8px;
+                    }
                 }
             }
         }
