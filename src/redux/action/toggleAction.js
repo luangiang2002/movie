@@ -7,12 +7,12 @@ export const getShort = (id) => async (dispatch) => {
         });
         const res = await short.get(`/search`, {
             params: {
-                query: 'tiktok',
-                geo: 'US',
-                lang: 'en',
-                type: 'video',
+                query: 'hottren',
+                geo: 'VN',
+                lang: 'vi-VN',
                 duration: 'short',
-                upload_date: 'month',
+                upload_date: 'today',
+                type: 'video',
             },
         });
         dispatch({

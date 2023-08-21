@@ -49,10 +49,10 @@
     color: red;
 }
 .dissubcript {
-    background-color: rgb(152, 58, 58);
+    background-color: gray;
 }
 .subcript {
-    background-color: gray;
+    background-color: rgb(152, 58, 58);
 }
 
 @media (max-width: 780px) {
@@ -60,4 +60,11 @@
         font-size: 10px;
         width: 80px;
     }
+}
+
+.loadinglike {
+    color: red;
+}
+.loadingdislike {
+    color: red;
 }

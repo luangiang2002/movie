@@ -26,7 +26,7 @@ export const getVideoByCategory = (keyword) => async (dispatch) => {
             params: {
                 q: keyword,
                 part: 'snippet,id',
-                maxResults: '5',
+                maxResults: '20',
                 randomParam: Math.random(),
             },
         });

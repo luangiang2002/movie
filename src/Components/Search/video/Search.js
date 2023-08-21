@@ -22,7 +22,7 @@ const Search = ({ video }) => {
         navigate(`/channel/${channeId}`);
     };
     return (
-        <div className=" search">
+        <div className=" ">
             <div className="search_video">
                 <div className="search_video--duration" onClick={handleVideoClick}>
                     <img src={video?.snippet?.thumbnails?.medium?.url} alt="" />

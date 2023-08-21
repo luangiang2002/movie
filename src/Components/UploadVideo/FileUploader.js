@@ -45,7 +45,7 @@ const VideoUploader = ({ userInfo }) => {
 
             toast.success(`Tải lên video thành công`, {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
             setUploading('tệp đã tải lên thành công hoàn thành các bước tiếp theo để tải video lên...');
         },
@@ -74,13 +74,13 @@ const VideoUploader = ({ userInfo }) => {
         if (!videoUrl) {
             toast.error('Vui lòng tải lên video trước khi đăng', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
         }
         if (!check) {
             toast.error('Vui lòng nhập đầy đủ thông tin', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
         } else {
             const currentDate = new Date();
@@ -103,7 +103,7 @@ const VideoUploader = ({ userInfo }) => {
             dispatch({ type: VIDEO_UPDATE_SUCCESS, payload: videoData });
             toast.success('Đăng video thành công', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
 
             setVideoInfo({

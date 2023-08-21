@@ -47,7 +47,7 @@ const Avatar = ({ userInfo, setDarkMode }) => {
         if (!validExtensions.includes(fileExtension)) {
             toast.error('định dạng ảnh không hợp lệ, vui lòng sử dụng định dạng : jpg, jpeg,png,gif,jfif ', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
             return;
         }
@@ -67,7 +67,7 @@ const Avatar = ({ userInfo, setDarkMode }) => {
 
             toast.success(`Cập nhật Avatar thành công`, {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
         } catch (error) {
             toast.error(`Lỗi khi cập nhập`, {

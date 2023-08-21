@@ -34,7 +34,7 @@ const SearchVideo = () => {
         <div className="search">
             <Row>
                 <Col>
-                    <div className="search_video">
+                    <div className="">
                         {!loading && <SearchApp firestoreResults={firestoreResults} />}
                         {!loading ? (
                             video?.map((video, i) => (

@@ -15,6 +15,7 @@ const initialState = {
     video: [],
     videos: [],
     loading: true,
+    data: [],
 };
 
 export const LibraryReducer = (state = initialState, action) => {

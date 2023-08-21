@@ -2,7 +2,7 @@ import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { db } from '../../firebase/fibefire';
 import { v4 as uuidv4 } from 'uuid';
-import { fetchData, getByIdVideo, getByIdVideos, getvideoInter } from '../App/HomeApp/VideoApp/GetData';
+import { getByIdVideo, getByIdVideos, getvideoInter } from '../App/HomeApp/VideoApp/GetData';
 
 const currentDate = new Date();
 const currentTime = currentDate.toISOString();
@@ -11,7 +11,7 @@ export const handleCommenta = async (comment, selectedVideo, avatarChannel, setC
     if (!comment) {
         toast.error('Vui lòng nhập bình luận trước khi gửi', {
             autoClose: 3000,
-            position: 'top-left',
+            position: 'top-right',
         });
         return;
     }
@@ -31,7 +31,7 @@ export const handleCommenta = async (comment, selectedVideo, avatarChannel, setC
     await addDoc(commentsCollectionRef, commentData);
     toast.success('Gửi bình luận thành công', {
         autoClose: 3000,
-        position: 'top-left',
+        position: 'top-right',
     });
     setComment('');
     return commentData;
@@ -81,7 +81,7 @@ export const toggleSubscription = async (id, reactionType, setSubscribed, userId
     } catch (error) {
         toast.error('Lỗi khi đăng ký hoặc hủy đăng ký video', {
             autoClose: 3000,
-            position: 'top-left',
+            position: 'top-right',
         });
     }
 };
@@ -90,7 +90,7 @@ export const gethandleComment = async (id, commentAPi, urlAvatar, channeId, thum
     if (!commentAPi) {
         toast.error('Vui lòng nhập bình luận trước khi gửi', {
             autoClose: 3000,
-            position: 'top-left',
+            position: 'top-right',
         });
         return;
     }
@@ -112,7 +112,7 @@ export const gethandleComment = async (id, commentAPi, urlAvatar, channeId, thum
 
     toast.success('Gửi bình luận thành công', {
         autoClose: 3000,
-        position: 'top-left',
+        position: 'top-right',
     });
 
     return commentData;
@@ -166,13 +166,11 @@ export const GethandleLikeDislike = async (videoId, reactionType, userId) => {
                 await updateDoc(videoRef, commentData);
             }
             await updateDoc(watchedVideosRef, commentData);
-
-            return fetchData();
         }
     } catch (error) {
         toast.error('không thành công', {
             autoClose: 3000,
-            position: 'top-left',
+            position: 'top-right',
         });
     }
 };

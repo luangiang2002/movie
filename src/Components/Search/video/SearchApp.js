@@ -20,7 +20,7 @@ const SearchApp = ({ firestoreResults }) => {
 
     return (
         <>
-            <div className=" search">
+            <div className=" ">
                 {firestoreResults &&
                     firestoreResults.map((videoData, i) => (
                         <div className="search_video" key={i}>

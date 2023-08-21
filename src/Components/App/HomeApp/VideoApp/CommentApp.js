@@ -68,14 +68,14 @@ const CommentApp = ({ id, loading, comments }) => {
 
             toast.success('Chỉnh sửa Thành công', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
             setEditing(false);
         } catch (error) {
             console.log(error);
             toast.error('Chỉnh sửa thất bại', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
         }
     };
@@ -93,13 +93,13 @@ const CommentApp = ({ id, loading, comments }) => {
 
             toast.success('Xóa comment thành công', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
         } catch (error) {
             console.log(error);
             toast.error('Xóa comment thất bại', {
                 autoClose: 3000,
-                position: 'top-left',
+                position: 'top-right',
             });
         }
     };
