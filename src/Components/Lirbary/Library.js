@@ -63,21 +63,21 @@ const Library = () => {
                 <>
                     <LibraryList
                         videos={sortedWatchedVideos}
-                        title="video đã xem"
+                        title="Video đã xem"
                         toggleAll={navigateVIdeoAll}
                         handleVideoAppClick={navigateToVideo}
                         handleVideoYTbClick={navigateToYoutube}
                     />
                     <LibraryList
                         videos={sortedWatchedLike}
-                        title="video đã thích"
+                        title="Video đã thích"
                         toggleAll={navigateLikeAll}
                         handleVideoAppClick={navigateToVideo}
                         handleVideoYTbClick={navigateToYoutube}
                     />
                     <LibraryList
                         videos={sortedWatchedDisLike}
-                        title="video không thích"
+                        title="Video không thích"
                         toggleAll={navigateDisLikwAll}
                         handleVideoAppClick={navigateToVideo}
                         handleVideoYTbClick={navigateToYoutube}

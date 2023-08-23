@@ -73,3 +73,17 @@ $breakpoint-xl: 1440px;
 .dark-mode .search_video--detail div p {
     color: white;
 }
+.dark-mode .homepage_category {
+    background-color: black;
+    color: white;
+}
+.dark-mode .homepage_category p {
+    color: white;
+}
+.dark-mode .category__item-wrapper.active {
+    background-color: white;
+    color: black;
+}
+.dark-mode .category__item-wrapper.active p {
+    color: black;
+}

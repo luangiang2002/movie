@@ -9,12 +9,12 @@ const LikeDislike = ({ selectedVideo, id, userInfo, userId }) => {
 
     const [localLiked, setLocalLiked] = useState(initialLiked);
     const [localDisliked, setLocalDisliked] = useState(initialDisliked);
-    const [localLikeCount, setLocalLikeCount] = useState(selectedVideo?.like);
-    const [localDislikeCount, setLocalDislikeCount] = useState(selectedVideo?.dislike);
+    const [localLikeCount, setLocalLikeCount] = useState(selectedVideo?.like || 0);
+    const [localDislikeCount, setLocalDislikeCount] = useState(selectedVideo?.dislike || 0);
 
     const handleLikeDislike = async (videoId, reactionType) => {
         if (!userInfo) {
-            toast.error('Bạn cần đăng nhập để like video', {
+            toast.error('Bạn cần đăng nhập để thực hiện hành động này', {
                 autoClose: 3000,
                 position: 'top-right',
             });

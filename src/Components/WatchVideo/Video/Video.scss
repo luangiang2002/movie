@@ -2,7 +2,7 @@
 
 .video {
     margin-top: 70px;
-    padding: 30px;
+    padding: 0 20px;
 
     iframe {
         height: 80vh;
@@ -21,6 +21,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
+            margin-right: 5px;
         }
 
         &--icon {
@@ -148,4 +149,10 @@
 
 .subcript {
     background-color: rgb(152, 58, 58);
+}
+
+@media (max-width: 440px) {
+    .video_author--icon p {
+        display: none;
+    }
 }

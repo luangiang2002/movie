@@ -8,6 +8,7 @@ const VideoAll = ({ videov, handleVideoClickv, hadleYoutubev }) => {
     });
     return (
         <div className="library">
+            <p>Những video đã xem</p>
             <div className="library_list">
                 {sortedWatchedVideos.length > 0 ? (
                     sortedWatchedVideos.map((video, i) => (

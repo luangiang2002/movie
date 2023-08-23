@@ -8,6 +8,7 @@ const DisLikeAll = ({ videos, handleVideoClicks, hadleYoutubes }) => {
     });
     return (
         <div className="library">
+            <p>Những video không thích</p>
             <div className="library_list">
                 {sortedWatchedDislike.length > 0 ? (
                     sortedWatchedDislike.map((video, i) => (

@@ -1,43 +1,45 @@
 import React, { useState } from 'react';
 import './SingUp.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { toast } from 'react-toastify';
 import { auth } from '../firebase/fibefire';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import AlertDialog from '../Components/AlertDialog';
+import ModalHome from '../Components/ModalHome';
+import ModalBack from '../Components/ModalBack';
+
 const SignUp = () => {
     const {
         register,
         handleSubmit,
         formState: { errors },
-        getValues,
+        watch,
     } = useForm();
-
-    const navigate = useNavigate();
 
     const [errorButton, setErrorButton] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const passValue = watch('pass', '');
+    const emailValue = watch('email', '');
+    const confirmpassValue = watch('confirmPass', '');
     const onSubmit = async (data) => {
         setIsSubmitting(true);
+        if (data.pass !== data.confirmPass) {
+            errors.confirmPass = {
+                type: 'validate',
+                message: 'Mật khẩu không trùng khớp',
+            };
+        } else {
+            errors.confirmPass = null;
+        }
 
         try {
             await createUserWithEmailAndPassword(auth, data.email, data.pass, data.confirmPass);
             await sendEmailVerification(auth.currentUser);
 
-            toast.success(
-                `Đăng kí thành công, vui lòng kiểm tra email của bạn để xác minh tài khoản. Đang trở về trang đăng nhập`,
-                {
-                    autoClose: 5000,
-                    position: 'top-right',
-                },
-            );
-
             setIsSubmitting(false);
-            setTimeout(() => {
-                navigate('/login');
-            }, 5000);
+            setSuccessModalOpen(true);
         } catch (error) {
             setIsSubmitting(false);
             if (error.code === 'auth/email-already-in-use') {
@@ -45,13 +47,37 @@ const SignUp = () => {
             }
         }
     };
+
     const [showPassword, setShowPassword] = useState(true);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(true);
 
     const handleTogglePassword = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
+
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword((prevShowPassword) => !prevShowPassword);
+    };
+    const navigate = useNavigate();
     const onFocusInput = () => {
         setErrorButton('');
+    };
+    const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+    const [isSuccessModal, setSuccessModal] = useState(false);
+    const [isSuccessModalBack, setSuccessModalBack] = useState(false);
+    const handleModal = () => {
+        if (passValue.length !== 0 || confirmpassValue.length !== 0 || emailValue.length !== 0) {
+            setSuccessModal((pre) => !pre);
+        } else {
+            navigate('/login');
+        }
+    };
+    const handleModalLogin = () => {
+        if (passValue.length !== 0 || confirmpassValue.length !== 0 || emailValue.length !== 0) {
+            setSuccessModalBack((pre) => !pre);
+        } else {
+            navigate('/login');
+        }
     };
     return (
         <div className="signup">
@@ -84,7 +110,7 @@ const SignUp = () => {
                             pattern: {
                                 value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/,
                                 message:
-                                    'Mật khẩu chứa từ 8 đến 30 ký tự, ít nhất một chữ hoa, một chữ thường và một số.',
+                                    'Mật khẩu chứa từ 8 đến 30 ký tự, ít nhất một chữ hoa, một chữ thường, một số và 1 kí tự đặc biệt.',
                             },
                         })}
                     />
@@ -98,36 +124,46 @@ const SignUp = () => {
                 <p>Confirm Password</p>
                 <div className="signup_form--icon">
                     <input
-                        type={showPassword ? 'password' : 'text'}
+                        type={showConfirmPassword ? 'password' : 'text'}
                         placeholder="Enter your Confirm Password"
                         name="confirmPass"
                         onFocus={onFocusInput}
                         {...register('confirmPass', {
                             required: 'Bạn chưa nhập lại mật khẩu',
-                            validate: (value) => value === getValues('pass') || 'Mật khẩu không trùng nhau',
+                            validate: (value) => value === passValue || 'Mật khẩu không trùng khớp',
                         })}
                     />
-                    {showPassword ? (
-                        <FaEyeSlash onClick={handleTogglePassword} />
+                    {showConfirmPassword ? (
+                        <FaEyeSlash onClick={handleToggleConfirmPassword} />
                     ) : (
-                        <FaEye onClick={handleTogglePassword} />
+                        <FaEye onClick={handleToggleConfirmPassword} />
                     )}
                 </div>
                 {errors.confirmPass && <span>{errors.confirmPass.message}</span>}
                 <span>{errorButton}</span>
                 <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? 'Signing up...' : 'Sign Up'}
+                    {isSubmitting ? 'Đang đăng ký...' : 'Đăng ký'}
                 </button>
 
                 <div className="signup_form_gignup">
-                    <p>
-                        Already have an account? <Link to="/login">Sign in</Link>
-                    </p>
-                    <p>
-                        <Link to="/">Trở về trang chủ</Link>
-                    </p>
+                    <div>
+                        <p onClick={handleModalLogin} className="modalhome">
+                            Bạn đã có tài khoản? Đăng nhập
+                        </p>
+                    </div>
+
+                    <div>
+                        <p onClick={handleModal} className="modalhome">
+                            Trở về trang chủ
+                        </p>
+                    </div>
                 </div>
             </form>
+            <div>
+                <AlertDialog open={isSuccessModalOpen} onClose={() => setSuccessModalOpen(false)} />
+                <ModalHome open={isSuccessModal} onClose={() => setSuccessModal(false)} />
+                <ModalBack open={isSuccessModalBack} onClose={() => setSuccessModalBack(false)} redirectPath="/login" />
+            </div>
         </div>
     );
 };

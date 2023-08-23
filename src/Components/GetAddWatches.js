@@ -24,6 +24,8 @@ export const gethandleVideoClick = async (video, firebaseId, dispatch) => {
                 title: video.title,
                 channelAvatar: video.channelAvatar,
                 firebaseID: firebaseId,
+                like: 0,
+                dislike: 0,
             };
 
             dispatch(getLibrary(videoData));
@@ -52,6 +54,8 @@ export const getYoutubeClick = async (video, id, firebaseId, dispatch) => {
             firebaseID: firebaseId,
             channelId: video.snippet.channelId,
             content: 'youtubeApi',
+            like: 0,
+            dislike: 0,
         };
         if (querySnapshot.empty) {
             dispatch(getLibrary(videoData));

@@ -1,7 +1,8 @@
 @import '../../../../index.scss';
 
 .comments {
-    padding: 0 30px 20px 30px;
+    margin: 20px 0;
+    padding: 0 20px;
     &_input {
         img {
             width: 50px;
@@ -28,8 +29,6 @@
     }
 
     &_comment {
-        margin: 20px 0;
-
         img {
             width: 50px;
             height: 50px;

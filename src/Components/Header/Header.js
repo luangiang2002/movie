@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '../AvatarLogin/Avatar';
 import { useSelector } from 'react-redux';
 import { RiFolderUploadLine } from 'react-icons/ri';
+import ModalUpload from '../ModalUpload';
 
 const Header = ({ handleToggleSidebar, setDarkMode }) => {
     const navigate = useNavigate();
@@ -24,13 +25,21 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
         navigate('/');
     };
     const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            navigate(`/search/${input}`);
+        if (input && input.trim() !== '') {
+            if (event.key === 'Enter') {
+                navigate(`/search/${input}`);
+            }
+        } else {
+            return;
         }
     };
     const handleSearch = (e) => {
         e.preventDefault();
-        navigate(`/search/${input}`);
+        if (input && input.trim() !== '') {
+            navigate(`/search/${input}`);
+        } else {
+            return;
+        }
     };
 
     const handleImgClick = useCallback(() => {
@@ -42,12 +51,13 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
     }, [isLoggedIn, navigate]);
 
     const urlAvatar = useSelector((state) => state.imageAvatar);
+    const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
 
     const handleUpload = () => {
         if (isLoggedIn) {
             navigate('/upload');
         } else {
-            navigate('/modal');
+            setSuccessModalOpen((pre) => !pre);
         }
     };
     const avatarRef = useRef(null);
@@ -99,6 +109,8 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
                     <Avatar userInfo={userInfo} setDarkMode={setDarkMode} />
                 </div>
             )}
+
+            <ModalUpload open={isSuccessModalOpen} onClose={() => setSuccessModalOpen(false)} />
         </div>
     );
 };
