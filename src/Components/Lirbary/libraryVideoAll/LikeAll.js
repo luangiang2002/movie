@@ -8,6 +8,7 @@ const LikeAll = ({ videol, handleVideoClickl, hadleYoutubel }) => {
     });
     return (
         <div className="library">
+            <p>Những video đã like</p>
             <div className="library_list">
                 {sortedWatchedLike.length > 0 ? (
                     sortedWatchedLike.map((video, i) => (

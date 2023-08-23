@@ -22,7 +22,7 @@ export const handleCommenta = async (comment, selectedVideo, avatarChannel, setC
         content: comment,
         displayName: userInfo.email,
         timestamp: currentTime,
-        ChannelAvatar: avatarChannel.urlAvatar,
+        ChannelAvatar: avatarChannel.urlAvatar || '',
         thumbnailsurl: selectedVideo.thumbnailsurl || '',
         firebaseId: avatarChannel.firebaseId,
     };

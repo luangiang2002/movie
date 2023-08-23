@@ -10,6 +10,7 @@
     padding: 10px 20px;
     background-color: white;
     top: 0;
+    height: 70px;
 
     &_logo {
         img {
@@ -31,7 +32,11 @@
             background: unset;
             padding-left: 10px;
             height: 40px;
-            width: 100%;
+            width: 85%;
+
+            &::placeholder {
+                font-size: 15px;
+            }
         }
         button {
             position: absolute;
@@ -70,7 +75,7 @@
         }
         &_search {
             input {
-                width: 150px;
+                width: 75%;
             }
         }
         &_icon {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../Search/video/Search.scss';
-
+import { PropagateLoader } from 'react-spinners';
 import { Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Search from './video/Search';
@@ -41,7 +41,7 @@ const SearchVideo = () => {
                                 <Search video={video} key={i} firestoreResults={firestoreResults} id={id} />
                             ))
                         ) : (
-                            <p>Load...</p>
+                            <PropagateLoader color="#36d7b7" />
                         )}
                     </div>
                 </Col>

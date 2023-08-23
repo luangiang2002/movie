@@ -45,7 +45,7 @@ const ToggleSideBar = ({ SlideBar, handleToggleSidebar }) => {
                 <div className="toggle_toggleSidebar--logo">
                     <div onClick={() => handleToggleSidebar(SlideBar)}>
                         <FaBars />
-                        <img src="https://i.ibb.co/s9Qys2j/logo.png" alt="" />
+                        <img src="https://i.ibb.co/s9Qys2j/logo.png" alt="" onClick={handleHome} />
                     </div>
                 </div>
                 <div className="toggle_toggleSidebar--home" onClick={handleHome}>

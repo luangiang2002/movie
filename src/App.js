@@ -25,10 +25,9 @@ import ChannelApp from './Components/App/ChannelApp/ChannelApp';
 import { getAvatar } from './redux/action/avatarAction';
 import { getSubscriptVideosForUser, getWatchedVideosForUser } from './redux/action/libraryAction';
 import ToggleSideBar from './Components/Sidebar/ToggleSideBar';
-import ComponetnError from './Components/ComponentError/ComponentError';
 import Channel from './Components/Channel/Channel';
 import { db } from './firebase/fibefire';
-import { doc, getDoc, setDoc } from '@firebase/firestore';
+import { doc, getDoc, updateDoc } from '@firebase/firestore';
 
 function App() {
     const [SlideBar, toggleSidebar] = useState(false);
@@ -64,23 +63,32 @@ function App() {
     }, [location]);
     const [isDarkMode, setDarkMode] = useState(false);
     const handleDarkModeToggle = async () => {
-        const darkModeValue = !isDarkMode;
+        if (!firebaseId) {
+            return;
+        }
 
-        const settingsDocRef = doc(db, 'settings', 'darkMode');
-        await setDoc(settingsDocRef, { value: darkModeValue });
+        const updatedInterfaceMode = isDarkMode ? 'light' : 'dark';
 
-        setDarkMode(darkModeValue);
+        const userDocRef = doc(db, 'users', firebaseId);
+
+        await updateDoc(userDocRef, { interfaceMode: updatedInterfaceMode });
+
+        setDarkMode(!isDarkMode);
     };
 
     useEffect(() => {
-        const darkModeRef = doc(db, 'settings', 'darkMode');
-        getDoc(darkModeRef).then((doc) => {
+        if (!firebaseId) {
+            return;
+        }
+        const userDocRef = doc(db, 'users', firebaseId);
+
+        getDoc(userDocRef).then((doc) => {
             if (doc.exists()) {
-                const darkModeValue = doc.data().value;
-                setDarkMode(darkModeValue);
+                const userInterfaceMode = doc.data().interfaceMode;
+                setDarkMode(userInterfaceMode === 'dark');
             }
         });
-    }, []);
+    }, [firebaseId]);
 
     return (
         <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -114,7 +122,6 @@ function App() {
                 <Route path="/reset" element={<ResetPassword />}></Route>
 
                 <Route path="/upload" element={<UploadVideo />}></Route>
-                <Route path="/modal" element={<ComponetnError />}></Route>
                 <Route path="/homeapp" element={<HomeApp />}></Route>
                 <Route path="/videoapp/:id" element={<VideoApp />}></Route>
 

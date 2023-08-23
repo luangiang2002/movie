@@ -7,6 +7,7 @@ import { auth, db } from '../firebase/fibefire';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import ModalHome from '../Components/ModalHome';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
         setError,
+        watch,
     } = useForm();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(true);
@@ -73,6 +75,16 @@ const Login = () => {
         setErrorButton('');
     };
 
+    const passValue = watch('pass', '');
+    const emailValue = watch('email', '');
+    const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+    const handleModal = () => {
+        if (passValue.length !== 0 || emailValue.length !== 0) {
+            setSuccessModalOpen((pre) => !pre);
+        } else {
+            navigate('/');
+        }
+    };
     return (
         <div className="login">
             <form className="login_form" onSubmit={handleSubmit(onSubmit)}>
@@ -120,11 +132,16 @@ const Login = () => {
                     <p>
                         Don't have an account ? <Link to="/signup">Sign up</Link>
                     </p>
-                    <p>
-                        <Link to="/">Trở về trang chủ</Link>
-                    </p>
+                    <div>
+                        <p onClick={handleModal} className="modalhome">
+                            Trở về trang chủ
+                        </p>
+                    </div>
                 </div>
             </form>
+            <div>
+                <ModalHome open={isSuccessModalOpen} onClose={() => setSuccessModalOpen(false)} />
+            </div>
         </div>
     );
 };

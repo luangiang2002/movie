@@ -1,18 +1,27 @@
-import React from 'react';
-import './Interface.scss';
+import { useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
 
 const Interface = ({ setShowDeviceInterface, setDarkMode }) => {
+    const [interfaceSelected, setInterfaceSelected] = useState(null);
+
     const handleGoBack = () => {
         setShowDeviceInterface(false);
     };
 
     const toggleDark = () => {
-        setDarkMode(true);
+        if (interfaceSelected !== 'dark') {
+            setDarkMode(true);
+            setInterfaceSelected('dark');
+        }
     };
+
     const toggleMode = () => {
-        setDarkMode(false);
+        if (interfaceSelected !== 'light') {
+            setDarkMode(false);
+            setInterfaceSelected('light');
+        }
     };
+
     return (
         <>
             <div className="interface">
@@ -21,7 +30,7 @@ const Interface = ({ setShowDeviceInterface, setDarkMode }) => {
                     <p>Giao diện</p>
                 </div>
                 <hr />
-                <h6>Tùy chọn cài đặt chỉ áp dụng cho trình duyệt này </h6>
+                <h6>Tùy chọn cài đặt chỉ áp dụng cho trình duyệt này</h6>
                 <p onClick={toggleDark}>Giao diện tối</p>
                 <p onClick={toggleMode}>Giao diện sáng</p>
             </div>

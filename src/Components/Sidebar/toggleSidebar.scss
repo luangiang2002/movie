@@ -24,9 +24,10 @@
 
         div {
             margin: 10px 0;
-            text-align: center;
             width: 100%;
-            margin-top: 30px;
+            margin-top: 25px;
+            cursor: pointer;
+            text-align: center;
 
             img {
                 width: 50px;
@@ -35,8 +36,8 @@
 
             svg {
                 margin-right: 10px;
-                text-align: center;
                 font-size: 30px;
+                width: 100%;
             }
 
             p {
@@ -45,12 +46,9 @@
         }
 
         &--logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
             svg {
                 margin: unset;
+                width: unset !important;
             }
         }
     }
@@ -64,8 +62,6 @@
     .toggle {
         &_toggleSidebar {
             width: 40vw;
-            height: 150vh;
-
             div {
                 p {
                     font-size: 10px;

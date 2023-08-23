@@ -102,15 +102,21 @@ const Video = ({ id, video }) => {
                         <iframe
                             width="100%"
                             src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1`}
+                            rel="0"
                             allow="fullscreen"
                             title={_video?.snippet?.title}
                         ></iframe>
+
                         <p>{_video?.snippet?.title}</p>
                         {channel && channel.channel && channel.channel[0] && channel.channel[0].snippet && (
                             <>
                                 <div className="video_author d-flex">
                                     <div className="video_author--icon d-flex">
-                                        <img src={channel?.channel[0].snippet.thumbnails.default.url} alt="" />
+                                        <img
+                                            src={channel?.channel[0].snippet.thumbnails.default.url}
+                                            alt=""
+                                            onClick={handleChannel}
+                                        />
                                         <p onClick={handleChannel}>{_video?.snippet?.channelTitle} </p>
                                     </div>
                                     <div className="video_author--subcript">
@@ -149,7 +155,7 @@ const Video = ({ id, video }) => {
                                         expanded={false}
                                         truncatedEndingComponent={'... '}
                                     >
-                                        <span>{moment(channel?.channel[0].snippet.publishedAt).fromNow()}</span> <br />
+                                        <span>{moment(_video?.snippet?.publishedAt).fromNow()}</span> <br />
                                         {channel?.channel[0].snippet.description}
                                     </ShowMoreText>
                                 </div>

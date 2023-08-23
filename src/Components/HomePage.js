@@ -65,10 +65,13 @@ function HomePage() {
     }
     const { firebaseId } = useSelector((state) => state.imageAvatar);
     const navigate = useNavigate();
+
     const handleVideoClick = async (video) => {
-        const id = video.id;
+        const id = video.id?.videoId || video.id || null;
+
         await getYoutubeClick(video, id, firebaseId, dispatch);
-        navigate(`/homevideo/${video?.id}`);
+
+        navigate(`/homevideo/${id}`);
     };
     const handleChannel = (video) => {
         navigate(`/channel/${video?.snippet?.channelId}`);
