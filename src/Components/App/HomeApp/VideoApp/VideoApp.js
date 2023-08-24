@@ -7,21 +7,23 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import CommentApp from './CommentApp';
-import { GetVideoData, getByIdVideo, getByIdVideos, getCommentsByVideoId } from './GetData';
+import { GetVideoData, getCommentsByVideoId } from './GetData';
 import { VIDEO_COMMENT_SUCCESS } from '../../../../redux/actionType';
 import { CommentAction } from '../../../../redux/action/commentAction';
 import { videoUpload } from '../../../../redux/action/VideoActionApp';
 import ReactPlayer from 'react-player';
 import { getWatchedVideosForUser } from '../../../../redux/action/libraryAction';
-import { handleCommenta, toggleSubscription } from '../../../comment/CommentDataFibe';
+import { handleCommenta } from '../../../comment/CommentDataFibe';
 import LikeDislike from '../../../LikeDislike';
+import ChannelSubscript from '../../../ChannelSubscript/ChannelSubscript';
+import { collection, getDocs, query, where } from '@firebase/firestore';
+import { db } from '../../../../firebase/fibefire';
 const VideoApp = () => {
     const { id } = useParams();
     const { videos, loading } = useSelector((state) => state.videosapp);
     const selectedVideo = videos.find((video) => video.videoId === id);
     const { urlAvatar } = useSelector((state) => state.imageAvatar);
     const avatarChannel = useSelector((state) => state.imageAvatar);
-    const [subscribed, setSubscribed] = useState(false);
     const [comment, setComment] = useState('');
     const userId = avatarChannel.firebaseId;
     const navigate = useNavigate();
@@ -48,18 +50,6 @@ const VideoApp = () => {
         }
     };
 
-    const handletoggleSubscription = async (video, reactionType) => {
-        if (!userInfo) {
-            toast.error('Bạn cần đăng nhập để đăng kí', {
-                autoClose: 3000,
-                position: 'top-right',
-            });
-            return;
-        }
-        const id = await getByIdVideo(video.videoId);
-        const videoID = await getByIdVideos(video.videoId);
-        await toggleSubscription(id, reactionType, setSubscribed, userId, videoID);
-    };
     useEffect(() => {
         (async () => {
             const videos = await GetVideoData();
@@ -82,17 +72,23 @@ const VideoApp = () => {
         dispatch(getWatchedVideosForUser(userId));
     }, [dispatch, location, userId]);
 
-    useEffect(() => {
-        if (selectedVideo?.subscribedby?.includes(userId)) {
-            setSubscribed(true);
-        } else {
-            setSubscribed(false);
-        }
-    }, [selectedVideo?.subscribedby, userId]);
     const handchanle = (channelID) => {
         navigate(`/channelapp/${channelID}`);
     };
-
+    const [channel, setChannel] = useState();
+    useEffect(() => {
+        if (selectedVideo?.firebaseID) {
+            const userRef = collection(db, 'channel');
+            const q = query(userRef, where('firebaseID', '==', selectedVideo?.firebaseID));
+            (async () => {
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const userInfo = querySnapshot.docs[0].data();
+                    setChannel(userInfo);
+                }
+            })();
+        }
+    }, [selectedVideo?.firebaseID]);
     return (
         <>
             <div className=" videoapp">
@@ -119,22 +115,18 @@ const VideoApp = () => {
                                 </p>
                             </div>
                             <div className="videoapp_author--subcript">
-                                {subscribed ? (
-                                    <button
-                                        className="dissubcript"
-                                        onClick={() => handletoggleSubscription(selectedVideo, 'hủy đăng kí')}
-                                    >
-                                        Hủy đăng ký
-                                    </button>
-                                ) : (
-                                    <button
-                                        className="subcript"
-                                        onClick={() => handletoggleSubscription(selectedVideo, 'đăng kí')}
-                                    >
-                                        Đăng ký
-                                    </button>
+                                {selectedVideo?.firebaseID && channel && (
+                                    <ChannelSubscript
+                                        channelId={selectedVideo?.firebaseID}
+                                        selectedVideo={selectedVideo}
+                                        userId={userId}
+                                        channelAvatar={selectedVideo?.channelAvatar}
+                                        channel={channel}
+                                        content=""
+                                    />
                                 )}
                             </div>
+
                             <div className="videoapp_author--like d-flex">
                                 <LikeDislike
                                     selectedVideo={selectedVideo}

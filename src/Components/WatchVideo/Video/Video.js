@@ -10,9 +10,10 @@ import { CommentAction } from '../../../redux/action/commentAction';
 import CommentApp from '../../App/HomeApp/VideoApp/CommentApp';
 import { getChannel } from '../../../redux/action/videoAction';
 import { getVideoInter, getWatchedVideosForUser } from '../../../redux/action/libraryAction';
-import { gethandleComment, toggleSubscription } from '../../comment/CommentDataFibe';
-import { getByIdVideo, getCommentsByVideoId, getvideoInter } from '../../App/HomeApp/VideoApp/GetData';
+import { gethandleComment } from '../../comment/CommentDataFibe';
+import { getCommentsByVideoId } from '../../App/HomeApp/VideoApp/GetData';
 import LikeDislike from '../../LikeDislike';
+import ChannelSubscript from '../../ChannelSubscript/ChannelSubscript';
 
 const Video = ({ id, video }) => {
     const dispatch = useDispatch();
@@ -27,7 +28,6 @@ const Video = ({ id, video }) => {
     const { videos } = useSelector((state) => state.library);
     const interactions = videos.find((video) => video.videoId === id);
     const userId = avatarChannel.firebaseId;
-    const [subscribed, setSubscribed] = useState(false);
     const userInfo = JSON.parse(localStorage.getItem('watch-user'));
     const handleChannel = () => {
         navigate(`/channel/${channeId}`);
@@ -61,19 +61,6 @@ const Video = ({ id, video }) => {
             return;
         }
     };
-    const handletoggleSubscription = async (videoId, reactionType) => {
-        if (!userInfo) {
-            toast.error('Bạn cần đăng nhập để đăng kí', {
-                autoClose: 3000,
-                position: 'top-right',
-            });
-            return;
-        }
-        const id = await getByIdVideo(videoId);
-        const videoInter = await getvideoInter(videoId);
-        const videoID = '';
-        await toggleSubscription(id, reactionType, setSubscribed, userId, videoID, videoInter);
-    };
 
     useEffect(() => {
         (async () => {
@@ -86,14 +73,6 @@ const Video = ({ id, video }) => {
         dispatch(getWatchedVideosForUser(userId));
         dispatch(getVideoInter(id));
     }, [dispatch, id, channeId, userId]);
-
-    useEffect(() => {
-        if (interactions?.subscribedby?.includes(userId)) {
-            setSubscribed(true);
-        } else {
-            setSubscribed(false);
-        }
-    }, [interactions?.subscribedby, userId]);
     return (
         <>
             {!loading && (
@@ -120,20 +99,16 @@ const Video = ({ id, video }) => {
                                         <p onClick={handleChannel}>{_video?.snippet?.channelTitle} </p>
                                     </div>
                                     <div className="video_author--subcript">
-                                        {subscribed ? (
-                                            <button
-                                                className="dissubcript"
-                                                onClick={() => handletoggleSubscription(id, 'hủy đăng kí')}
-                                            >
-                                                Hủy đăng ký
-                                            </button>
-                                        ) : (
-                                            <button
-                                                className="subcript"
-                                                onClick={() => handletoggleSubscription(id, 'đăng kí')}
-                                            >
-                                                Đăng ký
-                                            </button>
+                                        {channeId && interactions && channel && (
+                                            <ChannelSubscript
+                                                channelId={channeId}
+                                                selectedVideo={interactions}
+                                                userId={userId}
+                                                channelAvatar={channel?.channel[0]?.snippet?.thumbnails?.default?.url}
+                                                channel={channel.channel[0]?.snippet}
+                                                content="youtube"
+                                                SubscribersCount={channel?.channel[0]?.statistics?.subscriberCount}
+                                            />
                                         )}
                                     </div>
                                     <div className="videoapp_author--like d-flex">

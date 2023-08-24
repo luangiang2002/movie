@@ -153,15 +153,7 @@ function App() {
 
                 <Route
                     path="/subscript/"
-                    element={
-                        <Subscript
-                            videosb={video}
-                            handleVideoClicksb={handleVideoClick}
-                            hadleYoutubesb={hadleYoutube}
-                            dispatch={dispatch}
-                            firebaseId={firebaseId}
-                        />
-                    }
+                    element={<Subscript videosb={video} dispatch={dispatch} firebaseId={firebaseId} />}
                 ></Route>
                 <Route path="/channelapp/:id" element={<ChannelApp />}></Route>
                 <Route path="/uploadusers/" element={<VideoUploadUsers />}></Route>

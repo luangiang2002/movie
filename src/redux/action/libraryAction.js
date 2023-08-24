@@ -92,8 +92,8 @@ export const getDisLikeVideosForUser = (firebaseId) => async (dispatch) => {
 export const getSubscriptVideosForUser = (firebaseId) => async (dispatch) => {
     try {
         const subripts = [];
-        const likedVideosRef = collection(db, 'watchedVideos');
-        const q = query(likedVideosRef, where('subscribedby', 'array-contains', firebaseId));
+        const likedVideosRef = collection(db, 'channelSubscriptions');
+        const q = query(likedVideosRef, where('userIds', 'array-contains', firebaseId));
 
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
