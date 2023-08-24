@@ -27,11 +27,6 @@ const VideoUploader = ({ userInfo }) => {
 
     const [check, setCheck] = useState();
 
-    const username = userInfo.email.split('@')[0];
-    const channelId = uuidv4();
-
-    const uniqueId = `${channelId}_${username}`;
-
     const dispatch = useDispatch();
     const onDrop = useCallback(
         async (acceptedFiles) => {

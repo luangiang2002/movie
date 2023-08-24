@@ -1,3 +1,26 @@
 .Subcript {
     margin-top: 70px;
+    padding: 0 20px;
+}
+
+.Subcript_img {
+    margin-right: 16px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.Subcript_video {
+    display: flex;
+    margin-bottom: 30px;
+}
+.Subcript_title {
+    display: flex;
+    flex-direction: row;
+    p {
+        margin-bottom: 0;
+    }
+    h6 {
+        cursor: pointer;
+    }
 }

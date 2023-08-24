@@ -10,7 +10,7 @@ import ModalUpload from '../ModalUpload';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-const Header = ({ handleToggleSidebar, handleItemClick }) => {
+const Header = ({ handleToggleSidebar, setDarkMode, handleItemClick }) => {
     const defaultAvatar =
         'https://img.freepik.com/free-icon/user_318-159711.jpg?size=626&ext=jpg&ga=GA1.1.614860776.1689582553&semt=sph';
     const navigate = useNavigate();
