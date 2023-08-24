@@ -40,10 +40,11 @@
         textarea {
             width: 100%;
             border: 1px solid black;
-            padding: 0 10px;
+            padding: 15px 10px;
             outline: none;
             border-radius: 5px;
             height: 60px;
+            resize: none;
         }
         input[type='file'] {
             margin: 0;
@@ -54,6 +55,13 @@
             border: none;
             outline: none;
             padding: 5px 10px;
+            border-radius: 5px;
+            background: rgb(244, 242, 242);
+
+            &:hover {
+                background-color: rgb(187, 183, 183);
+                color: white;
+            }
         }
     }
 }

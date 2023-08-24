@@ -3,7 +3,8 @@ import './SingUp.scss';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from '../firebase/fibefire';
+import { addDoc, collection } from 'firebase/firestore';
+import { auth, db } from '../firebase/fibefire';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import AlertDialog from '../Components/AlertDialog';
 import ModalHome from '../Components/ModalHome';
@@ -19,10 +20,15 @@ const SignUp = () => {
 
     const [errorButton, setErrorButton] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [nextLocation, setNextLocation] = useState('');
+    const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+    const [isSuccessModal, setSuccessModal] = useState(false);
+    const [isSuccessModalBack, setSuccessModalBack] = useState(false);
 
     const passValue = watch('pass', '');
     const emailValue = watch('email', '');
     const confirmpassValue = watch('confirmPass', '');
+    const UserNameValue = watch('username', '');
     const onSubmit = async (data) => {
         setIsSubmitting(true);
         if (data.pass !== data.confirmPass) {
@@ -35,16 +41,24 @@ const SignUp = () => {
         }
 
         try {
-            await createUserWithEmailAndPassword(auth, data.email, data.pass, data.confirmPass);
+            const userRef = collection(db, 'users');
+            const response = await createUserWithEmailAndPassword(auth, data.email, data.pass, data.confirmPass);
             await sendEmailVerification(auth.currentUser);
+            const userInfo = {
+                email: data.email,
+                accessToken: response.user.accessToken,
+                userName: data.username,
+                channelInfo: null,
+            };
+            await addDoc(userRef, userInfo);
 
-            setIsSubmitting(false);
             setSuccessModalOpen(true);
         } catch (error) {
-            setIsSubmitting(false);
             if (error.code === 'auth/email-already-in-use') {
                 setErrorButton('Email đã được sử dụng');
             }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -62,20 +76,19 @@ const SignUp = () => {
     const onFocusInput = () => {
         setErrorButton('');
     };
-    const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
-    const [isSuccessModal, setSuccessModal] = useState(false);
-    const [isSuccessModalBack, setSuccessModalBack] = useState(false);
-    const handleModal = () => {
-        if (passValue.length !== 0 || confirmpassValue.length !== 0 || emailValue.length !== 0) {
+
+    const handleModal = (location) => {
+        if (
+            passValue.length !== 0 ||
+            confirmpassValue.length !== 0 ||
+            emailValue.length !== 0 ||
+            UserNameValue.length !== 0
+        ) {
+            setNextLocation(location);
             setSuccessModal((pre) => !pre);
-        } else {
-            navigate('/login');
-        }
-    };
-    const handleModalLogin = () => {
-        if (passValue.length !== 0 || confirmpassValue.length !== 0 || emailValue.length !== 0) {
-            setSuccessModalBack((pre) => !pre);
-        } else {
+        } else if (location === 'home') {
+            navigate('/');
+        } else if (location === 'login') {
             navigate('/login');
         }
     };
@@ -83,6 +96,17 @@ const SignUp = () => {
         <div className="signup">
             <form className="signup_form" onSubmit={handleSubmit(onSubmit)}>
                 <h1>Sign Up</h1>
+                <p>UserName</p>
+                <input
+                    type="text"
+                    placeholder="Enter your username"
+                    name="username"
+                    onFocus={onFocusInput}
+                    {...register('username', {
+                        required: 'Bạn chưa nhập username',
+                    })}
+                />
+                {errors.username && <span>{errors.username.message}</span>}
                 <p>Email</p>
                 <input
                     type="text"
@@ -147,13 +171,13 @@ const SignUp = () => {
 
                 <div className="signup_form_gignup">
                     <div>
-                        <p onClick={handleModalLogin} className="modalhome">
+                        <p onClick={() => handleModal('login')} className="modalhome">
                             Bạn đã có tài khoản? Đăng nhập
                         </p>
                     </div>
 
                     <div>
-                        <p onClick={handleModal} className="modalhome">
+                        <p onClick={() => handleModal('home')} className="modalhome">
                             Trở về trang chủ
                         </p>
                     </div>
@@ -161,7 +185,7 @@ const SignUp = () => {
             </form>
             <div>
                 <AlertDialog open={isSuccessModalOpen} onClose={() => setSuccessModalOpen(false)} />
-                <ModalHome open={isSuccessModal} onClose={() => setSuccessModal(false)} />
+                <ModalHome location={nextLocation} open={isSuccessModal} onClose={() => setSuccessModal(false)} />
                 <ModalBack open={isSuccessModalBack} onClose={() => setSuccessModalBack(false)} redirectPath="/login" />
             </div>
         </div>

@@ -1,0 +1,33 @@
+.ChannelInfor {
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.channelInfor_content {
+    width: 300px;
+    input {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 0 5px;
+        outline: none;
+    }
+    p {
+        margin-bottom: 0;
+    }
+    button {
+        border: 1px solid black;
+        padding: 5px 10px;
+        scale: 1;
+        border-radius: 5px;
+        background: none;
+
+        &:hover {
+            scale: 1.1;
+            background-color: #edede9;
+        }
+    }
+    span {
+        color: red;
+    }
+}

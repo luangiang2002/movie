@@ -82,28 +82,32 @@ const Avatar = ({ userInfo, setDarkMode }) => {
                 <>
                     <div className="avatar_icon">
                         <div>
-                            {urlAvatar?.urlAvatar ? (
-                                <img src={urlAvatar?.urlAvatar} alt="avater" />
-                            ) : (
+                            <input type="file" accept="image/*" onChange={handleAvatarChange} id="file" />
+                            <label className="update__avatar-btn" htmlFor="file">
                                 <img
-                                    src="https://img.freepik.com/free-icon/user_318-159711.jpg?size=626&ext=jpg&ga=GA1.1.614860776.1689582553&semt=sph"
-                                    alt="default_avater"
+                                    src={
+                                        urlAvatar?.urlAvatar
+                                            ? urlAvatar.urlAvatar
+                                            : 'https://img.freepik.com/free-icon/user_318-159711.jpg?size=626&ext=jpg&ga=GA1.1.614860776.1689582553&semt=sph'
+                                    }
+                                    alt="avater"
                                 />
-                            )}
-                            {userInfo ? <p>{userInfo.email}</p> : null}
+                            </label>
                         </div>
-                        <input type="file" accept="image/*" onChange={handleAvatarChange} id="file" />
-                        <label htmlFor="file">New Avatar</label>
+                        {userInfo ? <p className="userInfo__text">{userInfo.email}</p> : null}
                     </div>
                     <div className="avatar_logout" onClick={handleLogout}>
                         <IoMdExit />
                         <p>Đăng xuất</p>
                     </div>
-                    <div className="avatar_langue" onClick={handleShowDeviceInterface}>
-                        <BsMoon />
-                        <p>
-                            Giao diện thiết bị <MdNavigateNext />
-                        </p>
+                    <div className="avatar_theme" onClick={handleShowDeviceInterface}>
+                        <div className="themr__wrapper">
+                            <BsMoon />
+                            <p>Giao diện thiết bị</p>
+                        </div>
+                        <button>
+                            <MdNavigateNext />
+                        </button>
                     </div>
                 </>
             )}
