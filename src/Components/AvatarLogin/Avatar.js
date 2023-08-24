@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdNavigateNext } from 'react-icons/md';
 import { UPDATE_AVATAR } from '../../redux/actionType';
-const Avatar = ({ userInfo, setDarkMode }) => {
+const Avatar = ({ userInfo }) => {
     const dispatch = useDispatch();
     const [showDeviceInterface, setShowDeviceInterface] = useState(false);
     const urlAvatar = useSelector((state) => state.imageAvatar);
@@ -75,9 +75,7 @@ const Avatar = ({ userInfo, setDarkMode }) => {
 
     return (
         <>
-            {showDeviceInterface ? (
-                <Interface setShowDeviceInterface={setShowDeviceInterface} setDarkMode={setDarkMode} />
-            ) : null}
+            {showDeviceInterface ? <Interface setShowDeviceInterface={setShowDeviceInterface} /> : null}
             {!showDeviceInterface && (
                 <>
                     <div className="avatar_icon">
@@ -94,20 +92,28 @@ const Avatar = ({ userInfo, setDarkMode }) => {
                                 />
                             </label>
                         </div>
-                        {userInfo ? <p className="userInfo__text">{userInfo.email}</p> : null}
-                    </div>
-                    <div className="avatar_logout" onClick={handleLogout}>
-                        <IoMdExit />
-                        <p>Đăng xuất</p>
+                        <div className="userInfo__wrapper">
+                            <span>Xin chào!</span>
+                            <br />
+                            <p className="userInfo__text">{userInfo.userName}</p>
+                        </div>
                     </div>
                     <div className="avatar_theme" onClick={handleShowDeviceInterface}>
-                        <div className="themr__wrapper">
-                            <BsMoon />
+                        <div className="theme__wrapper">
+                            <div>
+                                <BsMoon />
+                            </div>
                             <p>Giao diện thiết bị</p>
                         </div>
                         <button>
                             <MdNavigateNext />
                         </button>
+                    </div>
+                    <div className="avatar_logout" onClick={handleLogout}>
+                        <div>
+                            <IoMdExit />
+                        </div>
+                        <p>Đăng xuất</p>
                     </div>
                 </>
             )}

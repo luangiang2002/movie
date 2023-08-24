@@ -15,6 +15,7 @@ import { avatarReducer } from './reducer/avatarReducer';
 import { commentReducer } from './reducer/commentReducer';
 import { videoUploadReducer } from './reducer/VideoReuderApp';
 import { LibraryReducer } from './reducer/libraryReducer';
+import { themeReducer } from './reducer/themeReducer';
 
 const rootReducer = combineReducers({
     search: selectedVideoReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
     library: LibraryReducer,
     videoid: VideoidReducer,
     homeVideos: homeVideoReducer,
+    theme: themeReducer,
 });
 
 const store = createStore(rootReducer, {}, composeWithDevTools(applyMiddleware(thunk)));

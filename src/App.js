@@ -29,17 +29,19 @@ import Channel from './Components/Channel/Channel';
 import { db } from './firebase/fibefire';
 import { doc, getDoc, updateDoc } from '@firebase/firestore';
 import ChannelInfor from './Components/ChannelInfor/ChannelInfor';
+import { changeTheme } from './redux/action/themeAction';
 
 function App() {
     const [SlideBar, toggleSidebar] = useState(false);
     const [hideHeader, setHideHeader] = useState(false);
+    const [activeItem, setActiveItem] = useState(null);
     const location = useLocation();
-    const handleToggleSidebar = () => toggleSidebar((value) => !value);
     const dispatch = useDispatch();
-    const userInfo = JSON.parse(localStorage.getItem('watch-user'));
+    const { mode } = useSelector((state) => state.theme);
     const avatarChannel = useSelector((state) => state.imageAvatar);
     const { firebaseId } = useSelector((state) => state.imageAvatar);
     const video = useSelector((state) => state.library);
+    const userInfo = JSON.parse(localStorage.getItem('watch-user'));
     const navigate = useNavigate();
 
     const handleVideoClick = async (videoID) => {
@@ -48,6 +50,12 @@ function App() {
     const hadleYoutube = async (videoID) => {
         navigate(`/homevideo/${videoID.videoId}`);
     };
+
+    const handleToggleSidebar = () => toggleSidebar((value) => !value);
+    const handleItemClick = (itemName) => {
+        setActiveItem(itemName);
+    };
+
     useEffect(() => {
         dispatch(getWatchedVideosForUser(firebaseId));
         dispatch(getSubscriptVideosForUser(firebaseId));
@@ -62,20 +70,6 @@ function App() {
         const hideHeaderOnLoginAndSignup = ['/login', '/signup', 'signout', '/reset'].includes(location.pathname);
         setHideHeader(hideHeaderOnLoginAndSignup);
     }, [location]);
-    const [isDarkMode, setDarkMode] = useState(false);
-    const handleDarkModeToggle = async () => {
-        if (!firebaseId) {
-            return;
-        }
-
-        const updatedInterfaceMode = isDarkMode ? 'light' : 'dark';
-
-        const userDocRef = doc(db, 'users', firebaseId);
-
-        await updateDoc(userDocRef, { interfaceMode: updatedInterfaceMode });
-
-        setDarkMode(!isDarkMode);
-    };
 
     useEffect(() => {
         if (!firebaseId) {
@@ -86,20 +80,16 @@ function App() {
         getDoc(userDocRef).then((doc) => {
             if (doc.exists()) {
                 const userInterfaceMode = doc.data().interfaceMode;
-                setDarkMode(userInterfaceMode === 'dark');
+                userInterfaceMode ? dispatch(changeTheme(userInterfaceMode)) : dispatch(changeTheme('light'));
             }
         });
     }, [firebaseId]);
-    const [activeItem, setActiveItem] = useState(null);
-    const handleItemClick = (itemName) => {
-        setActiveItem(itemName);
-    };
+
     return (
-        <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`App ${mode !== 'light' ? 'dark-mode' : ''}`}>
             {!hideHeader && (
                 <Header
                     handleToggleSidebar={handleToggleSidebar}
-                    setDarkMode={handleDarkModeToggle}
                     activeItem={activeItem}
                     handleItemClick={handleItemClick}
                 />

@@ -48,6 +48,7 @@ const SignUp = () => {
                 email: data.email,
                 accessToken: response.user.accessToken,
                 userName: data.username,
+                interfaceMode: 'light',
                 channelInfo: null,
             };
             await addDoc(userRef, userInfo);
