@@ -50,14 +50,14 @@ const Login = () => {
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                const userInfo = querySnapshot.docs[0].data();
-                const userInfoa = {
-                    email: userInfo.email,
+                const responInfo = querySnapshot.docs[0].data();
+                const userInfo = {
+                    email: responInfo.email,
                     accessToken: userData.user.accessToken,
-                    userName: userInfo.userName,
+                    userName: responInfo.userName,
                     channelInfo: null,
                 };
-                localStorage.setItem('watch-user', JSON.stringify(userInfoa));
+                localStorage.setItem('watch-user', JSON.stringify(userInfo));
             }
             setTimeout(() => {
                 navigate('/');

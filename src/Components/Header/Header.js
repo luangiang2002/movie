@@ -10,7 +10,7 @@ import ModalUpload from '../ModalUpload';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-const Header = ({ handleToggleSidebar, setDarkMod,handleItemClicke }) => {
+const Header = ({ handleToggleSidebar, handleItemClick }) => {
     const defaultAvatar =
         'https://img.freepik.com/free-icon/user_318-159711.jpg?size=626&ext=jpg&ga=GA1.1.614860776.1689582553&semt=sph';
     const navigate = useNavigate();
@@ -98,11 +98,15 @@ const Header = ({ handleToggleSidebar, setDarkMod,handleItemClicke }) => {
                 </Tippy>
             </div>
             <div className="header_icon center">
-                <Tippy content="Tải video lên"><button className='upload__btn center' onClick={handleUpload}><RiFolderUploadLine /></button></Tippy>
+                <Tippy content="Tải video lên">
+                    <button className="upload__btn center" onClick={handleUpload}>
+                        <RiFolderUploadLine />
+                    </button>
+                </Tippy>
                 {isLoggedIn ? (
                     <img
                         src={urlAvatar?.urlAvatar ? urlAvatar?.urlAvatar : defaultAvatar}
-                        alt="avater"
+                        alt="avatar"
                         onClick={() => setShowAvatar((prev) => !prev)}
                     />
                 ) : (
@@ -113,7 +117,7 @@ const Header = ({ handleToggleSidebar, setDarkMod,handleItemClicke }) => {
             </div>
             {isLoggedIn && showAvatar && (
                 <div ref={avatarRef} className="avatar">
-                    <Avatar userInfo={userInfo} setDarkMode={setDarkMode} />
+                    <Avatar userInfo={userInfo} />
                 </div>
             )}
 

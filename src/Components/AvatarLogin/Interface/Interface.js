@@ -1,38 +1,49 @@
-import { useState } from 'react';
-import { BsArrowLeft } from 'react-icons/bs';
+import { BsArrowLeft, BsCheckLg } from 'react-icons/bs';
 import './Interface.scss';
-const Interface = ({ setShowDeviceInterface, setDarkMode }) => {
-    const [interfaceSelected, setInterfaceSelected] = useState(null);
+import { useDispatch, useSelector } from 'react-redux';
+import { changeTheme } from '../../../redux/action/themeAction';
+import { doc, getDoc, updateDoc } from '@firebase/firestore';
+import { db } from '../../../firebase/fibefire';
+
+const Interface = ({ setShowDeviceInterface }) => {
+    const { mode } = useSelector((state) => state.theme);
+    const { firebaseId } = useSelector((state) => state.imageAvatar);
+    const dispatch = useDispatch();
 
     const handleGoBack = () => {
         setShowDeviceInterface(false);
     };
 
-    const toggleDark = () => {
-        if (interfaceSelected !== 'dark') {
-            setDarkMode(true);
-            setInterfaceSelected('dark');
-        }
-    };
+    const handleMode = async (mode) => {
+        dispatch(changeTheme(mode));
+        const userDocRef = doc(db, 'users', firebaseId);
 
-    const toggleMode = () => {
-        if (interfaceSelected !== 'light') {
-            setDarkMode(false);
-            setInterfaceSelected('light');
-        }
+        await updateDoc(userDocRef, { interfaceMode: mode });
     };
 
     return (
         <>
             <div className="interface">
-                <div>
-                    <BsArrowLeft onClick={handleGoBack} className="interface_icon" />
+                <div className="interface__title-wrapper">
+                    <button className="center smooth" onClick={handleGoBack}>
+                        <BsArrowLeft className="interface_icon" />
+                    </button>
                     <p>Giao diện</p>
                 </div>
                 <hr />
-                <h6>Tùy chọn cài đặt chỉ áp dụng cho trình duyệt này</h6>
-                <p onClick={toggleDark}>Giao diện tối</p>
-                <p onClick={toggleMode}>Giao diện sáng</p>
+                <div className="interface__content-wrapper">
+                    <h6>Tùy chọn cài đặt chỉ áp dụng cho trình duyệt này</h6>
+                    <div>
+                        <button className="interface__interactive-wrapper smooth">
+                            <div className="center-x">{mode === 'light' && <BsCheckLg />}</div>
+                            <span onClick={() => handleMode('light')}>Giao diện sáng</span>
+                        </button>
+                        <button className="interface__interactive-wrapper smooth">
+                            <div className="center-x">{mode !== 'light' && <BsCheckLg />}</div>
+                            <span onClick={() => handleMode('dark')}>Giao diện tối</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </>
     );

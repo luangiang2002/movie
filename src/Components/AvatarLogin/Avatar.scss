@@ -3,17 +3,14 @@
     top: 100%;
     right: 3%;
     background-color: #f8f9fa;
-    width: 300px;
+    width: 260px;
     padding: 20px 0 16px 0px;
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
     &_icon {
         cursor: pointer;
 
-        div {
-            display: flex;
-            align-items: center;
-        }
         input {
             display: none;
         }
@@ -57,8 +54,10 @@
     padding-bottom: 20px;
     border-bottom: 1px solid #cfcfcf;
 }
+.userInfo__wrapper {
+    margin-left: 12px;
+}
 .userInfo__text {
-    margin-left: 8px;
     font-size: 15px;
     font-weight: 500;
     color: #333;
@@ -90,18 +89,21 @@
     }
 }
 
+.avatar_logout > div,
+.theme__wrapper > div {
+    width: 32px;
+}
 .avatar_theme {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .themr__wrapper {
+    .theme__wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
 
         svg {
-            margin-right: 16px;
             font-size: 18px;
         }
     }
