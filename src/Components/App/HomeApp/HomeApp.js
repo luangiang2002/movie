@@ -33,32 +33,35 @@ const HomeApp = () => {
         fetchComments();
     }, [dispatch]);
     return (
-        <div className=" homeapp">
-            {!loading &&
-                videos &&
-                sortedVideos.map((video, i) => (
-                    <div className="homeapp_video" key={i}>
-                        <div className="homeapp_video--duration" onClick={() => handleVideoClick(video)}>
-                            <img src={video.thumbnailsurl} alt="" />
-                        </div>
-                        <div className="homeapp_video--detail d-flex w-100">
-                            <div className="homeapp_video--detail_channel">
-                                <img src={video.channelAvatar} alt="" />
+        <>
+            <h4 className="titleHome">Tổng hợp những video đã đăng mới nhất</h4>
+            <div className=" homeapp">
+                {!loading &&
+                    videos &&
+                    sortedVideos.map((video, i) => (
+                        <div className="homeapp_video" key={i}>
+                            <div className="homeapp_video--duration" onClick={() => handleVideoClick(video)}>
+                                <img src={video.thumbnailsurl} alt="" />
                             </div>
-                            <div className="homeapp_video--detail_title">
-                                <h4 onClick={handleVideoClick}>{video.title}</h4>
-                                <p
-                                    className="homeapp_video--detail_author"
-                                    onClick={() => handchanle(video.firebaseID)}
-                                >
-                                    {video.channelTitle}
-                                </p>
-                                <p className="homeapp_video--detail_sub">{moment(video.timestamp).fromNow()} </p>
+                            <div className="homeapp_video--detail d-flex w-100">
+                                <div className="homeapp_video--detail_channel">
+                                    <img src={video.channelAvatar} alt="" />
+                                </div>
+                                <div className="homeapp_video--detail_title">
+                                    <h4 onClick={() => handleVideoClick(video)}>{video.title}</h4>
+                                    <p
+                                        className="homeapp_video--detail_author"
+                                        onClick={() => handchanle(video.firebaseID)}
+                                    >
+                                        {video.channelTitle}
+                                    </p>
+                                    <p className="homeapp_video--detail_sub">{moment(video.timestamp).fromNow()} </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
-        </div>
+                    ))}
+            </div>
+        </>
     );
 };
 

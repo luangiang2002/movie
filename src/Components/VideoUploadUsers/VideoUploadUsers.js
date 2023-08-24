@@ -10,6 +10,7 @@ import { VIDEO_UPLOAD_USERS } from '../../redux/actionType';
 import { toast } from 'react-toastify';
 import { gethandleVideoClick } from '../GetAddWatches';
 import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import ModalDetele from '../ModalDetele';
 const VideoUploadUsers = () => {
     const { firebaseId } = useSelector((state) => state.imageAvatar);
     const { video } = useSelector((state) => state.library);
@@ -52,7 +53,7 @@ const VideoUploadUsers = () => {
             return;
         }
     };
-
+    const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
     const handleDeleteVideo = async (videoId) => {
         const id = await getByIdVideo(videoId);
         try {
@@ -71,6 +72,9 @@ const VideoUploadUsers = () => {
                 position: 'top-right',
             });
         }
+    };
+    const handleshowModal = () => {
+        setSuccessModalOpen((pre) => !pre);
     };
     const handchanle = (channelID) => {
         navigate(`/channelapp/${channelID}`);
@@ -108,16 +112,23 @@ const VideoUploadUsers = () => {
                                         </>
                                     )}
                                     {showEditDelete === video?.videoId && video?.firebaseID === firebaseId && (
-                                        <button onClick={() => handleDeleteVideo(video?.videoId)} className="delete">
-                                            Xóa
-                                        </button>
+                                        <>
+                                            <button onClick={handleshowModal} className="delete">
+                                                Xóa
+                                            </button>
+                                            <ModalDetele
+                                                open={isSuccessModalOpen}
+                                                onClose={() => setSuccessModalOpen(false)}
+                                                onDelete={() => handleDeleteVideo(video?.videoId)}
+                                            />
+                                        </>
                                     )}
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div>Bạn chưa xem video </div>
+                    <div>Bạn chưa đăng video nào</div>
                 )}
             </div>
         </div>

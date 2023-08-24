@@ -30,7 +30,9 @@
             width: 100%;
             border: 1px solid black;
             padding: 0 10px;
-            height: 35px;
+            outline: none;
+            border-radius: 5px;
+            height: 30px;
         }
         label {
             margin-top: 10px;
@@ -39,6 +41,9 @@
             width: 100%;
             border: 1px solid black;
             padding: 0 10px;
+            outline: none;
+            border-radius: 5px;
+            height: 60px;
         }
         input[type='file'] {
             margin: 0;
@@ -51,4 +56,12 @@
             padding: 5px 10px;
         }
     }
+}
+.videoup {
+    margin: 10px 0;
+    width: 100%;
+}
+.imgUp {
+    margin: 10px 0;
+    width: 100%;
 }

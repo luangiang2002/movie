@@ -40,7 +40,7 @@ const ChannelApp = () => {
                                     </div>
                                     <div className="videoupload_video--detail d-flex w-100">
                                         <div className="videoupload_video--detail_title">
-                                            <h4 onClick={handleVideoClick}>{video.title}</h4>
+                                            <h4 onClick={() => handleVideoClick(video)}>{video.title}</h4>
                                             <p className="videoupload_video--detail_author">{video?.channelTitle}</p>
                                             <p className="videoupload_video--detail_sub">
                                                 {moment(video?.timestamp).fromNow()}{' '}

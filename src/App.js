@@ -89,11 +89,26 @@ function App() {
             }
         });
     }, [firebaseId]);
-
+    const [activeItem, setActiveItem] = useState(null);
+    const handleItemClick = (itemName) => {
+        setActiveItem(itemName);
+    };
     return (
         <div className={`App ${isDarkMode ? 'dark-mode' : ''}`}>
-            {!hideHeader && <Header handleToggleSidebar={handleToggleSidebar} setDarkMode={handleDarkModeToggle} />}
-            <ToggleSideBar SlideBar={SlideBar} handleToggleSidebar={handleToggleSidebar} />
+            {!hideHeader && (
+                <Header
+                    handleToggleSidebar={handleToggleSidebar}
+                    setDarkMode={handleDarkModeToggle}
+                    activeItem={activeItem}
+                    handleItemClick={handleItemClick}
+                />
+            )}
+            <ToggleSideBar
+                SlideBar={SlideBar}
+                handleToggleSidebar={handleToggleSidebar}
+                activeItem={activeItem}
+                handleItemClick={handleItemClick}
+            />
             <Routes>
                 <Route
                     path="/"
