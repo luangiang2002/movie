@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
-
+import './Interface.scss';
 const Interface = ({ setShowDeviceInterface, setDarkMode }) => {
     const [interfaceSelected, setInterfaceSelected] = useState(null);
 

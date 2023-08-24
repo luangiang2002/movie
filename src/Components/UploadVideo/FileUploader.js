@@ -20,24 +20,39 @@ const VideoUploader = ({ userInfo }) => {
         description: '',
         channelAvatar: '',
         thumbnailsurl: '',
-        channelTitle: '',
         firebaseID: '',
     });
     const avatar =
         'https://img.freepik.com/free-icon/user_318-159711.jpg?size=626&ext=jpg&ga=GA1.1.614860776.1689582553&semt=sph';
 
     const [check, setCheck] = useState();
+
+    const username = userInfo.email.split('@')[0];
+    const channelId = uuidv4();
+
+    const uniqueId = `${channelId}_${username}`;
+
     const dispatch = useDispatch();
     const onDrop = useCallback(
         async (acceptedFiles) => {
-            setUploading(<ClipLoader color="#36D7B7" loading={uploading} size={30} />);
+            const acceptedVideoTypes = ['video/mp4'];
+
             const file = acceptedFiles[0];
+
+            if (!acceptedVideoTypes.includes(file.type)) {
+                toast.error('Chỉ chấp nhận tệp video có định dạng mp4', {
+                    autoClose: 3000,
+                    position: 'top-right',
+                });
+                return;
+            }
+
+            setUploading(<ClipLoader color="#36D7B7" loading={uploading} size={30} />);
             const video = uuidv4();
             const videoName = `video_${video}.mp4`;
-
             const avatarRef = ref(storage, `${userInfo?.email}/${videoName}`);
 
-            await uploadBytes(avatarRef, file); // Lưu video vào Firebase Storage
+            await uploadBytes(avatarRef, file);
 
             const downloadUrl = await getDownloadURL(avatarRef);
 
@@ -51,7 +66,6 @@ const VideoUploader = ({ userInfo }) => {
         },
         [uploading, userInfo?.email],
     );
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setVideoInfo({
@@ -96,6 +110,8 @@ const VideoUploader = ({ userInfo }) => {
                 channelAvatar: urlAvatar?.urlAvatar || avatar,
                 like: '0',
                 dislike: '0',
+                channelTitle: username,
+                channelId: uniqueId,
             };
 
             const videosCollectionRef = collection(db, 'videos');
@@ -113,14 +129,13 @@ const VideoUploader = ({ userInfo }) => {
             setVideoUrl(null);
             setTimeout(() => {
                 navigate('/uploadusers');
-            }, 5000);
+            }, 3000);
         }
     };
     useEffect(() => {
         const canPublishNow =
             videoInfo.title.trim() !== '' &&
             videoInfo.description.trim() !== '' &&
-            videoInfo.channelTitle.trim() !== '' &&
             videoUrl !== null &&
             videoUrl !== '' &&
             thumbnailsurl !== null &&
@@ -135,7 +150,7 @@ const VideoUploader = ({ userInfo }) => {
                 <input {...getInputProps()} />
                 <p>{uploading}</p>
             </div>
-            {/* {videoUrl && ( */}
+            {videoUrl && <video src={videoUrl} controls height={200} className="videoup" />}
             <div className="fileupload_video">
                 <h2>Thông tin về video:</h2>
                 <input
@@ -145,13 +160,6 @@ const VideoUploader = ({ userInfo }) => {
                     onChange={handleInputChange}
                     placeholder="Tiêu đề"
                 />
-                <input
-                    type="text"
-                    name="channelTitle"
-                    value={videoInfo.channelTitle}
-                    onChange={handleInputChange}
-                    placeholder="name chanel "
-                />
                 <textarea
                     name="description"
                     value={videoInfo.description}
@@ -160,11 +168,13 @@ const VideoUploader = ({ userInfo }) => {
                 ></textarea>
                 <label htmlFor="image">chọn ảnh bìa video</label>
                 <input type="file" accept="image/*" id="image" onChange={handleThumbnailChange} />
+                {thumbnailsurl && <img src={thumbnailsurl} alt="" height={200} className="imgUp" />}
                 <br />
                 <button onClick={handlePublish}>Đăng video</button>
-                <Link to="/">Trở về </Link>
+                <Link to="/" className="linkUp">
+                    Trở về{' '}
+                </Link>
             </div>
-            {/* )} */}
         </div>
     );
 };

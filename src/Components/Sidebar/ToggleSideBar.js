@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './toggleSidebar.scss';
 import { AiFillHome, AiOutlineCloudUpload } from 'react-icons/ai';
 import { HiOutlineViewBoards, HiOutlineFolderAdd, HiOutlineCollection } from 'react-icons/hi';
 import { FaBars } from 'react-icons/fa';
 import { TbHomePlus } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
-const ToggleSideBar = ({ SlideBar, handleToggleSidebar }) => {
+const ToggleSideBar = ({ SlideBar, handleToggleSidebar, activeItem, handleItemClick }) => {
     const navigate = useNavigate();
-    const [activeItem, setActiveItem] = useState(null);
-    const handleItemClick = (itemName) => {
-        setActiveItem(itemName);
-    };
+
     const handleHome = () => {
         navigate('/');
         handleItemClick('/');

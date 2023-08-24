@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { RiFolderUploadLine } from 'react-icons/ri';
 import ModalUpload from '../ModalUpload';
 
-const Header = ({ handleToggleSidebar, setDarkMode }) => {
+const Header = ({ handleToggleSidebar, setDarkMode, handleItemClick }) => {
     const navigate = useNavigate();
     const [input, setInput] = useState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,6 +23,7 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
 
     const handleHome = () => {
         navigate('/');
+        handleItemClick('/');
     };
     const handleKeyDown = (event) => {
         if (input && input.trim() !== '') {
@@ -74,6 +75,7 @@ const Header = ({ handleToggleSidebar, setDarkMode }) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
     return (
         <div className=" header ">
             <div className="header_logo">
