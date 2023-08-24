@@ -17,6 +17,10 @@
             width: 50px;
             height: 50px;
             margin-left: 10px;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
@@ -25,14 +29,15 @@
         border-radius: 25px;
         position: relative;
         width: 60%;
+        height: 40px;
 
         input {
             border: none;
             outline: none;
             background: unset;
-            padding-left: 10px;
-            height: 40px;
-            width: 85%;
+            padding-left: 24px;
+            height: 100%;
+            width: calc(100% - 50px);
 
             &::placeholder {
                 font-size: 15px;
@@ -40,11 +45,14 @@
         }
         button {
             position: absolute;
-            right: 5%;
-            top: 15%;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
             border: none;
             outline: none;
             background-color: unset;
+            height: 100%;
+            padding: 0 8px;
 
             svg {
                 font-size: 25px;
@@ -55,7 +63,6 @@
     &_icon {
         svg {
             font-size: 25px;
-            margin-right: 20px;
         }
 
         img {
@@ -84,5 +91,56 @@
                 height: 40px;
             }
         }
+    }
+}
+
+.header__btn-login {
+    padding: 4px 12px;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    margin: 0;
+    user-select: none;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        border-color: rgba(0, 0, 0, 0.6);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 6px;
+        color: rgba(0, 0, 0, 0.85);
+    }
+
+    &:focus-visible {
+        outline: unset;
+    }
+}
+
+.menu__button {
+    padding: 8px 8px;
+    margin-left: -8px;
+    background-color: transparent;
+    border-radius: 50%;
+
+    &:hover {
+        cursor: pointer;
+        background-color: $hover-gray;
+    }
+}
+
+.upload__btn {
+    margin-right: 24px;
+    padding: 8px;
+    border-radius: 50%;
+
+    &:hover {
+        background-color: $hover-gray;
     }
 }

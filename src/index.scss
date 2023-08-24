@@ -14,6 +14,7 @@ body {
 $color-titleparent: #0f0f0f;
 $color-titlechild: #606060;
 $color-taglink: #065fd4;
+$hover-gray: #e9ecef;
 
 $backgroundColorHover: rgb(242 242 242);
 $backgroundColorActive: #030303;
@@ -86,6 +87,40 @@ $breakpoint-xl: 1440px;
 }
 .dark-mode .category__item-wrapper.active p {
     color: black;
+}
+button {
+    border: none;
+    transition: all .2s linear;
+    background-color: transparent;
+
+    &:focus-visible {
+        outline: none;
+    }
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-x {
+    display: flex;
+    justify-content: center;
+}
+.center-y {
+    display: flex;
+    align-items: center;
+}
+.w-full {
+    width: 100%;
+}
+.h-full {
+    height: 100%;
+}
+
+.smooth {
+    transition: all .2s linear;
 }
 .dark-mode a {
     color: white !important;

@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { auth, db } from '../firebase/fibefire';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import ModalHome from '../Components/ModalHome';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -21,16 +21,19 @@ const Login = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(true);
     const [errorButton, setErrorButton] = useState('');
+    const passValue = watch('pass', '');
+    const emailValue = watch('email', '');
+    const [nextLocation, setNextLocation] = useState('');
 
     const onSubmit = async (data) => {
-        setError('pass', {
+        setError('password', {
             type: 'manual',
             message: '',
         });
         setIsSubmitting(true);
 
         try {
-            const userData = await signInWithEmailAndPassword(auth, data.email, data.pass);
+            const userData = await signInWithEmailAndPassword(auth, data.email, data.password);
 
             if (!userData.user.emailVerified) {
                 setErrorButton('Vui lòng xác minh email trước khi đăng nhập');
@@ -42,26 +45,26 @@ const Login = () => {
                 autoClose: 4000,
                 position: 'top-right',
             });
+            const userRef = collection(db, 'users');
+            const q = query(userRef, where('email', '==', emailValue));
+            const querySnapshot = await getDocs(q);
 
+            if (!querySnapshot.empty) {
+                const userInfo = querySnapshot.docs[0].data();
+                const userInfoa = {
+                    email: userInfo.email,
+                    accessToken: userData.user.accessToken,
+                    userName: userInfo.userName,
+                    channelInfo: null,
+                };
+                localStorage.setItem('watch-user', JSON.stringify(userInfoa));
+            }
             setTimeout(() => {
                 navigate('/');
                 window.location.reload();
             }, 4000);
 
-            const userInfo = {
-                email: data.email,
-                accessToken: userData.user.accessToken,
-            };
-
             setIsSubmitting(false);
-            localStorage.setItem('watch-user', JSON.stringify(userInfo));
-            const userRef = collection(db, 'users');
-            const querySnapshot = await getDocs(query(userRef, where('email', '==', data.email)));
-            if (querySnapshot.size > 0) {
-                return null;
-            } else {
-                await addDoc(userRef, userInfo);
-            }
         } catch (error) {
             setIsSubmitting(false);
             setErrorButton('Email hoặc mật khẩu không đúng');
@@ -75,72 +78,102 @@ const Login = () => {
         setErrorButton('');
     };
 
-    const passValue = watch('pass', '');
-    const emailValue = watch('email', '');
     const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
-    const handleModal = () => {
+    const handleModal = (location) => {
         if (passValue.length !== 0 || emailValue.length !== 0) {
             setSuccessModalOpen((pre) => !pre);
-        } else {
+            setNextLocation(location);
+        } else if (location === 'home') {
             navigate('/');
+        } else if (location === 'signup') {
+            navigate('/signup');
         }
     };
     return (
-        <div className="login">
-            <form className="login_form" onSubmit={handleSubmit(onSubmit)}>
-                <h1>Welcome back</h1>
-                <p>Email</p>
-                <input
-                    type="text"
-                    placeholder="Enter your email"
-                    onFocus={onFocusInput}
-                    name="email"
-                    {...register('email', {
-                        required: 'Bạn chưa nhập email',
-                        pattern: {
-                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                            message: 'Email sai định dạng',
-                        },
-                    })}
-                />
-                {errors.email && <span>{errors.email.message}</span>}
-                <p>Password</p>
-                <div className="login_form--icon">
-                    <input
-                        type={showPassword ? 'password' : 'text'}
-                        placeholder="Enter your password"
-                        name="pass"
-                        id="toggle-password"
-                        onFocus={onFocusInput}
-                        {...register('pass', {
-                            required: 'Bạn chưa nhập mật khẩu',
-                        })}
-                    />
-                    {showPassword ? (
-                        <FaEyeSlash onClick={handleTogglePassword} />
-                    ) : (
-                        <FaEye onClick={handleTogglePassword} />
-                    )}
-                </div>
-                {errors.pass && <span>{errors.pass.message}</span>} <br />
-                <span>{errorButton}</span>
-                <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
-                </button>
-                <Link to="/reset">Forget password</Link> <br />
-                <div className="login_gignup">
-                    <p>
-                        Don't have an account ? <Link to="/signup">Sign up</Link>
-                    </p>
-                    <div>
-                        <p onClick={handleModal} className="modalhome">
+        <div className="wrapper">
+            <div className="login__container center">
+                <form className="login_form center" onSubmit={handleSubmit(onSubmit)}>
+                    <h1 className="main__title">Đăng nhập</h1>
+                    <div className="email__wrapper w-full">
+                        <input
+                            className="w-full smooth"
+                            type="text"
+                            placeholder="Email"
+                            onFocus={onFocusInput}
+                            name="email"
+                            {...register('email', {
+                                required: 'Bạn chưa nhập email',
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: 'Email sai định dạng',
+                                },
+                            })}
+                        />
+                        {errors.email && <span className="error-message">{errors.email.message}</span>}
+                    </div>
+                    <div className="password__wrapper w-full">
+                        <div>
+                            <input
+                                className="w-full smooth"
+                                type={showPassword ? 'password' : 'text'}
+                                placeholder="Password"
+                                name="password"
+                                id="toggle-password"
+                                onFocus={onFocusInput}
+                                {...register('password', {
+                                    required: 'Bạn chưa nhập mật khẩu',
+                                })}
+                            />
+                            {showPassword ? (
+                                <button className="center" type="button" onClick={handleTogglePassword}>
+                                    <FaEyeSlash />
+                                </button>
+                            ) : (
+                                <button className="center" type="button" onClick={handleTogglePassword}>
+                                    <FaEye />
+                                </button>
+                            )}
+                        </div>
+                        {errors.password && <span className="error-message">{errors.password.message}</span>} <br />
+                    </div>
+                    <div className="submit__error-message w-full">
+                        <span className="error-message">{errorButton}</span>
+                    </div>
+                    <Link className="forgotPassword___btn" to="/reset">
+                        Quên mật khẩu
+                    </Link>
+                    <button className="login___btn" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
+                    </button>
+                    <div className="backHome__wrapper">
+                        <button type="button" className="mobile__signup-btn" onClick={() => handleModal('signup')}>
+                            Đăng ký
+                        </button>
+                        <button type="button" className="modalhome" onClick={() => handleModal('home')}>
                             Trở về trang chủ
-                        </p>
+                        </button>
+                    </div>
+                </form>
+                <div className="thumbnail center">
+                    <div className="">
+                        <h2 className="main__title">Welcome back</h2>
+                    </div>
+                    <div className="">
+                        <p>Bạn chưa có tài khoản trước đó?</p>
+                    </div>
+                    <div className="signUp__wrapper">
+                        <button className="signUp__btn" onClick={() => handleModal('signup')}>
+                            Đăng ký
+                        </button>
                     </div>
                 </div>
-            </form>
+            </div>
             <div>
-                <ModalHome open={isSuccessModalOpen} onClose={() => setSuccessModalOpen(false)} />
+                <ModalHome
+                    location={nextLocation}
+                    open={isSuccessModalOpen}
+                    onClose={() => setSuccessModalOpen(false)}
+                />
             </div>
         </div>
     );

@@ -28,6 +28,7 @@ import ToggleSideBar from './Components/Sidebar/ToggleSideBar';
 import Channel from './Components/Channel/Channel';
 import { db } from './firebase/fibefire';
 import { doc, getDoc, updateDoc } from '@firebase/firestore';
+import ChannelInfor from './Components/ChannelInfor/ChannelInfor';
 
 function App() {
     const [SlideBar, toggleSidebar] = useState(false);
@@ -174,6 +175,10 @@ function App() {
                 ></Route>
                 <Route path="/channelapp/:id" element={<ChannelApp />}></Route>
                 <Route path="/uploadusers/" element={<VideoUploadUsers />}></Route>
+                <Route
+                    path="/channel-register/"
+                    element={<ChannelInfor userInfo={userInfo} firebaseId={firebaseId} />}
+                ></Route>
             </Routes>
             <ToastContainer
                 position="top-right"

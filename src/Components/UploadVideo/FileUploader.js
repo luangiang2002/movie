@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { VIDEO_UPDATE_SUCCESS } from '../../redux/actionType';
 const VideoUploader = ({ userInfo }) => {
     const [videoUrl, setVideoUrl] = useState(null);
-    const [uploading, setUploading] = useState('kéo hoặc nhấn vào đây để tải ảnh lên ....');
+    const [uploading, setUploading] = useState('kéo hoặc nhấn vào đây để tải video lên ....');
     const urlAvatar = useSelector((state) => state.imageAvatar);
     const [thumbnailsurl, setThumbnailsurl] = useState('');
     const [videoInfo, setVideoInfo] = useState({
@@ -110,8 +110,7 @@ const VideoUploader = ({ userInfo }) => {
                 channelAvatar: urlAvatar?.urlAvatar || avatar,
                 like: '0',
                 dislike: '0',
-                channelTitle: username,
-                channelId: uniqueId,
+                channelTitle: userInfo.channelInfo,
             };
 
             const videosCollectionRef = collection(db, 'videos');

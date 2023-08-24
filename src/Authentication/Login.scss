@@ -1,76 +1,117 @@
-.login {
-    width: 500px;
+.wrapper {
+    width: 700px;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(to right, #f8f9fa, #e9ecef);
-    padding: 20px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
-    &_form {
-        h1 {
-            margin: 10px 0;
-            text-align: center;
+    .login__container {
+        height: 450px;
+    }
+    .login_form,
+    .thumbnail {
+        flex: 1;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .thumbnail {
+        color: #fff;
+        background: linear-gradient(to right, #ff4b2b, #ff416c);
+    }
+
+    .main__title {
+        margin-bottom: 24px;
+        font-weight: 700;
+        user-select: none;
+    }
+    .email__wrapper,
+    .password__wrapper {
+        min-height: 66px;
+        padding: 0 32px;
+
+        input {
+            padding: 8px 10px;
+            border-radius: 4px;
+            color: #333;
+            font-size: 15px;
+            border: 1px solid #adb5bd;
+
+            &:focus-visible {
+                outline: none;
+                border-color: #495057;
+            }
         }
-        &--icon {
+    }
+    .email__wrapper {
+    }
+    .password__wrapper {
+        div {
             position: relative;
 
-            svg {
+            input {
+                padding-right: 40px;
+            }
+
+            button {
                 position: absolute;
-                right: 5%;
-                top: 18%;
-                font-size: 20px;
-            }
-        }
-        input {
-            height: 35px;
-            margin-bottom: 20px;
-            outline: none;
-            border: 1px solid #48bfe3;
-            padding: 0 10px;
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        button {
-            width: 100%;
-            height: 35px;
-            border-radius: 5px;
-            border: none;
-            background-color: #4ea8de;
-            margin: 10px 0;
-            color: white;
-            opacity: 0.7;
-
-            &:hover {
-                opacity: 1;
-            }
-        }
-        span {
-            color: red;
-            margin-top: -15px;
-            display: block;
-            &:nth-child(1) {
-                margin-bottom: 10px;
-                display: block;
+                padding: 4px 6px;
+                right: 8px;
+                top: 50%;
+                transform: translateY(-50%);
             }
         }
     }
-
-    &_google {
-        button {
-            width: 100%;
-            height: 35px;
-            background-color: white;
-            border: 1px solid #e9ecef;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
+    .error-message {
+        font-size: 14px;
+        color: #d00000;
+    }
+    .forgotPassword___btn {
+        font-size: 14px;
+        color: #666!important;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+    .login___btn {
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px 45px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: transform 80ms ease-in;
+        background-color: #ff4b2b;
+        border-radius: 20px;
+    }
+    .backHome__wrapper {
+        margin-top: 24px;
     }
 
-    &_gignup {
-        font-size: 15px;
-        text-align: center;
+    .signUp__wrapper {
+        margin-top: 8px;
+    }
+    .signUp__btn {
+        color: #fff;
+        width: 170px;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px 45px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: transform 80ms ease-in;
+        background-color: transparent;
+        border: 2px solid #fff;
+        border-radius: 20px;
+    }
+    .mobile__signup-btn {
+        display: none;
+    }
+    .submit__error-message {
+        padding-left: 32px;
+        margin-bottom: 12px;
     }
 }
 
@@ -79,11 +120,22 @@ a {
     color: #7400b8 !important;
 }
 
-@media (max-width: 767px) {
-    .login {
-        width: 100%;
-        height: 100vh;
+@media only screen and (max-width: 425px) {
+    .thumbnail {
+        display: none;
     }
+    .backHome__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .mobile__signup-btn {
+        display: block;
+    }
+}
+
+@media only screen and (min-width: 426px) and (max-width: 767px) {
+    
 }
 
 .modalhome {

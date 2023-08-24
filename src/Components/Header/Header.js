@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineSearch } from 'react-icons/ai';
 import './Header.scss';
@@ -7,8 +7,12 @@ import Avatar from '../AvatarLogin/Avatar';
 import { useSelector } from 'react-redux';
 import { RiFolderUploadLine } from 'react-icons/ri';
 import ModalUpload from '../ModalUpload';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
-const Header = ({ handleToggleSidebar, setDarkMode, handleItemClick }) => {
+const Header = ({ handleToggleSidebar, setDarkMod,handleItemClicke }) => {
+    const defaultAvatar =
+        'https://img.freepik.com/free-icon/user_318-159711.jpg?size=626&ext=jpg&ga=GA1.1.614860776.1689582553&semt=sph';
     const navigate = useNavigate();
     const [input, setInput] = useState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,24 +47,19 @@ const Header = ({ handleToggleSidebar, setDarkMode, handleItemClick }) => {
         }
     };
 
-    const handleImgClick = useCallback(() => {
-        if (isLoggedIn) {
-            setShowAvatar((prev) => !prev);
-        } else {
-            navigate('/login');
-        }
-    }, [isLoggedIn, navigate]);
-
     const urlAvatar = useSelector((state) => state.imageAvatar);
     const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
 
     const handleUpload = () => {
-        if (isLoggedIn) {
+        if (isLoggedIn && userInfo?.channelInfo === null) {
+            navigate('/channel-register');
+        } else if (isLoggedIn) {
             navigate('/upload');
         } else {
             setSuccessModalOpen((pre) => !pre);
         }
     };
+
     const avatarRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -77,9 +76,11 @@ const Header = ({ handleToggleSidebar, setDarkMode, handleItemClick }) => {
     }, []);
 
     return (
-        <div className=" header ">
-            <div className="header_logo">
-                <FaBars onClick={() => handleToggleSidebar()} />
+        <div className=" header">
+            <div className="header_logo center">
+                <button className="menu__button center" onClick={() => handleToggleSidebar()}>
+                    <FaBars />
+                </button>
                 <img src="https://i.ibb.co/s9Qys2j/logo.png" alt="" onClick={handleHome} />
             </div>
             <div className="header_search">
@@ -90,20 +91,24 @@ const Header = ({ handleToggleSidebar, setDarkMode, handleItemClick }) => {
                     onKeyDown={handleKeyDown}
                     className="input"
                 />
-                <button onClick={handleSearch}>
-                    <AiOutlineSearch />
-                </button>
+                <Tippy content="Tìm kiếm">
+                    <button onClick={handleSearch}>
+                        <AiOutlineSearch />
+                    </button>
+                </Tippy>
             </div>
-            <div className="header_icon">
-                <RiFolderUploadLine onClick={handleUpload} />
-                {urlAvatar?.urlAvatar ? (
-                    <img src={urlAvatar?.urlAvatar} alt="avater" onClick={handleImgClick} />
-                ) : (
+            <div className="header_icon center">
+                <Tippy content="Tải video lên"><button className='upload__btn center' onClick={handleUpload}><RiFolderUploadLine /></button></Tippy>
+                {isLoggedIn ? (
                     <img
-                        src="https://img.freepik.com/free-icon/user_318-159711.jpg?size=626&ext=jpg&ga=GA1.1.614860776.1689582553&semt=sph"
-                        alt="default_avater"
-                        onClick={handleImgClick}
+                        src={urlAvatar?.urlAvatar ? urlAvatar?.urlAvatar : defaultAvatar}
+                        alt="avater"
+                        onClick={() => setShowAvatar((prev) => !prev)}
                     />
+                ) : (
+                    <button className="header__btn-login" onClick={() => navigate('/login')}>
+                        Đăng nhập
+                    </button>
                 )}
             </div>
             {isLoggedIn && showAvatar && (

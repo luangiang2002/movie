@@ -4,7 +4,7 @@
     right: 3%;
     background-color: #f8f9fa;
     width: 300px;
-    padding: 20px;
+    padding: 20px 0 16px 0px;
     border-radius: 10px;
 
     &_icon {
@@ -13,19 +13,6 @@
         div {
             display: flex;
             align-items: center;
-
-            img {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                margin-right: 5px;
-            }
-
-            p {
-                margin-top: 20px;
-                max-width: 210px;
-                overflow-wrap: break-word;
-            }
         }
         input {
             display: none;
@@ -35,38 +22,107 @@
     &_logout {
         display: flex;
         align-items: center;
-        margin: 20px 0;
         cursor: pointer;
 
         svg {
-            margin-right: 20px;
-            font-size: 25px;
-            margin-left: 10px;
+            margin-right: 16px;
+            font-size: 20px;
         }
 
         p {
-            margin-top: 15px;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
     }
 
-    &_langue {
+    &_theme {
         display: flex;
         align-items: center;
-        margin: 20px 0;
         cursor: pointer;
 
-        svg {
-            margin-right: 20px;
-            font-size: 25px;
-            margin-left: 10px;
-        }
-
         p {
-            margin-top: 15px;
+            margin-top: 10px;
+            margin-bottom: 10px;
 
             svg {
                 font-size: 15px;
             }
+        }
+    }
+}
+.avatar_icon {
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #cfcfcf;
+}
+.userInfo__text {
+    margin-left: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0;
+}
+
+.update__avatar-btn {
+    img {
+        width: 32px;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.avatar_logout,
+.avatar_theme {
+    padding-left: 16px;
+    transition: all 0.2s linear;
+
+    p {
+        font-size: 14px;
+        color: #333;
+    }
+
+    &:hover {
+        background-color: #dbdada;
+    }
+}
+
+.avatar_theme {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .themr__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            margin-right: 16px;
+            font-size: 18px;
+        }
+    }
+
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 6px;
+        outline: unset;
+        border: unset;
+        background-color: transparent;
+
+        svg {
+            font-size: 20px;
+            color: #333;
+        }
+
+        &:focus-visible {
+            outline: unset;
         }
     }
 }
