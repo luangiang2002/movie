@@ -19,8 +19,9 @@
             object-fit: contain;
             img {
                 width: 100%;
-                height: 350px;
+                height: 300px;
                 object-fit: fill;
+                border-radius: 5px;
             }
         }
         .homeapp_video--detail {
