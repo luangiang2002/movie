@@ -90,7 +90,7 @@ $breakpoint-xl: 1440px;
 }
 button {
     border: none;
-    transition: all .2s linear;
+    transition: all 0.2s linear;
     background-color: transparent;
 
     &:focus-visible {
@@ -98,6 +98,9 @@ button {
     }
 }
 
+.dark-mode .center {
+    color: white;
+}
 .center {
     display: flex;
     justify-content: center;
@@ -120,8 +123,35 @@ button {
 }
 
 .smooth {
-    transition: all .2s linear;
+    transition: all 0.2s linear;
 }
 .dark-mode a {
     color: white !important;
+}
+.dark-mode .signup_form--icon svg {
+    color: black;
+}
+.dark-mode .comments_input input {
+    color: white;
+}
+.dark-mode .comments_input button {
+    color: white;
+}
+.dark-mode .interface__interactive-wrapper span {
+    color: white;
+}
+.dark-mode .interface .interface__content-wrapper .interface__interactive-wrapper div svg {
+    color: white;
+}
+.dark-mode .avatar_logout {
+    color: white;
+}
+.dark-mode .userInfo__text {
+    color: white;
+}
+.dark-mode .avatar_theme p {
+    color: white;
+}
+.dark-mode .avatar_logout p {
+    color: white;
 }

@@ -104,7 +104,7 @@ const VideoApp = () => {
                         />
                         <p className="videoapp_title">{selectedVideo?.title}</p>
                         <div className="videoapp_author d-flex">
-                            <div className="videoapp_author--icon d-flex">
+                            <div className="videoapp_author--icon d-flex video_img">
                                 <img
                                     src={selectedVideo?.channelAvatar}
                                     alt=""

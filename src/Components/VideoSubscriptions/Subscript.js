@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import './Subcript.scss';
 import { getSubscriptVideosForUser } from '../../redux/action/libraryAction';
+import ShowMoreText from 'react-show-more-text';
 import { useNavigate } from 'react-router';
 const Subscript = ({ videosb, firebaseId, dispatch }) => {
     const sortedWatchedsub = videosb.subripts.sort((a, b) => {
@@ -18,6 +19,20 @@ const Subscript = ({ videosb, firebaseId, dispatch }) => {
     const handleChannelYoutube = (id) => {
         navigate(`/channel/${id}`);
     };
+    function formatNumber(number) {
+        if (number >= 1000000000) {
+            const billion = (number / 1000000000).toFixed(1);
+            return billion.endsWith('.0') ? billion.slice(0, -2) + ' T' : billion + ' T';
+        } else if (number >= 1000000) {
+            const million = (number / 1000000).toFixed(1);
+            return million.endsWith('.0') ? million.slice(0, -2) + ' Tr' : million + ' Tr';
+        } else if (number >= 1000) {
+            const thousand = (number / 1000).toFixed(1);
+            return thousand.endsWith('.0') ? thousand.slice(0, -2) + ' N' : thousand + ' N';
+        } else {
+            return number.toFixed(0);
+        }
+    }
     return (
         <div className="Subcript">
             <p>Những kênh đã đăng kí</p>
@@ -50,8 +65,19 @@ const Subscript = ({ videosb, firebaseId, dispatch }) => {
                                             {video.channelTitle}
                                         </h6>
                                     )}
-                                    <p>{video.subscribersCount} người đăng kí</p>
-                                    <p>{video.channelDescription}</p>
+                                    <p>{formatNumber(video.subscribersCount)} người đăng kí</p>
+
+                                    <ShowMoreText
+                                        lines={1}
+                                        more="Hiện thêm"
+                                        less="Ẩn bớt"
+                                        className="content-css"
+                                        anchorClass="show-more-less-clickable"
+                                        expanded={false}
+                                        truncatedEndingComponent={'... '}
+                                    >
+                                        <p>{video.channelDescription}</p>
+                                    </ShowMoreText>
                                 </div>
                             </div>
                         </div>
