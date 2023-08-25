@@ -1,6 +1,11 @@
 .library {
-    margin-top: 70px;
-    padding: 0 20px;
+    padding: 20px 20px 32px 20px;
+
+    & + & {
+        margin-top: 40px;
+        border-top: 1px solid #d3d3d3;
+    }
+
     &_list {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -73,7 +78,7 @@
 @media (max-width: 1200px) {
     .library {
         &_list {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
         }
         &_video {
             &--duration {
@@ -93,6 +98,35 @@
 
 @media (max-width: 720px) {
     .library {
+        &_list {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        &_title {
+            p {
+                font-size: 13px;
+            }
+        }
+
+        &_video {
+            &--duration {
+                img {
+                    height: 200px;
+                }
+            }
+            &--detail_title h4 {
+                font-size: 13px;
+            }
+            &--detail_title p {
+                font-size: 13px;
+            }
+        }
+    }
+}
+
+@media (max-width: 425px) {
+    .library {
+        padding: 0 24px;
+
         &_list {
             grid-template-columns: repeat(1, 1fr);
         }

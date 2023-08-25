@@ -7,12 +7,15 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { ClipLoader } from 'react-spinners';
-import './FileUploader.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { VIDEO_UPDATE_SUCCESS } from '../../redux/actionType';
+import UploadVideoIcon from '../../assets/images/upload-video.png';
+import './FileUploader.scss';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
+
 const VideoUploader = ({ userInfo }) => {
     const [videoUrl, setVideoUrl] = useState(null);
-    const [uploading, setUploading] = useState('kéo hoặc nhấn vào đây để tải video lên ....');
+    const [uploading, setUploading] = useState('Kéo hoặc nhấn vào đây để tải video lên!');
     const urlAvatar = useSelector((state) => state.imageAvatar);
     const [thumbnailsurl, setThumbnailsurl] = useState('');
     const [videoInfo, setVideoInfo] = useState({
@@ -85,8 +88,7 @@ const VideoUploader = ({ userInfo }) => {
                 autoClose: 3000,
                 position: 'top-right',
             });
-        }
-        if (!check) {
+        } else if (!check) {
             toast.error('Vui lòng nhập đầy đủ thông tin', {
                 autoClose: 3000,
                 position: 'top-right',
@@ -140,34 +142,87 @@ const VideoUploader = ({ userInfo }) => {
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
     return (
         <div className="fileupload">
-            <div {...getRootProps()} className="fileupload_dropzoneStyle">
-                <input {...getInputProps()} />
-                <p>{uploading}</p>
-            </div>
-            {videoUrl && <video src={videoUrl} controls height={200} className="videoup" />}
-            <div className="fileupload_video">
-                <h2>Thông tin về video:</h2>
-                <input
-                    type="text"
-                    name="title"
-                    value={videoInfo.title}
-                    onChange={handleInputChange}
-                    placeholder="Tiêu đề"
-                />
-                <textarea
-                    name="description"
-                    value={videoInfo.description}
-                    onChange={handleInputChange}
-                    placeholder="Mô tả"
-                ></textarea>
-                <label htmlFor="image">chọn ảnh bìa video</label>
-                <input type="file" accept="image/*" id="image" onChange={handleThumbnailChange} />
-                {thumbnailsurl && <img src={thumbnailsurl} alt="" height={200} className="imgUp" />}
+            <div className="fileupload_form">
+                <h2>Chi tiết:</h2>
+                <div className="fileupload__form-wrapper">
+                    <input
+                        type="text"
+                        name="title"
+                        value={videoInfo.title}
+                        onChange={handleInputChange}
+                        placeholder="Tiêu đề"
+                    />
+                    <textarea
+                        name="description"
+                        value={videoInfo.description}
+                        onChange={handleInputChange}
+                        placeholder="Mô tả"
+                    ></textarea>
+                </div>
+                <div className="uploadImg__wrapper">
+                    <label htmlFor="image">Chọn ảnh bìa video</label>
+                    <p>Ảnh bìa sẽ hiển thị dưới dạng xem trước khi video của bạn được tải lên</p>
+                    <div className="preview__img">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="image"
+                            onChange={handleThumbnailChange}
+                            style={{ display: 'none' }}
+                        />
+                        <label for="image" className="uploadImg__btn smooth">
+                            <AiOutlineCloudUpload />
+                            <span>Tải ảnh lên</span>
+                        </label>
+                        {thumbnailsurl && <img src={thumbnailsurl} alt="" className="imgUp" />}
+                    </div>
+                </div>
                 <br />
-                <button onClick={handlePublish}>Đăng video</button>
+                <button className="smooth" onClick={handlePublish}>
+                    Đăng video
+                </button>
                 <Link to="/" className="linkUp">
                     Trở về{' '}
                 </Link>
+            </div>
+            <div className="fileupload__video-wrapper">
+                {!videoUrl ? (
+                    <div>
+                        <div className="upload__title center">
+                            <h4>Tải lên video của bạn</h4>
+                            <span>File có định dạng .mp4, .mkv</span>
+                        </div>
+                        <div {...getRootProps()} className="fileupload_dropzoneStyle">
+                            <input {...getInputProps()} />
+                            <div className="zone-upload">
+                                <button className="smooth">
+                                    <img className="upload-img" src={UploadVideoIcon} alt="" />
+                                </button>
+                                <p>{uploading}</p>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    videoUrl && (
+                        <div className="videoPreview__wrapper">
+                            <div className="videoPreview__title">
+                                <span>Bản xem trước</span>
+                                <button
+                                    className="smooth"
+                                    onClick={() => {
+                                        setUploading('Kéo hoặc nhấn vào đây để tải video lên!');
+                                        setVideoUrl(null);
+                                    }}
+                                >
+                                    Hủy bỏ
+                                </button>
+                            </div>
+                            <div className="videoPreview__container">
+                                <video src={videoUrl} controls height={200} className="videoup" />
+                            </div>
+                        </div>
+                    )
+                )}
             </div>
         </div>
     );

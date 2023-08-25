@@ -1,6 +1,6 @@
 import React from 'react';
 import './toggleSidebar.scss';
-import { AiFillHome, AiOutlineCloudUpload } from 'react-icons/ai';
+import { AiOutlineCloudUpload, AiOutlineHome } from 'react-icons/ai';
 import { HiOutlineViewBoards, HiOutlineFolderAdd, HiOutlineCollection } from 'react-icons/hi';
 import { FaBars } from 'react-icons/fa';
 import { TbHomePlus } from 'react-icons/tb';
@@ -34,65 +34,97 @@ const ToggleSideBar = ({ SlideBar, handleToggleSidebar, activeItem, handleItemCl
         handleItemClick('uploadusers');
     };
     return (
-        <div className={SlideBar ? 'toggle' : 'toggle close'} onClick={handleToggleSidebar}>
+        <div className={`smooth toggle ${SlideBar ? '' : 'close'}`} onClick={handleToggleSidebar}>
             <div
-                className={SlideBar ? 'toggle_toggleSidebar toggle_open' : 'toggle_toggleSidebar'}
+                className={`smooth toggle_toggleSidebar ${!SlideBar ? 'hidden' : ''}`}
                 onClick={() => handleToggleSidebar(SlideBar)}
             >
-                <div className="toggle_toggleSidebar--logo">
-                    <div onClick={() => handleToggleSidebar(SlideBar)}>
+                <div className="toggle_toggleSidebar--logo center-y">
+                    <button className="center smooth" onClick={() => handleToggleSidebar(SlideBar)}>
                         <FaBars />
-                        <img src="https://i.ibb.co/s9Qys2j/logo.png" alt="" onClick={handleHome} />
+                    </button>
+                    <div className="center-y">
+                        <button>
+                            <img src="https://i.ibb.co/s9Qys2j/logo.png" alt="logo" />
+                        </button>
                     </div>
                 </div>
-                <div className="toggle_toggleSidebar--home" onClick={handleHome}>
-                    <div onClick={() => handleToggleSidebar(SlideBar)} className={activeItem === '/' ? 'active' : ''}>
-                        <AiFillHome />
+                <div
+                    className={`smooth sidebar__select-wrapper toggle_toggleSidebar--home ${
+                        activeItem === '/' ? 'active' : ''
+                    }`}
+                    onClick={handleHome}
+                    style={{ marginTop: '20px' }}
+                >
+                    <div onClick={() => handleToggleSidebar(SlideBar)}>
+                        <div>
+                            <AiOutlineHome />
+                        </div>
                         <p>Trang chủ</p>
                     </div>
                 </div>
-                <div className="toggle_toggleSidebar--short" onClick={handleSort}>
-                    <div
-                        onClick={() => handleToggleSidebar(SlideBar)}
-                        className={activeItem === 'short' ? 'active' : ''}
-                    >
-                        <HiOutlineViewBoards />
+                <div
+                    className={`smooth sidebar__select-wrapper toggle_toggleSidebar--short ${
+                        activeItem === 'short' ? 'active' : ''
+                    }`}
+                    onClick={handleSort}
+                >
+                    <div onClick={() => handleToggleSidebar(SlideBar)}>
+                        <div>
+                            <HiOutlineViewBoards />
+                        </div>
                         <p>Short</p>
                     </div>
                 </div>
-                <div className="toggle_toggleSidebar--register" onClick={handleSubcript}>
-                    <div
-                        onClick={() => handleToggleSidebar(SlideBar)}
-                        className={activeItem === 'subscript' ? 'active' : ''}
-                    >
-                        <HiOutlineFolderAdd />
+                <div
+                    className={`smooth sidebar__select-wrapper toggle_toggleSidebar--register ${
+                        activeItem === 'subscript' ? 'active' : ''
+                    }`}
+                    onClick={handleSubcript}
+                >
+                    <div onClick={() => handleToggleSidebar(SlideBar)}>
+                        <div>
+                            <HiOutlineFolderAdd />
+                        </div>
                         <p>Kênh đăng kí</p>
                     </div>
                 </div>
-                <div className="toggle_toggleSidebar--library" onClick={handleLibrary}>
-                    <div
-                        onClick={() => handleToggleSidebar(SlideBar)}
-                        className={activeItem === 'library' ? 'active' : ''}
-                    >
-                        <HiOutlineCollection />
+                <div
+                    className={`smooth sidebar__select-wrapper toggle_toggleSidebar--library ${
+                        activeItem === 'library' ? 'active' : ''
+                    }`}
+                    onClick={handleLibrary}
+                >
+                    <div onClick={() => handleToggleSidebar(SlideBar)}>
+                        <div>
+                            <HiOutlineCollection />
+                        </div>
                         <p>Thư viện</p>
                     </div>
                 </div>
-                <div className="toggle_toggleSidebar--library" onClick={handleVideoApp}>
-                    <div
-                        onClick={() => handleToggleSidebar(SlideBar)}
-                        className={activeItem === 'homeapp' ? 'active' : ''}
-                    >
-                        <TbHomePlus />
+                <div
+                    className={`smooth sidebar__select-wrapper toggle_toggleSidebar--library ${
+                        activeItem === 'homeapp' ? 'active' : ''
+                    }`}
+                    onClick={handleVideoApp}
+                >
+                    <div onClick={() => handleToggleSidebar(SlideBar)}>
+                        <div>
+                            <TbHomePlus />
+                        </div>
                         <p>Video App</p>
                     </div>
                 </div>
-                <div className="toggle_toggleSidebar--library" onClick={handleUser}>
-                    <div
-                        onClick={() => handleToggleSidebar(SlideBar)}
-                        className={activeItem === 'uploadusers' ? 'active' : ''}
-                    >
-                        <AiOutlineCloudUpload />
+                <div
+                    className={`smooth sidebar__select-wrapper toggle_toggleSidebar--library ${
+                        activeItem === 'uploadusers' ? 'active' : ''
+                    }`}
+                    onClick={handleUser}
+                >
+                    <div onClick={() => handleToggleSidebar(SlideBar)}>
+                        <div>
+                            <AiOutlineCloudUpload />
+                        </div>
                         <p>Video upload</p>
                     </div>
                 </div>

@@ -4,13 +4,14 @@ import moment from 'moment';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { getVideoUploadUser } from '../../redux/action/libraryAction';
-import './VideoUploaduser.scss';
 import { db } from '../../firebase/fibefire';
 import { VIDEO_UPLOAD_USERS } from '../../redux/actionType';
 import { toast } from 'react-toastify';
 import { gethandleVideoClick } from '../GetAddWatches';
 import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import ModalDetele from '../ModalDetele';
+import NotFoundVideo from '../NotFoundVideo/NotFoundVideo.jsx';
+import './VideoUploaduser.scss';
 const VideoUploadUsers = () => {
     const { firebaseId } = useSelector((state) => state.imageAvatar);
     const { video } = useSelector((state) => state.library);
@@ -85,9 +86,12 @@ const VideoUploadUsers = () => {
     }, [dispatch, firebaseId]);
     return (
         <div className="videoupload">
-            <div className="videoupload_list">
-                {sortedWatchedVideos.length > 0 ? (
-                    sortedWatchedVideos.map((video, i) => (
+            <div>
+                <h1 style={{ fontSize: '20px' }}>Video đã tải lên</h1>
+            </div>
+            {sortedWatchedVideos.length > 0 ? (
+                <div className="videoupload_list">
+                    {sortedWatchedVideos.map((video, i) => (
                         <div className="videoupload_video" key={i}>
                             <div className="videoupload_video--duration" onClick={() => handleVideoClick(video)}>
                                 <img src={video.thumbnailsurl} alt="" />
@@ -126,11 +130,11 @@ const VideoUploadUsers = () => {
                                 </div>
                             </div>
                         </div>
-                    ))
-                ) : (
-                    <div>Bạn chưa đăng video nào</div>
-                )}
-            </div>
+                    ))}
+                </div>
+            ) : (
+                <NotFoundVideo />
+            )}
         </div>
     );
 };
