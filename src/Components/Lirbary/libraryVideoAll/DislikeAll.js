@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import NotFoundVideo from '../../NotFoundVideo/NotFoundVideo';
 const DisLikeAll = ({ videos, handleVideoClicks, hadleYoutubes }) => {
     const sortedWatchedDislike = videos.DislikeVideos.sort((a, b) => {
         const dateA = new Date(a.watchedAt);
@@ -8,10 +9,10 @@ const DisLikeAll = ({ videos, handleVideoClicks, hadleYoutubes }) => {
     });
     return (
         <div className="library">
-            <p>Những video không thích</p>
-            <div className="library_list">
-                {sortedWatchedDislike.length > 0 ? (
-                    sortedWatchedDislike.map((video, i) => (
+            <h1 style={{ fontSize: '20px' }}>Những video không thích</h1>
+            {sortedWatchedDislike.length > 0 ? (
+                <div className="library_list">
+                    {sortedWatchedDislike.map((video, i) => (
                         <div className="library_video" key={i}>
                             {video.content === 'youtubeApi' ? (
                                 <div className="library_video--duration" onClick={() => hadleYoutubes(video)}>
@@ -33,11 +34,11 @@ const DisLikeAll = ({ videos, handleVideoClicks, hadleYoutubes }) => {
                                 </div>
                             </div>
                         </div>
-                    ))
-                ) : (
-                    <div>Bạn chưa xem video </div>
-                )}
-            </div>
+                    ))}
+                </div>
+            ) : (
+                <NotFoundVideo />
+            )}
         </div>
     );
 };

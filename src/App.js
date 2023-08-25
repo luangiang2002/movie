@@ -100,68 +100,80 @@ function App() {
                 activeItem={activeItem}
                 handleItemClick={handleItemClick}
             />
-            <Routes>
-                <Route
-                    path="/"
-                    element={<HomePage handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></HomePage>}
-                ></Route>
-                <Route
-                    path="/homevideo/:id"
-                    element={<HomeVideo handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></HomeVideo>}
-                ></Route>
-                <Route
-                    path="/channel/:id"
-                    element={<Channel handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></Channel>}
-                ></Route>
-                <Route
-                    path="/search/:id"
-                    element={<SearchVideo handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></SearchVideo>}
-                ></Route>
-                <Route
-                    path="/short"
-                    element={<Short handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></Short>}
-                ></Route>
+            <main style={{ marginTop: '100px' }}>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={<HomePage handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></HomePage>}
+                    ></Route>
+                    <Route
+                        path="/homevideo/:id"
+                        element={<HomeVideo handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></HomeVideo>}
+                    ></Route>
+                    <Route
+                        path="/channel/:id"
+                        element={<Channel handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></Channel>}
+                    ></Route>
+                    <Route
+                        path="/search/:id"
+                        element={
+                            <SearchVideo handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></SearchVideo>
+                        }
+                    ></Route>
+                    <Route
+                        path="/short"
+                        element={<Short handleToggleSidebar={handleToggleSidebar} SlideBar={SlideBar}></Short>}
+                    ></Route>
 
-                <Route path="/login" element={<Login />}></Route>
-                <Route path="/signup" element={<SingUp />}></Route>
-                <Route path="/signout" element={<Singout />}></Route>
-                <Route path="/reset" element={<ResetPassword />}></Route>
+                    <Route path="/login" element={<Login />}></Route>
+                    <Route path="/signup" element={<SingUp />}></Route>
+                    <Route path="/signout" element={<Singout />}></Route>
+                    <Route path="/reset" element={<ResetPassword />}></Route>
 
-                <Route path="/upload" element={<UploadVideo />}></Route>
-                <Route path="/homeapp" element={<HomeApp />}></Route>
-                <Route path="/videoapp/:id" element={<VideoApp />}></Route>
+                    <Route path="/upload" element={<UploadVideo />}></Route>
+                    <Route path="/homeapp" element={<HomeApp />}></Route>
+                    <Route path="/videoapp/:id" element={<VideoApp />}></Route>
 
-                <Route path="/library/" element={<Library />}></Route>
-                <Route
-                    path="/videoall/"
-                    element={
-                        <VideoAll videov={video} handleVideoClickv={handleVideoClick} hadleYoutubev={hadleYoutube} />
-                    }
-                ></Route>
-                <Route
-                    path="/likeall/"
-                    element={
-                        <LikeAll videol={video} handleVideoClickl={handleVideoClick} hadleYoutubel={hadleYoutube} />
-                    }
-                ></Route>
-                <Route
-                    path="/dislikeall/"
-                    element={
-                        <DisLikeAll videos={video} handleVideoClicks={handleVideoClick} hadleYoutubes={hadleYoutube} />
-                    }
-                ></Route>
+                    <Route path="/library/" element={<Library />}></Route>
+                    <Route
+                        path="/videoall/"
+                        element={
+                            <VideoAll
+                                videov={video}
+                                handleVideoClickv={handleVideoClick}
+                                hadleYoutubev={hadleYoutube}
+                            />
+                        }
+                    ></Route>
+                    <Route
+                        path="/likeall/"
+                        element={
+                            <LikeAll videol={video} handleVideoClickl={handleVideoClick} hadleYoutubel={hadleYoutube} />
+                        }
+                    ></Route>
+                    <Route
+                        path="/dislikeall/"
+                        element={
+                            <DisLikeAll
+                                videos={video}
+                                handleVideoClicks={handleVideoClick}
+                                hadleYoutubes={hadleYoutube}
+                            />
+                        }
+                    ></Route>
 
-                <Route
-                    path="/subscript/"
-                    element={<Subscript videosb={video} dispatch={dispatch} firebaseId={firebaseId} />}
-                ></Route>
-                <Route path="/channelapp/:id" element={<ChannelApp />}></Route>
-                <Route path="/uploadusers/" element={<VideoUploadUsers />}></Route>
-                <Route
-                    path="/channel-register/"
-                    element={<ChannelInfor userInfo={userInfo} firebaseId={firebaseId} />}
-                ></Route>
-            </Routes>
+                    <Route
+                        path="/subscript/"
+                        element={<Subscript videosb={video} dispatch={dispatch} firebaseId={firebaseId} />}
+                    ></Route>
+                    <Route path="/channelapp/:id" element={<ChannelApp />}></Route>
+                    <Route path="/uploadusers/" element={<VideoUploadUsers />}></Route>
+                    <Route
+                        path="/channel-register/"
+                        element={<ChannelInfor userInfo={userInfo} firebaseId={firebaseId} />}
+                    ></Route>
+                </Routes>
+            </main>
             <ToastContainer
                 position="top-right"
                 autoClose={1000}

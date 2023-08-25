@@ -2,7 +2,7 @@ import { CHANGE_THEME } from '../actionType';
 
 const userInfo = JSON.parse(localStorage.getItem('watch-user')) || 'light';
 const newState = {
-    mode: userInfo.interfaceMode,
+    mode: userInfo?.interfaceMode || 'light',
 };
 
 export const themeReducer = (state = newState, action) => {
